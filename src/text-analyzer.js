@@ -82,3 +82,38 @@ export function countLettersFrequency (text) {
   })
   return sortedLetterCount
 }
+
+/**
+ * Counts the number of times all different words appear in a text.
+ * If the text is empty, returns an empty object.
+ *
+ * @param {string} text - The text to be analyzed.
+ * @returns {object} - An object with the words in lower case as keys and the number of times they appear as values.
+ */
+export function countWordsFrequency (text) {
+  if (text === '') {
+    return {}
+  }
+
+  // Make the words lower case and then split the text into words based on one or more non-alphanumeric characters
+  const words = text.toLowerCase().split(/\W+/)
+
+  const wordCount = {}
+  words.forEach(word => {
+    if (word === '') {
+      return
+    }
+    if (wordCount[word] === undefined) {
+      wordCount[word] = 1
+    } else {
+      wordCount[word] += 1
+    }
+  })
+
+  // Return the object sorted in alphabetical order
+  const sortedWordCount = {}
+  Object.keys(wordCount).sort().forEach(key => {
+    sortedWordCount[key] = wordCount[key]
+  })
+  return sortedWordCount
+}
