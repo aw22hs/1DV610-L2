@@ -32,3 +32,19 @@ export function countCharacters (text) {
   }
   return text.length
 }
+
+/**
+ * Counts the number of times a certain word appears in a text.
+ * The word is case insensitive.
+ *
+ * @param {string} text - The text to be analyzed.
+ * @param {string} word - The word to be counted.
+ * @returns {number} - The number of times the word appears in the text.
+ */
+export function countWord (text, word) {
+  if (text === '') {
+    return 0
+  }
+  const regex = new RegExp(word, 'gi')
+  return text.match(regex).length
+}
