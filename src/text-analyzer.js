@@ -67,11 +67,11 @@ export function countLettersFrequency (text) {
   const regex = /[a-z]/gi
   const letters = text.match(regex)
   const letterCount = {}
-  letters.forEach(word => {
-    if (letterCount[word] === undefined) {
-      letterCount[word] = 1
+  letters.forEach(letter => {
+    if (letterCount[letter] === undefined) {
+      letterCount[letter] = 1
     } else {
-      letterCount[word] += 1
+      letterCount[letter] += 1
     }
   })
 
