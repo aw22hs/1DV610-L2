@@ -48,3 +48,37 @@ export function countWord (text, word) {
   const regex = new RegExp(word, 'gi')
   return text.match(regex).length
 }
+
+/**
+ * Counts the number of times all different letters appear in a text.
+ * Only includes lower case letters.
+ * If the text is empty, returns an empty object.
+ *
+ * @param {string} text - The text to be analyzed.
+ * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
+ */
+export function countLettersFrequency (text) {
+  if (text === '') {
+    return {}
+  }
+
+  // Make the letters lower case
+  text = text.toLowerCase()
+  const regex = /[a-z]/gi
+  const letters = text.match(regex)
+  const letterCount = {}
+  letters.forEach(word => {
+    if (letterCount[word] === undefined) {
+      letterCount[word] = 1
+    } else {
+      letterCount[word] += 1
+    }
+  })
+
+  // Return the object sorted in alphabetical order
+  const sortedLetterCount = {}
+  Object.keys(letterCount).sort().forEach(key => {
+    sortedLetterCount[key] = letterCount[key]
+  })
+  return sortedLetterCount
+}
