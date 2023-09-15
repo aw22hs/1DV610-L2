@@ -19,3 +19,16 @@ export function countWords (text) {
   }
   return text.split(' ').length
 }
+
+/**
+ * Counts the number of characters in a text.
+ *
+ * @param {string} text - The text to be analyzed.
+ * @returns {number} - The number of characters in the text.
+ */
+export function countCharacters (text) {
+  if (text === '') {
+    return 0
+  }
+  return text.length
+}
