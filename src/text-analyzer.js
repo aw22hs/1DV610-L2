@@ -13,7 +13,7 @@
  * @param {string} text - The text to be analyzed.
  * @returns {number} - The number of words in the text.
  */
-export function countWords (text) {
+function countWords (text) {
   if (text === '') {
     return 0
   }
@@ -41,7 +41,7 @@ export function countCharacters (text) {
  * @param {string} word - The word to be counted.
  * @returns {number} - The number of times the word appears in the text.
  */
-export function countWord (text, word) {
+function countWord (text, word) {
   if (text === '') {
     return 0
   }
@@ -118,10 +118,6 @@ export function countWordsFrequency (text) {
   return sortedWordCount
 }
 
-// A function that replaces a word with another word in a text and returns the new text.
-// The function converts the text to lower case and finds the words to replace. When replacing the words, the function uses the original text to keep the original casing.
-// If the text is empty, returns an empty string.
-// If the word to replace is not found, returns the original text.
 /**
  * Replaces a word with another word in a text and returns the new text.
  *
@@ -148,10 +144,27 @@ export function replaceWordsWithDifferentFormatting (text, wordToReplace, newWor
 
   // Replace the words in the original text
   for (let i = 0; i < wordsToReplace.length; i++) {
+    // Replace the words with the exact same formatting as one of the words in wordToReplace
     updatedTextWithReplacedWords = updatedTextWithReplacedWords.replace(new RegExp('\\b' + wordsToReplace[i] + '\\b', 'g'), newWords[i])
   }
 
   return updatedTextWithReplacedWords
+}
+
+/**
+ * Counts the percentage of times a certain word appears in a text.
+ *
+ * @param {string} text - The text to be analyzed.
+ * @param {string} word - The word to be counted.
+ * @returns {number} - The percentage of times the word appears in the text.
+ */
+export function countWordPercentageFrequency (text, word) {
+  if (text === '') {
+    return 0
+  }
+  const numberOfTimesWordOccurs = countWord(text, word)
+  const numberOfWords = countWords(text)
+  return Math.round((numberOfTimesWordOccurs / numberOfWords) * 100)
 }
 
 // Hur många procent av texten som ett visst ord utgör
