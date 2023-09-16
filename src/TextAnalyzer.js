@@ -19,11 +19,11 @@ export class TextAnalyzer {
   #originalText
 
   /**
-   * The sorted letter count.
+   * The letter count sorted in alphabetical order.
    *
    * @type {object}
    */
-  #sortedLetterCount = {}
+  #letterCountAlphabeticalOrder = {}
 
   /**
    * Initializes a new instance of the TextAnalyzer class.
@@ -112,11 +112,39 @@ export class TextAnalyzer {
       }
     })
 
-    // Return the object sorted in alphabetical order
+    // Return the object sorted in alphabetical order based on the key
     Object.keys(letterCount).sort().forEach(key => {
-      this.#sortedLetterCount[key] = letterCount[key]
+      this.#letterCountAlphabeticalOrder[key] = letterCount[key]
     })
-    return this.#sortedLetterCount
+    return this.#letterCountAlphabeticalOrder
+  }
+
+  /**
+   * Counts the number of times all different letters appear in a text.
+   * The letters are sorted in frequency order.
+   *
+   * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
+   */
+  countLettersFrequencyOccuranceOrder () {
+    if (Object.keys(this.#letterCountAlphabeticalOrder).length === 0) {
+      this.countLettersFrequencyAlphabeticalOrder()
+    }
+
+    // Object.entries() returns an array of a given object's own key/value pairs
+    // map() destructures each key-value pair using [key, value] to extract the key and value.
+    // It then constructs a new object using object literal notation { key, value }.
+    // This creates an object with two properties: key and value, where the values for these
+    // properties are taken from the destructured variables. map() returns an array of these objects.
+    const letterCountToBeSortedInOccuranceOrder = Object.entries(this.#letterCountAlphabeticalOrder).map(([key, value]) => ({ key, value }))
+    // Sorts the array in descending order based on the value property
+    letterCountToBeSortedInOccuranceOrder.sort((a, b) => b.value - a.value)
+    const letterCountOccuranceOrder = {}
+    // Puts the sorted key-value pairs in the 'letterCountOccuranceOrder' object by using the original key as the key and the original value as the value
+    letterCountToBeSortedInOccuranceOrder.forEach(({ key, value }) => {
+      letterCountOccuranceOrder[key] = value
+    })
+
+    return letterCountOccuranceOrder
   }
 
   /**
