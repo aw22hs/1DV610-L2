@@ -45,8 +45,8 @@ export function countWord (text, word) {
   if (text === '') {
     return 0
   }
-  const regex = new RegExp(word, 'gi')
-  return text.match(regex).length
+  const regex = new RegExp('\\b' + word + '\\b', 'gi')
+  return text.match(regex) ? text.match(regex).length : 0
 }
 
 /**
@@ -130,103 +130,28 @@ export function countWordsFrequency (text) {
  * @param {string} newWord - The word to replace with.
  * @returns {string} - The new text.
  */
-export function replaceWord (text, wordToReplace, newWord) {
+export function replaceWordsWithDifferentFormatting (text, wordToReplace, newWord) {
   if (text === '') {
     return ''
   }
 
-  // Make the words lower case and then split the text into words based on one or more non-alphanumeric characters
-  const wordsFromOriginalTextOriginalCasing = text.split(/\W+/)
-  const wordsFromOriginalTextLowerCase = text.toLowerCase().split(/\W+/)
-  const wordsFromOriginalTextIncludingNonAlphanumericCharacters = text.split(' ')
+  // Update formatting of the words to be replaced and the new words to replace with
+  const wordToReplaceWithFirstLetterUpperCase = wordToReplace.charAt(0).toUpperCase() + wordToReplace.slice(1)
+  const wordToReplaceWithAllLettersUpperCase = wordToReplace.toUpperCase()
+  const newWordWithFirstLetterUpperCase = newWord.charAt(0).toUpperCase() + newWord.slice(1)
+  const newWordWithAllLettersUpperCase = newWord.toUpperCase()
 
-  // Find the words to replace
-  const indexesOfWordsToReplace = []
-  wordsFromOriginalTextLowerCase.forEach((word, index) => {
-    if (word === wordToReplace.toLowerCase()) {
-      indexesOfWordsToReplace.push(index)
-    }
-  })
+  const wordsToReplace = [wordToReplace, wordToReplaceWithFirstLetterUpperCase, wordToReplaceWithAllLettersUpperCase]
+  const newWords = [newWord, newWordWithFirstLetterUpperCase, newWordWithAllLettersUpperCase]
 
-  // If the word to replace is not found, return the original text
-  if (indexesOfWordsToReplace.length === 0) {
-    return text
-  }
-
-  let newWordWithCorrectCasing
-  const wordsInUpdatedTextCorrectCasing = [...wordsFromOriginalTextOriginalCasing]
-  // Replace the words but keep the original casing
-  indexesOfWordsToReplace.forEach(index => {
-    const word = wordsFromOriginalTextOriginalCasing[index]
-    const firstLetterUpperCase = word.charAt(0).toUpperCase()
-
-    if (firstLetterUpperCase === word.charAt(0)) {
-      newWordWithCorrectCasing = newWord[0].toUpperCase() + newWord.slice(1)
-    } else {
-      newWordWithCorrectCasing = newWord
-    }
-    wordsInUpdatedTextCorrectCasing[index] = newWordWithCorrectCasing
-
-    console.log(newWordWithCorrectCasing)
-  })
-
-  // // Replace the words
-  // let newText = ''
-  // let wordIndex = 0
-  // wordsFromOriginalTextOriginalCasing.forEach((word, index) => {
-  //   if (index === indexesOfWordsToReplace[wordIndex]) {
-  //     newText += text.substring(index, index + wordToReplace.length)
-  //     wordIndex += 1
-  //   } else {
-  //     newText += word
-  //   }
-  //   // Add a space between words (except after the last word)
-  //   if (index !== wordsFromOriginalTextLowerCase.length - 1) {
-  //     newText += ' '
-  //   }
-  // })
-
-  for (let i = 0; i < wordsInUpdatedTextCorrectCasing.length; i++) {
-    console.log(wordsFromOriginalTextIncludingNonAlphanumericCharacters)
-    wordsFromOriginalTextIncludingNonAlphanumericCharacters[i] = wordsInUpdatedTextCorrectCasing[i]
-  }
+  let updatedTextWithReplacedWords = text
 
   // Replace the words in the original text
-  const updatedText = text.replace(new RegExp('\\b' + wordToReplace + '\\b', 'g'), newWord)
-  const newWordWithFirstLetterUpperCase = newWord.charAt(0).toUpperCase() + newWord.slice(1)
-  const wordToReplaceWithFirstLetterUpperCase = wordToReplace.charAt(0).toUpperCase() + wordToReplace.slice(1)
-  const updatedTextWithFirstLetterUpperCase = updatedText.replace(new RegExp('\\b' + wordToReplaceWithFirstLetterUpperCase + '\\b', 'g'), newWordWithFirstLetterUpperCase)
-  const newWordWithAllLettersUpperCase = newWord.toUpperCase()
-  const wordToReplaceWithAllLettersUpperCase = wordToReplace.toUpperCase()
-  const updatedTextWithAllLettersUpperCase = updatedTextWithFirstLetterUpperCase.replace(new RegExp('\\b' + wordToReplaceWithAllLettersUpperCase + '\\b', 'g'), newWordWithAllLettersUpperCase)
-  return updatedTextWithAllLettersUpperCase
-  // return wordsInUpdatedTextCorrectCasing
+  for (let i = 0; i < wordsToReplace.length; i++) {
+    updatedTextWithReplacedWords = updatedTextWithReplacedWords.replace(new RegExp('\\b' + wordsToReplace[i] + '\\b', 'g'), newWords[i])
+  }
+
+  return updatedTextWithReplacedWords
 }
-
-// /**
-//  *
-//  * @param inputString
-//  * @param targetWord
-//  * @param replacementWord
-//  */
-// export function replaceWord (inputString, targetWord, replacementWord) {
-//   // Create a regular expression with the "g" flag for global matching
-//   const regex = new RegExp(targetWord, 'g')
-
-//   // Use the replace() method with a callback function
-//   return inputString.replace(regex, function (match) {
-//     // Determine the case of the matched word and replace accordingly
-//     if (match === targetWord) {
-//       // Exact match (case-sensitive)
-//       return replacementWord
-//     } else if (match.toLowerCase() === targetWord.toLowerCase()) {
-//       // Case-insensitive match
-//       return replacementWord.toLowerCase()
-//     } else {
-//       // Return the original case if no match is found
-//       return match
-//     }
-//   })
-// }
 
 // Hur många procent av texten som ett visst ord utgör
