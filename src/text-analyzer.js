@@ -120,31 +120,35 @@ export function countWordsFrequency (text) {
 
 /**
  * Replaces a word with another word in a text and returns the new text.
+ * Replaces all words that has all letters in lower case, all letters in upper case and with
+ * the first letter in upper case the rest of the letters in lower case.
  *
  * @param {string} text - The text to be analyzed.
  * @param {string} wordToReplace - The word to be replaced.
  * @param {string} newWord - The word to replace with.
  * @returns {string} - The new text.
  */
-export function replaceWordsWithDifferentFormatting (text, wordToReplace, newWord) {
+export function replaceWordsWithThreeDifferentFormattings (text, wordToReplace, newWord) {
   if (text === '') {
     return ''
   }
 
   // Update formatting of the words to be replaced and the new words to replace with
-  const wordToReplaceWithFirstLetterUpperCase = wordToReplace.charAt(0).toUpperCase() + wordToReplace.slice(1)
+  const wordToReplaceWithAllLettersLowerCase = wordToReplace.toLowerCase()
+  const wordToReplaceWithFirstLetterUpperCase = wordToReplaceWithAllLettersLowerCase.charAt(0).toUpperCase() + wordToReplaceWithAllLettersLowerCase.slice(1)
   const wordToReplaceWithAllLettersUpperCase = wordToReplace.toUpperCase()
-  const newWordWithFirstLetterUpperCase = newWord.charAt(0).toUpperCase() + newWord.slice(1)
+  const newWordWithAllLettersLowerCase = newWord.toLowerCase()
+  const newWordWithFirstLetterUpperCase = newWordWithAllLettersLowerCase.charAt(0).toUpperCase() + newWordWithAllLettersLowerCase.slice(1)
   const newWordWithAllLettersUpperCase = newWord.toUpperCase()
 
-  const wordsToReplace = [wordToReplace, wordToReplaceWithFirstLetterUpperCase, wordToReplaceWithAllLettersUpperCase]
-  const newWords = [newWord, newWordWithFirstLetterUpperCase, newWordWithAllLettersUpperCase]
+  const wordsToReplace = [wordToReplaceWithAllLettersLowerCase, wordToReplaceWithFirstLetterUpperCase, wordToReplaceWithAllLettersUpperCase]
+  const newWords = [newWordWithAllLettersLowerCase, newWordWithFirstLetterUpperCase, newWordWithAllLettersUpperCase]
 
   let updatedTextWithReplacedWords = text
 
   // Replace the words in the original text
   for (let i = 0; i < wordsToReplace.length; i++) {
-    // Replace the words with the exact same formatting as one of the words in wordToReplace
+    // Replace the words with the exact same formatting as one of the words in wordsToReplace
     updatedTextWithReplacedWords = updatedTextWithReplacedWords.replace(new RegExp('\\b' + wordsToReplace[i] + '\\b', 'g'), newWords[i])
   }
 
@@ -166,5 +170,3 @@ export function countWordPercentageFrequency (text, word) {
   const numberOfWords = countWords(text)
   return Math.round((numberOfTimesWordOccurs / numberOfWords) * 100)
 }
-
-// Hur många procent av texten som ett visst ord utgör
