@@ -172,8 +172,8 @@ export class TextAnalyzer {
     if (text === '') {
       return 0
     }
-    const numberOfTimesWordOccurs = this.countWord(text, word)
-    const numberOfWords = this.countWords(text)
+    const numberOfTimesWordOccurs = this.#countWord(text, word)
+    const numberOfWords = this.#countWords(text)
     return Math.round((numberOfTimesWordOccurs / numberOfWords) * 100)
   }
 }
