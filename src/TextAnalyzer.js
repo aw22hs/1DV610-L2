@@ -11,46 +11,81 @@
  * Represents a card table.
  */
 export class TextAnalyzer {
-/**
- * Counts the number of words in a text.
- *
- * @param {string} text - The text to be analyzed.
- * @returns {number} - The number of words in the text.
- */
-  #countWords (text) {
-    if (text === '') {
-      return 0
+  /**
+   * The original text.
+   *
+   * @type {string}
+   */
+  #originalText
+
+  /**
+   * The sorted letter count.
+   *
+   * @type {object}
+   */
+  #sortedLetterCount = {}
+
+  /**
+   * Initializes a new instance of the TextAnalyzer class.
+   *
+   * @param {string} text - The text input.
+   */
+  constructor (text) {
+    this.#originalText = text
+  }
+
+  /**
+   * Checks if the original text is empty.
+   *
+   * @returns {boolean} - True if the original text is not empty, otherwise false.
+   */
+  #isOriginalTextEmpty () {
+    if (this.#originalText.length === 0) {
+      return true
+    } else {
+      return false
     }
-    return text.split(' ').length
+  }
+
+  /**
+   * Counts the number of words in a text.
+   *
+   * @returns {number} - The number of words in the text.
+   */
+  #countWords () {
+    if (this.#isOriginalTextEmpty) {
+      return 0
+    } else {
+      return this.#originalText.split(' ').length
+    }
   }
 
   /**
    * Counts the number of characters in a text.
    *
-   * @param {string} text - The text to be analyzed.
    * @returns {number} - The number of characters in the text.
    */
-  countCharacters (text) {
-    if (text === '') {
+  countCharacters () {
+    if (this.#isOriginalTextEmpty()) {
       return 0
+    } else {
+      return this.#originalText.length
     }
-    return text.length
   }
 
   /**
    * Counts the number of times a certain word appears in a text.
    * The word is case insensitive.
    *
-   * @param {string} text - The text to be analyzed.
    * @param {string} word - The word to be counted.
    * @returns {number} - The number of times the word appears in the text.
    */
-  #countWord (text, word) {
-    if (text === '') {
+  #countWord (word) {
+    if (this.#isOriginalTextEmpty()) {
       return 0
     }
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
-    return text.match(regex) ? text.match(regex).length : 0
+    return this.#originalText.match(regex) ? this.#originalText.match(regex).length : 0
   }
 
   /**
@@ -58,18 +93,16 @@ export class TextAnalyzer {
    * Only includes lower case letters.
    * If the text is empty, returns an empty object.
    *
-   * @param {string} text - The text to be analyzed.
    * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
    */
-  countLettersFrequency (text) {
-    if (text === '') {
+  countLettersFrequencyAlphabeticalOrder () {
+    if (this.#originalText === '') {
       return {}
     }
-
     // Make the letters lower case
-    text = text.toLowerCase()
+    const textInLowerCase = this.#originalText.toLowerCase()
     const regex = /[a-z]/gi
-    const letters = text.match(regex)
+    const letters = textInLowerCase.match(regex)
     const letterCount = {}
     letters.forEach(letter => {
       if (letterCount[letter] === undefined) {
@@ -80,11 +113,10 @@ export class TextAnalyzer {
     })
 
     // Return the object sorted in alphabetical order
-    const sortedLetterCount = {}
     Object.keys(letterCount).sort().forEach(key => {
-      sortedLetterCount[key] = letterCount[key]
+      this.#sortedLetterCount[key] = letterCount[key]
     })
-    return sortedLetterCount
+    return this.#sortedLetterCount
   }
 
   /**
