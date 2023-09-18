@@ -310,6 +310,31 @@ export class TextAnalyzer {
     const numberOfWords = this.countWords(text)
     return Math.round((numberOfTimesWordOccurs / numberOfWords) * 100)
   }
+
+  /**
+   * Checks if the updated text is longer or shorter than the original text.
+   * If there is a difference, returns a string with information about the difference.
+   * If there is no difference, returns a string with information about that.
+   * If no words have been replaced, returns a string with information about that.
+   *
+   * @returns {string} - A string with information about the difference in length between the original text and the updated text.
+   */
+  checkLetterCountDifferenceBetweenOriginalAndUpdatedText () {
+    if (this.#updatedTextWithReplacedWords === '') {
+      return 'No words have been replaced.'
+    }
+    const lengthUpdatedText = this.#updatedTextWithReplacedWords.length
+    const lengthOriginalText = this.#originalText.length
+    if (lengthUpdatedText === lengthOriginalText) {
+      return 'The original text and the updated text are the same length.'
+    } else if (lengthUpdatedText > lengthOriginalText) {
+      const updatedTextLonger = lengthUpdatedText - lengthOriginalText
+      return 'The updated text is ' + updatedTextLonger + ' characters longer than the original text.'
+    } else {
+      const originalTextLonger = lengthOriginalText - lengthUpdatedText
+      return 'The original text is ' + originalTextLonger + ' characters longer than the updated text.'
+    }
+  }
 }
 
 // Räkna stycken och ta fram medelvärde på antal tecken
