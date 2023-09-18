@@ -120,6 +120,30 @@ export class TextAnalyzer {
   }
 
   /**
+   * Changes an object with key-value pairs to an object with key-value pairs sorted in descending order based on the value.
+   *
+   * @param {object} elementsSortedInAlphabeticalOrder - An object with key-value pairs sorted in alphabetical order based on the key.
+   * @returns {object} - An object with key-value pairs sorted in descending order based on the value.
+   */
+  #changeToOccuranceOrder (elementsSortedInAlphabeticalOrder) {
+    // Object.entries() returns an array of a given object's own key/value pairs
+    // map() destructures each key-value pair using [key, value] to extract the key and value.
+    // It then constructs a new object using object literal notation { key, value }.
+    // This creates an object with two properties: key and value, where the values for these
+    // properties are taken from the destructured variables. map() returns an array of these objects.
+    const elementsToBeSortedInOccuranceOrder = Object.entries(elementsSortedInAlphabeticalOrder).map(([key, value]) => ({ key, value }))
+    // Sorts the array in descending order based on the value property
+    elementsToBeSortedInOccuranceOrder.sort((a, b) => b.value - a.value)
+    const elementsInOccuranceOrder = {}
+    // Puts the sorted key-value pairs in the 'letterCountOccuranceOrder' object by using the original key as the key and the original value as the value
+    elementsToBeSortedInOccuranceOrder.forEach(({ key, value }) => {
+      elementsInOccuranceOrder[key] = value
+    })
+
+    return elementsInOccuranceOrder
+  }
+
+  /**
    * Counts the number of times all different letters appear in a text.
    * The letters are sorted in frequency order.
    *
@@ -130,19 +154,7 @@ export class TextAnalyzer {
       this.countLettersFrequencyAlphabeticalOrder()
     }
 
-    // Object.entries() returns an array of a given object's own key/value pairs
-    // map() destructures each key-value pair using [key, value] to extract the key and value.
-    // It then constructs a new object using object literal notation { key, value }.
-    // This creates an object with two properties: key and value, where the values for these
-    // properties are taken from the destructured variables. map() returns an array of these objects.
-    const letterCountToBeSortedInOccuranceOrder = Object.entries(this.#letterCountAlphabeticalOrder).map(([key, value]) => ({ key, value }))
-    // Sorts the array in descending order based on the value property
-    letterCountToBeSortedInOccuranceOrder.sort((a, b) => b.value - a.value)
-    const letterCountOccuranceOrder = {}
-    // Puts the sorted key-value pairs in the 'letterCountOccuranceOrder' object by using the original key as the key and the original value as the value
-    letterCountToBeSortedInOccuranceOrder.forEach(({ key, value }) => {
-      letterCountOccuranceOrder[key] = value
-    })
+    const letterCountOccuranceOrder = this.#changeToOccuranceOrder(this.#letterCountAlphabeticalOrder)
 
     return letterCountOccuranceOrder
   }
@@ -237,3 +249,8 @@ export class TextAnalyzer {
     return Math.round((numberOfTimesWordOccurs / numberOfWords) * 100)
   }
 }
+
+// Fixa changeToOccuranceOrder
+// Lägg till undantagshantering
+// Räkna stycken och ta fram medelvärde på antal tecken
+// Skapa fil med text
