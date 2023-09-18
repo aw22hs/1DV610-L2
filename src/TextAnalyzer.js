@@ -74,11 +74,7 @@ export class TextAnalyzer {
    * @returns {number} - The number of characters in the text.
    */
   countCharacters () {
-    if (this.#originalText.length === 0) {
-      return 0
-    } else {
-      return this.#originalText.length
-    }
+    return this.#originalText.length
   }
 
   /**
