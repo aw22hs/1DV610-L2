@@ -26,6 +26,13 @@ export class TextAnalyzer {
   #originalText
 
   /**
+   * The updated text with replaced words.
+   *
+   * @type {string}
+   */
+  #updatedTextWithReplacedWords = ''
+
+  /**
    * The word count sorted in alphabetical order.
    *
    * @type {object}
@@ -234,16 +241,14 @@ export class TextAnalyzer {
    * @param {string} wordToReplace - The word to be replaced.
    * @param {string} newWord - The word to replace with.
    * @returns {string} - The new text.
+   * @throws {Error} - If the word to replace does not match the correct format.
    */
   replaceWordsWithTwoDifferentFormattings (wordToReplace, newWord) {
     // Update formatting of the words to be replaced and the new words to replace with
     const wordToReplaceWithAllLettersLowerCase = wordToReplace.toLowerCase()
     const wordToReplaceWithFirstLetterUpperCase = wordToReplaceWithAllLettersLowerCase.charAt(0).toUpperCase() + wordToReplaceWithAllLettersLowerCase.slice(1)
-    const newWordWithAllLettersLowerCase = newWord.toLowerCase()
-    const newWordWithFirstLetterUpperCase = newWordWithAllLettersLowerCase.charAt(0).toUpperCase() + newWordWithAllLettersLowerCase.slice(1)
 
     const wordsToReplace = [wordToReplaceWithAllLettersLowerCase, wordToReplaceWithFirstLetterUpperCase]
-    const newWords = [newWordWithAllLettersLowerCase, newWordWithFirstLetterUpperCase]
 
     // Check if wordToReplace matches the exact format of any of the words in wordsToReplace
     let wordToReplaceMatchesExactFormat = false
@@ -254,18 +259,40 @@ export class TextAnalyzer {
     })
 
     if (!wordToReplaceMatchesExactFormat) {
-      throw new Error('The word to replace does not match the exact format of any of the words in the submitted text.')
+      throw new Error('The word to replace does not match the correct format. All letters need to be lower case or the first letter needs to be upper case and the rest of the letters need to be lower case.')
     }
 
-    let updatedTextWithReplacedWords = this.#originalText
+    const newWordWithAllLettersLowerCase = newWord.toLowerCase()
+    const newWordWithFirstLetterUpperCase = newWordWithAllLettersLowerCase.charAt(0).toUpperCase() + newWordWithAllLettersLowerCase.slice(1)
+
+    const newWords = [newWordWithAllLettersLowerCase, newWordWithFirstLetterUpperCase]
+
+    if (this.#updatedTextWithReplacedWords !== '') {
+      this.#updatedTextWithReplacedWords = this.#originalText
+    }
 
     // Replace the words in the original text
     for (let i = 0; i < wordsToReplace.length; i++) {
     // Replace the words with the exact same formatting as one of the words in wordsToReplace
-      updatedTextWithReplacedWords = updatedTextWithReplacedWords.replace(new RegExp('\\b' + wordsToReplace[i] + '\\b', 'g'), newWords[i])
+      this.#updatedTextWithReplacedWords = this.#updatedTextWithReplacedWords.replace(new RegExp('\\b' + wordsToReplace[i] + '\\b', 'g'), newWords[i])
     }
 
-    return updatedTextWithReplacedWords
+    return this.#updatedTextWithReplacedWords
+  }
+
+  /**
+   * Replaces all words that has the exact same formatting as the word to replace.
+   *
+   * @param {string} wordToReplace - The word to be replaced.
+   * @param {string} newWord - The word to replace with.
+   * @returns {string} - The new text.
+   */
+  replaceWordsWithExactFormatting (wordToReplace, newWord) {
+    if (this.#updatedTextWithReplacedWords !== '') {
+      this.#updatedTextWithReplacedWords = this.#originalText
+    }
+
+    return this.#updatedTextWithReplacedWords.replace(new RegExp('\\b' + wordToReplace + '\\b', 'g'), newWord)
   }
 
   /**
