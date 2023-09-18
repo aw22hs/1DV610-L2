@@ -46,7 +46,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of words in the text.
    */
-  #countWords () {
+  countWords () {
     if (this.countCharacters === 0) {
       return 0
     } else {
@@ -217,6 +217,7 @@ export class TextAnalyzer {
     return this.#countCharactersFrequencyOccuranceOrder(this.#wordCountAlphabeticalOrder, this.countWordsFrequencyAlphabeticalOrder)
   }
 
+  // TODO: // Kolla att formatteringen på ord som ska ersättas stämmer dvs att det inte är ett ord med stora bokstäver i mitten av order
   /**
    * Replaces a word with another word in a text and returns the new text.
    * Replaces all words that has all letters in lower case, all letters in upper case and with
@@ -266,11 +267,11 @@ export class TextAnalyzer {
       return 0
     }
     const numberOfTimesWordOccurs = this.#countWord(text, word)
-    const numberOfWords = this.#countWords(text)
+    const numberOfWords = this.countWords(text)
     return Math.round((numberOfTimesWordOccurs / numberOfWords) * 100)
   }
 }
 
-// Lägg till undantagshantering
 // Räkna stycken och ta fram medelvärde på antal tecken
-// Skapa fil med text
+// Räkna antal ord och ta fram medelvärde på antal tecken
+// Byt ut ord med exakt case-sensitivity
