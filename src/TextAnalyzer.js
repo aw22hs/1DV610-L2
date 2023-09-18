@@ -12,18 +12,18 @@
  */
 export class TextAnalyzer {
   /**
-   * The original text.
-   *
-   * @type {string}
-   */
-  #originalText
-
-  /**
    * The letter count sorted in alphabetical order.
    *
    * @type {object}
    */
   #letterCountAlphabeticalOrder = {}
+
+  /**
+   * The original text.
+   *
+   * @type {string}
+   */
+  #originalText
 
   /**
    * The word count sorted in alphabetical order.
@@ -38,7 +38,21 @@ export class TextAnalyzer {
    * @param {string} text - The text input.
    */
   constructor (text) {
+    this.#checkLengthOfTextInput(text)
+
     this.#originalText = text
+  }
+
+  /**
+   * Throws exception if there are no characters in the string input.
+   *
+   * @param {string} text - The text input.
+   * @throws {Error} - If there are no characters in the string.
+   */
+  #checkLengthOfTextInput (text) {
+    if (text.length === 0) {
+      throw new Error('There are no characters in the string.')
+    }
   }
 
   /**
@@ -79,6 +93,8 @@ export class TextAnalyzer {
       return 0
     }
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
+
+    // If the word is not found, match() returns null
     return this.#originalText.match(regex) ? this.#originalText.match(regex).length : 0
   }
 
