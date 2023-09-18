@@ -193,7 +193,7 @@ export class TextAnalyzer {
    *
    * @returns {object} - An object with the words in lower case as keys and the number of times they appear as values.
    */
-  countWordsFrequency () {
+  countWordsFrequencyAlphabeticalOrder () {
     if (this.#originalText === '') {
       return {}
     }
@@ -204,6 +204,17 @@ export class TextAnalyzer {
     this.#wordCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(wordsInLowerCase)
 
     return this.#wordCountAlphabeticalOrder
+  }
+
+  /**
+   * Counts the number of times all different words appear in a text.
+   * The words are sorted in frequency order.
+   * If the text is empty, returns an empty object.
+   *
+   * @returns {object} - An object with the words in lower case as keys and the number of times they appear as values.
+   */
+  countWordsFrequencyOccuranceOrder () {
+    return this.#countCharactersFrequencyOccuranceOrder(this.#wordCountAlphabeticalOrder, this.countWordsFrequencyAlphabeticalOrder)
   }
 
   /**
