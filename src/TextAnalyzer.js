@@ -61,11 +61,11 @@ export class TextAnalyzer {
    * @returns {number} - The number of words in the text.
    */
   countWords () {
-    if (this.countCharacters === 0) {
-      return 0
-    } else {
-      return this.#originalText.split(' ').length
-    }
+    // Regex looks for words that contain at least one letter
+    const regex = /\w*[a-zA-Z]+\w*/
+    const words = this.#originalText.match(regex)
+    // If the text only contains non-alphanumeric characters, match() returns null
+    return words ? words.length : 0
   }
 
   /**
