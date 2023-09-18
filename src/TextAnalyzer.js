@@ -83,24 +83,22 @@ export class TextAnalyzer {
   }
 
   /**
-   * Counts the number of times all different letters appear in a text.
-   * Only includes lower case letters.
+   * Counts the number of times all different characters appear in a text.
+   * The characters are sorted in frequency order.
    * If the text is empty, returns an empty object.
    *
-   * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
+   * @param {object} characterCountAlphabeticalOrder - An object with the characters in lower case as keys and the number of times they appear as values.
+   * @param {Function} countCharactersFrequencyAlphabeticalOrder - A function that counts the number of times all different characters appear in a text.
+   * @returns {object} - An object with the characters in lower case as keys and the number of times they appear as values.
    */
-  countLettersFrequencyAlphabeticalOrder () {
-    if (this.#originalText === '') {
-      return {}
+  #countCharactersFrequencyOccuranceOrder (characterCountAlphabeticalOrder, countCharactersFrequencyAlphabeticalOrder) {
+    if (Object.keys(characterCountAlphabeticalOrder).length === 0) {
+      countCharactersFrequencyAlphabeticalOrder()
     }
-    // Make the letters lower case
-    const textInLowerCase = this.#originalText.toLowerCase()
-    const regex = /[a-z]/gi
-    const letters = textInLowerCase.match(regex)
 
-    this.#letterCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(letters)
+    const characterCountOccuranceOrder = this.#changeToOccuranceOrder(characterCountAlphabeticalOrder)
 
-    return this.#letterCountAlphabeticalOrder
+    return characterCountOccuranceOrder
   }
 
   /**
@@ -125,35 +123,6 @@ export class TextAnalyzer {
     })
 
     return elementsInOccuranceOrder
-  }
-
-  /**
-   * Counts the number of times all different letters appear in a text.
-   * The letters are sorted in frequency order.
-   *
-   * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
-   */
-  countLettersFrequencyOccuranceOrder () {
-    return this.#countCharactersFrequencyOccuranceOrder(this.#letterCountAlphabeticalOrder, this.countLettersFrequencyAlphabeticalOrder)
-  }
-
-  /**
-   * Counts the number of times all different characters appear in a text.
-   * The characters are sorted in frequency order.
-   * If the text is empty, returns an empty object.
-   *
-   * @param {object} characterCountAlphabeticalOrder - An object with the characters in lower case as keys and the number of times they appear as values.
-   * @param {Function} countCharactersFrequencyAlphabeticalOrder - A function that counts the number of times all different characters appear in a text.
-   * @returns {object} - An object with the characters in lower case as keys and the number of times they appear as values.
-   */
-  #countCharactersFrequencyOccuranceOrder (characterCountAlphabeticalOrder, countCharactersFrequencyAlphabeticalOrder) {
-    if (Object.keys(characterCountAlphabeticalOrder).length === 0) {
-      countCharactersFrequencyAlphabeticalOrder()
-    }
-
-    const characterCountOccuranceOrder = this.#changeToOccuranceOrder(characterCountAlphabeticalOrder)
-
-    return characterCountOccuranceOrder
   }
 
   /**
@@ -185,6 +154,37 @@ export class TextAnalyzer {
     })
 
     return sortedCharacterCount
+  }
+
+  /**
+   * Counts the number of times all different letters appear in a text.
+   * Only includes lower case letters.
+   * If the text is empty, returns an empty object.
+   *
+   * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
+   */
+  countLettersFrequencyAlphabeticalOrder () {
+    if (this.#originalText === '') {
+      return {}
+    }
+    // Make the letters lower case
+    const textInLowerCase = this.#originalText.toLowerCase()
+    const regex = /[a-z]/gi
+    const letters = textInLowerCase.match(regex)
+
+    this.#letterCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(letters)
+
+    return this.#letterCountAlphabeticalOrder
+  }
+
+  /**
+   * Counts the number of times all different letters appear in a text.
+   * The letters are sorted in frequency order.
+   *
+   * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
+   */
+  countLettersFrequencyOccuranceOrder () {
+    return this.#countCharactersFrequencyOccuranceOrder(this.#letterCountAlphabeticalOrder, this.countLettersFrequencyAlphabeticalOrder)
   }
 
   /**
@@ -271,7 +271,6 @@ export class TextAnalyzer {
   }
 }
 
-// Fixa changeToOccuranceOrder
 // Lägg till undantagshantering
 // Räkna stycken och ta fram medelvärde på antal tecken
 // Skapa fil med text
