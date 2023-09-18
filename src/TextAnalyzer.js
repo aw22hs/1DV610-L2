@@ -90,19 +90,9 @@ export class TextAnalyzer {
     const textInLowerCase = this.#originalText.toLowerCase()
     const regex = /[a-z]/gi
     const letters = textInLowerCase.match(regex)
-    const letterCount = {}
-    letters.forEach(letter => {
-      if (letterCount[letter] === undefined) {
-        letterCount[letter] = 1
-      } else {
-        letterCount[letter] += 1
-      }
-    })
 
-    // Return the object sorted in alphabetical order based on the key
-    Object.keys(letterCount).sort().forEach(key => {
-      this.#letterCountAlphabeticalOrder[key] = letterCount[key]
-    })
+    this.#letterCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(letters)
+
     return this.#letterCountAlphabeticalOrder
   }
 
@@ -147,19 +137,49 @@ export class TextAnalyzer {
   }
 
   /**
+   * Counts the number of times all different characters appear in a text.
+   * If the text is empty, returns an empty object.
+   * The characters are sorted in alphabetical order.
+   *
+   * @param {string} characters - The characters to be counted.
+   * @returns {object} - An object with the characters in lower case as keys and the number of times they appear as values.
+   */
+  #countAndSortInAlphabeticalOrder (characters) {
+    const characterCount = {}
+    characters.forEach(character => {
+      if (character === '') {
+        return
+      }
+      if (characterCount[character] === undefined) {
+        characterCount[character] = 1
+      } else {
+        characterCount[character] += 1
+      }
+    })
+
+    // Return the object sorted in alphabetical order
+    const sortedCharacterCount = {}
+    // Sorts the 'wordCount' object in alphabetical order and puts the sorted key-value pairs in the 'sortedWordCount' object
+    Object.keys(characterCount).sort().forEach(key => {
+      sortedCharacterCount[key] = characterCount[key]
+    })
+
+    return sortedCharacterCount
+  }
+
+  /**
    * Counts the number of times all different words appear in a text.
    * If the text is empty, returns an empty object.
    *
-   * @param {string} text - The text to be analyzed.
    * @returns {object} - An object with the words in lower case as keys and the number of times they appear as values.
    */
-  countWordsFrequency (text) {
-    if (text === '') {
+  countWordsFrequency () {
+    if (this.#originalText === '') {
       return {}
     }
 
     // Make the words lower case and then split the text into words based on one or more non-alphanumeric characters
-    const words = text.toLowerCase().split(/\W+/)
+    const words = this.#originalText.toLowerCase().split(/\W+/)
 
     const wordCount = {}
     words.forEach(word => {
