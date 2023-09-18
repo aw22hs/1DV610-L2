@@ -134,13 +134,26 @@ export class TextAnalyzer {
    * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
    */
   countLettersFrequencyOccuranceOrder () {
-    if (Object.keys(this.#letterCountAlphabeticalOrder).length === 0) {
-      this.countLettersFrequencyAlphabeticalOrder()
+    return this.#countCharactersFrequencyOccuranceOrder(this.#letterCountAlphabeticalOrder, this.countLettersFrequencyAlphabeticalOrder)
+  }
+
+  /**
+   * Counts the number of times all different characters appear in a text.
+   * The characters are sorted in frequency order.
+   * If the text is empty, returns an empty object.
+   *
+   * @param {object} characterCountAlphabeticalOrder - An object with the characters in lower case as keys and the number of times they appear as values.
+   * @param {Function} countCharactersFrequencyAlphabeticalOrder - A function that counts the number of times all different characters appear in a text.
+   * @returns {object} - An object with the characters in lower case as keys and the number of times they appear as values.
+   */
+  #countCharactersFrequencyOccuranceOrder (characterCountAlphabeticalOrder, countCharactersFrequencyAlphabeticalOrder) {
+    if (Object.keys(characterCountAlphabeticalOrder).length === 0) {
+      countCharactersFrequencyAlphabeticalOrder()
     }
 
-    const letterCountOccuranceOrder = this.#changeToOccuranceOrder(this.#letterCountAlphabeticalOrder)
+    const characterCountOccuranceOrder = this.#changeToOccuranceOrder(characterCountAlphabeticalOrder)
 
-    return letterCountOccuranceOrder
+    return characterCountOccuranceOrder
   }
 
   /**
@@ -186,9 +199,9 @@ export class TextAnalyzer {
     }
 
     // Make the words lower case and then split the text into words based on one or more non-alphanumeric characters
-    const words = this.#originalText.toLowerCase().split(/\W+/)
+    const wordsInLowerCase = this.#originalText.toLowerCase().split(/\W+/)
 
-    this.#wordCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(words)
+    this.#wordCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(wordsInLowerCase)
 
     return this.#wordCountAlphabeticalOrder
   }
