@@ -35,25 +35,12 @@ export class TextAnalyzer {
   }
 
   /**
-   * Checks if the original text is empty.
-   *
-   * @returns {boolean} - True if the original text is not empty, otherwise false.
-   */
-  #isOriginalTextEmpty () {
-    if (this.#originalText.length === 0) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  /**
    * Counts the number of words in a text.
    *
    * @returns {number} - The number of words in the text.
    */
   #countWords () {
-    if (this.#isOriginalTextEmpty) {
+    if (this.countCharacters === 0) {
       return 0
     } else {
       return this.#originalText.split(' ').length
@@ -66,7 +53,7 @@ export class TextAnalyzer {
    * @returns {number} - The number of characters in the text.
    */
   countCharacters () {
-    if (this.#isOriginalTextEmpty()) {
+    if (this.#originalText.length === 0) {
       return 0
     } else {
       return this.#originalText.length
@@ -81,7 +68,7 @@ export class TextAnalyzer {
    * @returns {number} - The number of times the word appears in the text.
    */
   #countWord (word) {
-    if (this.#isOriginalTextEmpty()) {
+    if (this.countCharacters === 0) {
       return 0
     }
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
