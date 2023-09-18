@@ -267,7 +267,7 @@ export class TextAnalyzer {
 
     const newWords = [newWordWithAllLettersLowerCase, newWordWithFirstLetterUpperCase]
 
-    if (this.#updatedTextWithReplacedWords !== '') {
+    if (this.#updatedTextWithReplacedWords === '') {
       this.#updatedTextWithReplacedWords = this.#originalText
     }
 
@@ -288,11 +288,13 @@ export class TextAnalyzer {
    * @returns {string} - The new text.
    */
   replaceWordsWithExactFormatting (wordToReplace, newWord) {
-    if (this.#updatedTextWithReplacedWords !== '') {
+    if (this.#updatedTextWithReplacedWords === '') {
       this.#updatedTextWithReplacedWords = this.#originalText
     }
 
-    return this.#updatedTextWithReplacedWords.replace(new RegExp('\\b' + wordToReplace + '\\b', 'g'), newWord)
+    this.#updatedTextWithReplacedWords = this.#updatedTextWithReplacedWords.replace(new RegExp('\\b' + wordToReplace + '\\b', 'g'), newWord)
+
+    return this.#updatedTextWithReplacedWords
   }
 
   /**
@@ -335,8 +337,20 @@ export class TextAnalyzer {
       return 'The original text is ' + originalTextLonger + ' characters longer than the updated text.'
     }
   }
+
+  /**
+   * Checks if the original text and the updated text are the same.
+   *
+   * @returns {boolean} - True if the original text and the updated text are the same, otherwise false.
+   */
+  isOriginalTextAndUpdatedTextTheSame () {
+    if (this.#updatedTextWithReplacedWords === this.#originalText) {
+      return true
+    } else {
+      return false
+    }
+  }
 }
 
 // Räkna stycken och ta fram medelvärde på antal tecken
 // Räkna antal ord och ta fram medelvärde på antal tecken
-// Byt ut ord med exakt case-sensitivity
