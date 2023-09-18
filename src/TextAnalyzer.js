@@ -226,34 +226,38 @@ export class TextAnalyzer {
     return this.#countCharactersFrequencyOccuranceOrder(this.#wordCountAlphabeticalOrder, this.countWordsFrequencyAlphabeticalOrder)
   }
 
-  // TODO: // Kolla att formatteringen på ord som ska ersättas stämmer dvs att det inte är ett ord med stora bokstäver i mitten av order
   /**
    * Replaces a word with another word in a text and returns the new text.
-   * Replaces all words that has all letters in lower case, all letters in upper case and with
-   * the first letter in upper case the rest of the letters in lower case.
+   * Replaces all words that has all letters in lower case and all words with
+   * the first letter in upper case and the rest of the letters in lower case.
    *
-   * @param {string} text - The text to be analyzed.
    * @param {string} wordToReplace - The word to be replaced.
    * @param {string} newWord - The word to replace with.
    * @returns {string} - The new text.
    */
-  replaceWordsWithThreeDifferentFormattings (text, wordToReplace, newWord) {
-    if (text === '') {
-      return ''
-    }
-
+  replaceWordsWithTwoDifferentFormattings (wordToReplace, newWord) {
     // Update formatting of the words to be replaced and the new words to replace with
     const wordToReplaceWithAllLettersLowerCase = wordToReplace.toLowerCase()
     const wordToReplaceWithFirstLetterUpperCase = wordToReplaceWithAllLettersLowerCase.charAt(0).toUpperCase() + wordToReplaceWithAllLettersLowerCase.slice(1)
-    const wordToReplaceWithAllLettersUpperCase = wordToReplace.toUpperCase()
     const newWordWithAllLettersLowerCase = newWord.toLowerCase()
     const newWordWithFirstLetterUpperCase = newWordWithAllLettersLowerCase.charAt(0).toUpperCase() + newWordWithAllLettersLowerCase.slice(1)
-    const newWordWithAllLettersUpperCase = newWord.toUpperCase()
 
-    const wordsToReplace = [wordToReplaceWithAllLettersLowerCase, wordToReplaceWithFirstLetterUpperCase, wordToReplaceWithAllLettersUpperCase]
-    const newWords = [newWordWithAllLettersLowerCase, newWordWithFirstLetterUpperCase, newWordWithAllLettersUpperCase]
+    const wordsToReplace = [wordToReplaceWithAllLettersLowerCase, wordToReplaceWithFirstLetterUpperCase]
+    const newWords = [newWordWithAllLettersLowerCase, newWordWithFirstLetterUpperCase]
 
-    let updatedTextWithReplacedWords = text
+    // Check if wordToReplace matches the exact format of any of the words in wordsToReplace
+    let wordToReplaceMatchesExactFormat = false
+    wordsToReplace.forEach(word => {
+      if (word === wordToReplace) {
+        wordToReplaceMatchesExactFormat = true
+      }
+    })
+
+    if (!wordToReplaceMatchesExactFormat) {
+      throw new Error('The word to replace does not match the exact format of any of the words in the submitted text.')
+    }
+
+    let updatedTextWithReplacedWords = this.#originalText
 
     // Replace the words in the original text
     for (let i = 0; i < wordsToReplace.length; i++) {
