@@ -26,6 +26,13 @@ export class TextAnalyzer {
   #letterCountAlphabeticalOrder = {}
 
   /**
+   * The word count sorted in alphabetical order.
+   *
+   * @type {object}
+   */
+  #wordCountAlphabeticalOrder = {}
+
+  /**
    * Initializes a new instance of the TextAnalyzer class.
    *
    * @param {string} text - The text input.
@@ -181,26 +188,9 @@ export class TextAnalyzer {
     // Make the words lower case and then split the text into words based on one or more non-alphanumeric characters
     const words = this.#originalText.toLowerCase().split(/\W+/)
 
-    const wordCount = {}
-    words.forEach(word => {
-      if (word === '') {
-        return
-      }
-      if (wordCount[word] === undefined) {
-        wordCount[word] = 1
-      } else {
-        wordCount[word] += 1
-      }
-    })
+    this.#wordCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(words)
 
-    // Return the object sorted in alphabetical order
-    const sortedWordCount = {}
-    // Sorts the 'wordCount' object in alphabetical order and puts the sorted key-value pairs in the 'sortedWordCount' object
-    Object.keys(wordCount).sort().forEach(key => {
-      sortedWordCount[key] = wordCount[key]
-    })
-
-    return sortedWordCount
+    return this.#wordCountAlphabeticalOrder
   }
 
   /**
