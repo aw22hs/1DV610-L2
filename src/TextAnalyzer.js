@@ -85,9 +85,6 @@ export class TextAnalyzer {
    * @returns {number} - The number of times the word appears in the text.
    */
   #countWord (word) {
-    if (this.countCharacters === 0) {
-      return 0
-    }
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
 
     // If the word is not found, match() returns null
