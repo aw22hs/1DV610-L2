@@ -91,7 +91,7 @@ export class TextAnalyzer {
    * @param {string} word - The word to be counted.
    * @returns {number} - The number of times the word appears in the text.
    */
-  #countWord (word) {
+  countWord (word) {
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
 
     // If the word is not found, match() returns null
@@ -180,9 +180,6 @@ export class TextAnalyzer {
    * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
    */
   countLettersFrequencyAlphabeticalOrder () {
-    if (this.#originalText === '') {
-      return {}
-    }
     // Make the letters lower case
     const textInLowerCase = this.#originalText.toLowerCase()
     const regex = /[a-z]/gi
@@ -210,10 +207,6 @@ export class TextAnalyzer {
    * @returns {object} - An object with the words in lower case as keys and the number of times they appear as values.
    */
   countWordsFrequencyAlphabeticalOrder () {
-    if (this.#originalText === '') {
-      return {}
-    }
-
     // Make the words lower case and then split the text into words based on one or more non-alphanumeric characters
     const wordsInLowerCase = this.#originalText.toLowerCase().split(/\W+/)
 
@@ -300,16 +293,12 @@ export class TextAnalyzer {
   /**
    * Counts the percentage of times a certain word appears in a text.
    *
-   * @param {string} text - The text to be analyzed.
    * @param {string} word - The word to be counted.
    * @returns {number} - The percentage of times the word appears in the text.
    */
-  countWordPercentageFrequency (text, word) {
-    if (text === '') {
-      return 0
-    }
-    const numberOfTimesWordOccurs = this.#countWord(text, word)
-    const numberOfWords = this.countWords(text)
+  countWordPercentageFrequency (word) {
+    const numberOfTimesWordOccurs = this.countWord(word)
+    const numberOfWords = this.countWords()
     return Math.round((numberOfTimesWordOccurs / numberOfWords) * 100)
   }
 
@@ -349,6 +338,17 @@ export class TextAnalyzer {
     } else {
       return false
     }
+  }
+
+  /**
+   * Counts the average number of words per sentence in a text.
+   *
+   * @returns {number} - The average number of words per sentence in the text.
+   */
+  averageNumberOfWordsPerSentence () {
+    const numberOfSentences = this.#originalText.split(/[.!?]+/).length
+    const numberOfWords = this.countWords()
+    return Math.round(numberOfWords / numberOfSentences)
   }
 }
 
