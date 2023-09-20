@@ -26,6 +26,13 @@ export class TextAnalyzer {
   #originalText
 
   /**
+   * The original text.
+   *
+   * @type {string[]}
+   */
+  #trimmedLines = []
+
+  /**
    * The updated text with replaced words.
    *
    * @type {string}
@@ -368,23 +375,51 @@ export class TextAnalyzer {
     return this.#originalText.split(/\n\n/).length
   }
 
-  countAllLines () {
-
+  /**
+   * Splits text into lines. Trims the lines.
+   */
+  #splitTextIntoTrimmedLines () {
+    const lines = this.#originalText.split('\n')
+    this.#trimmedLines = lines.map(line => line.trim())
   }
 
   /**
-   * Splits text into lines. Trims the lines.
-   * Returns the number of lines that aren't empty or that doesn't
-   * start with / or *. In this sense it removes all the lines
-   * that is interpreted as comments in JavaScript.
+   * Counts all the lines in a text, including empty lines.
    *
-   * @returns {number} - Number of lines containing code.
+   * @returns {number} - The number of lines in a text.
    */
-  countLinesWithoutJSCommentsOrEmptyLines () {
-    const lines = this.#originalText.split('\n')
-    const trimmedLines = lines.map(line => line.trim())
+  countAllLines () {
+    if (this.#trimmedLines.length === 0) {
+      this.#splitTextIntoTrimmedLines()
+    }
+    return this.#trimmedLines.length
+  }
+
+  /**
+   * Calls this.#countLinesWithoutJSCommentsOrEmptyLines() and
+   * gets the number of lines that are not perceived as comments
+   * or empty lines.
+   *
+   * @returns {number} - Number of lines that are not perceived as comments or empty lines.
+   */
+  getNumberOfLinesWithoutJSCommentsOrEmptyLines () {
+    return this.#countLinesWithoutJSCommentsOrEmptyLines()
+  }
+
+  /**
+   * Iterate through this.#trimmedLines. Returns the number of
+   * lines that aren't empty or that doesn't start with / or *. In
+   * this sense it removes all the lines that is interpreted as comments in JavaScript.
+   *
+   * @returns {number} - Number of lines that are not perceived as comments or empty lines.
+   */
+  #countLinesWithoutJSCommentsOrEmptyLines () {
+    if (this.#trimmedLines.length === 0) {
+      this.#splitTextIntoTrimmedLines()
+    }
+    // const trimmedLines = this.#splitTextIntoTrimmedLines()
     let linesWithCode = 0
-    for (const line of trimmedLines) {
+    for (const line of this.#trimmedLines) {
       if (line !== '' && !line.startsWith('/') && !line.startsWith('*')) {
         linesWithCode++
       }
