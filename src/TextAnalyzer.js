@@ -314,21 +314,39 @@ export class TextAnalyzer {
    *
    * @returns {string} - A string with information about the difference in length between the original text and the updated text.
    */
-  checkLetterCountDifferenceBetweenOriginalAndUpdatedText () {
+  getLetterCountDifferenceBetweenOriginalAndUpdatedText () {
+    return this.#checkLetterCountDifference()
+  }
+
+  /**
+   * Checks if the original text has been updated. If yes, counts
+   * the difference between the length of the original text
+   * and the updated text.
+   *
+   * @returns {string} - A string that states the letter count
+   * difference between the two strings, if there is a difference.
+   */
+  #checkLetterCountDifference () {
     if (this.#updatedTextWithReplacedWords === '') {
-      return 'No words have been replaced.'
+      return 'The original text has not been updated.'
     }
-    const lengthUpdatedText = this.#updatedTextWithReplacedWords.length
-    const lengthOriginalText = this.#originalText.length
-    if (lengthUpdatedText === lengthOriginalText) {
+    const characterDifference = this.#updatedTextWithReplacedWords.length - this.#originalText.length
+    if (characterDifference === 0) {
+      if (this.#isOriginalTextAndUpdatedTextTheSame()) {
+        return 'No words have been replaced.'
+      }
       return 'The original text and the updated text are the same length.'
-    } else if (lengthUpdatedText > lengthOriginalText) {
-      const updatedTextLonger = lengthUpdatedText - lengthOriginalText
-      return 'The updated text is ' + updatedTextLonger + ' characters longer than the original text.'
-    } else {
-      const originalTextLonger = lengthOriginalText - lengthUpdatedText
-      return 'The original text is ' + originalTextLonger + ' characters longer than the updated text.'
     }
+    let longerText = 'updated text'
+    let shorterText = 'original text'
+    let difference = characterDifference
+    if (characterDifference < 0) {
+      // Remove the dash at the beginning of the negative number
+      difference = characterDifference.toString().substring(1)
+      longerText = 'original text'
+      shorterText = 'updated text'
+    }
+    return `The ${longerText} is ${difference} character(s) longer than the ${shorterText}.`
   }
 
   /**
@@ -336,7 +354,7 @@ export class TextAnalyzer {
    *
    * @returns {boolean} - True if the original text and the updated text are the same, otherwise false.
    */
-  isOriginalTextAndUpdatedTextTheSame () {
+  #isOriginalTextAndUpdatedTextTheSame () {
     if (this.#updatedTextWithReplacedWords === this.#originalText) {
       return true
     } else {
