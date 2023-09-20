@@ -71,7 +71,6 @@ export class TextAnalyzer {
     // Regex looks for words that contain at least one letter but can also contain the characters -, ', ., : and /
     const words = this.#originalText.match(/\b[-'.:/a-zA-Z]+\b/gi)
     // If the text only contains non-alphanumeric characters, match() returns null
-    console.log(words)
     return words ? words.length : 0
   }
 
@@ -180,10 +179,8 @@ export class TextAnalyzer {
    * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
    */
   countLettersFrequencyAlphabeticalOrder () {
-    // Make the letters lower case
     const textInLowerCase = this.#originalText.toLowerCase()
-    const regex = /[a-z]/gi
-    const letters = textInLowerCase.match(regex)
+    const letters = textInLowerCase.match(/[a-z]/gi)
 
     this.#letterCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(letters)
 
@@ -362,8 +359,37 @@ export class TextAnalyzer {
     return Math.round(numberOfSentences / numberOfParagraphs)
   }
 
+  /**
+   * Counts the paragraphs in a text.
+   *
+   * @returns {number} - The number of paragraphs in the text.
+   */
   countParagraphs () {
     return this.#originalText.split(/\n\n/).length
+  }
+
+  countAllLines () {
+
+  }
+
+  /**
+   * Splits text into lines. Trims the lines.
+   * Returns the number of lines that aren't empty or that doesn't
+   * start with / or *. In this sense it removes all the lines
+   * that is interpreted as comments in JavaScript.
+   *
+   * @returns {number} - Number of lines containing code.
+   */
+  countLinesWithoutJSCommentsOrEmptyLines () {
+    const lines = this.#originalText.split('\n')
+    const trimmedLines = lines.map(line => line.trim())
+    let linesWithCode = 0
+    for (const line of trimmedLines) {
+      if (line !== '' && !line.startsWith('/') && !line.startsWith('*')) {
+        linesWithCode++
+      }
+    }
+    return linesWithCode
   }
 }
 
