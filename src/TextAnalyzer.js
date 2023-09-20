@@ -46,8 +46,6 @@ export class TextAnalyzer {
    */
   constructor (text) {
     this.#checkLengthOfTextInput(text)
-
-    this.#originalText = text
   }
 
   /**
@@ -59,6 +57,8 @@ export class TextAnalyzer {
   #checkLengthOfTextInput (text) {
     if (text.length === 0) {
       throw new Error('There are no characters in the string.')
+    } else {
+      this.#originalText = text
     }
   }
 
@@ -67,11 +67,11 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of words in the text.
    */
-  countWords () {
-    // Regex looks for words that contain at least one letter
-    const regex = /\w*[a-zA-Z]+\w*/
-    const words = this.#originalText.match(regex)
+  countAllWords () {
+    // Regex looks for words that contain at least one letter but can also contain the characters -, ', ., : and /
+    const words = this.#originalText.match(/\b[-'.:/a-zA-Z]+\b/gi)
     // If the text only contains non-alphanumeric characters, match() returns null
+    console.log(words)
     return words ? words.length : 0
   }
 
@@ -91,7 +91,7 @@ export class TextAnalyzer {
    * @param {string} word - The word to be counted.
    * @returns {number} - The number of times the word appears in the text.
    */
-  countWord (word) {
+  countSpecificWord (word) {
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
 
     // If the word is not found, match() returns null
@@ -297,8 +297,8 @@ export class TextAnalyzer {
    * @returns {number} - The percentage of times the word appears in the text.
    */
   countWordPercentageFrequency (word) {
-    const numberOfTimesWordOccurs = this.countWord(word)
-    const numberOfWords = this.countWords()
+    const numberOfTimesWordOccurs = this.countSpecificWord(word)
+    const numberOfWords = this.countAllWords()
     return Math.round((numberOfTimesWordOccurs / numberOfWords) * 100)
   }
 
@@ -347,10 +347,30 @@ export class TextAnalyzer {
    */
   averageNumberOfWordsPerSentence () {
     const numberOfSentences = this.#originalText.split(/[.!?]+/).length
-    const numberOfWords = this.countWords()
+    const numberOfWords = this.countAllWords()
     return Math.round(numberOfWords / numberOfSentences)
+  }
+
+  /**
+   * Counts the average number of sentences per paragraph in a text.
+   *
+   * @returns {number} - The average number of sentences per paragraph in the text.
+   */
+  averageNumberOfSentencesPerParagraph () {
+    const numberOfParagraphs = this.#originalText.split(/\n+/).length
+    const numberOfSentences = this.#originalText.split(/[.!?]+/).length
+    return Math.round(numberOfSentences / numberOfParagraphs)
+  }
+
+  countParagraphs () {
+    return this.#originalText.split(/\n\n/).length
   }
 }
 
-// Räkna stycken och ta fram medelvärde på antal tecken
+// Count paragraphs and sentences per paragraph
 // Räkna antal ord och ta fram medelvärde på antal tecken
+// Kapa av texten efter ett visst antal tecken och returnera den nya texten
+// Räkna prcentuellt hur många rader som är kod
+// KOlla vilken början av mening/Stycke som är vanligast
+// Lägg publika metoder överst
+// Behövs mer validering?
