@@ -89,11 +89,20 @@ export class TextAnalyzer {
   }
 
   /**
+   * Gets the number of characters in the text.
+   *
+   * @returns {number} - The number of characters in the text.
+   */
+  getCharacterCount () {
+    return this.#countCharacters()
+  }
+
+  /**
    * Counts the number of characters in a text.
    *
    * @returns {number} - The number of characters in the text.
    */
-  countCharacters () {
+  #countCharacters () {
     const countableCharacters = []
     for (const character of this.#originalText) {
       if (!character.match(/[\n]/)) {
@@ -362,19 +371,6 @@ export class TextAnalyzer {
     }
     return `The ${longerText} is ${difference} character(s) longer than the ${shorterText}.`
   }
-
-  /**
-   * Checks if the original text and the updated text are the same.
-   *
-   * @returns {boolean} - True if the original text and the updated text are the same, otherwise false.
-   */
-  // #isOriginalTextAndUpdatedTextTheSame () {
-  //   if (this.#updatedTextWithReplacedWords === this.#originalText) {
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // }
 
   /**
    * Splits the original text into an array with the different sentences.
