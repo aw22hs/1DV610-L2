@@ -396,6 +396,24 @@ export class TextAnalyzer {
   }
 
   /**
+   * Call methods to get sentences from text and trim sentences.
+   */
+  #getAndTrimSentences () {
+    this.#getSentencesFromText()
+    this.#trimSentences()
+  }
+
+  /**
+   * Gets the number of sentences.
+   *
+   * @returns {number} - The number of sentences.
+   */
+  getSentenceCount () {
+    this.#getAndTrimSentences()
+    return this.#sentences.length
+  }
+
+  /**
    * Splits the sentences into separate words and save the forst
    * words in each sentence in a new array.
    *
@@ -416,8 +434,7 @@ export class TextAnalyzer {
    * @returns {string[]} - First word of each sentence.
    */
   #getFirstWordsFromSentences () {
-    this.#getSentencesFromText()
-    this.#trimSentences()
+    this.#getAndTrimSentences()
     return this.#splitSentencesIntoWordsAndKeepFirstWord()
   }
 
@@ -445,9 +462,13 @@ export class TextAnalyzer {
    * @returns {number} - The average number of words per sentence in the text.
    */
   averageNumberOfWordsPerSentence () {
-    const numberOfSentences = this.#originalText.split(/[.!?]+/).length
+    if (this.#sentences.length === 0) {
+      this.#getAndTrimSentences()
+    }
+    console.log('Number of sentences: ' + this.#sentences.length)
+    // const numberOfSentences = this.#originalText.split(/[.!?]+/).length
     const numberOfWords = this.countAllWords()
-    return Math.round(numberOfWords / numberOfSentences)
+    return Math.round(numberOfWords / this.#sentences.length)
   }
 
   /**
