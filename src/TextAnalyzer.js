@@ -65,18 +65,6 @@ export class TextAnalyzer {
   }
 
   /**
-   * Throws exception if there are no characters in the string input.
-   *
-   * @param {string} text - The text input.
-   * @throws {Error} - If there are no characters in the string.
-   */
-  #checkLengthOfTextInput (text) {
-    if (text.length === 0) {
-      throw new Error('There are no characters in the string.')
-    }
-  }
-
-  /**
    * Counts the average number of sentences per paragraph in a text.
    *
    * @returns {number} - The average number of sentences per paragraph in the text.
@@ -218,18 +206,6 @@ export class TextAnalyzer {
   }
 
   /**
-   * Counts the percentage of times a certain word appears in a text.
-   *
-   * @param {string} word - The word to be counted.
-   * @returns {number} - The percentage of times the word appears in the text.
-   */
-  countWordPercentageFrequency (word) {
-    const numberOfTimesWordOccurs = this.countSpecificWord(word)
-    const numberOfWords = this.countAllWords()
-    return Math.round((numberOfTimesWordOccurs / numberOfWords) * 100)
-  }
-
-  /**
    * Gets the number of characters in the text.
    *
    * @returns {number} - The number of characters in the text.
@@ -239,7 +215,7 @@ export class TextAnalyzer {
   }
 
   /**
-   * Gets the first word of each sentence sorted in aplhabetical order.
+   * Gets the first word of each sentence sorted in alphabetical order.
    *
    * @returns {string[]} - First word of each sentence in aplhabetical order.
    */
@@ -321,7 +297,7 @@ export class TextAnalyzer {
 
     const wordsToReplace = [wordToReplaceWithAllLettersLowerCase, wordToReplaceWithFirstLetterUpperCase]
 
-    // Check if wordToReplace matches the exact format of any of the words in wordsToReplace
+    // Checks if wordToReplace matches the exact format of any of the words in wordsToReplace
     let wordToReplaceMatchesExactFormat = false
     wordsToReplace.forEach(word => {
       if (word === wordToReplace) {
@@ -376,6 +352,18 @@ export class TextAnalyzer {
   }
 
   /**
+   * Throws exception if there are no characters in the string input.
+   *
+   * @param {string} text - The text input.
+   * @throws {Error} - If there are no characters in the string.
+   */
+  #checkLengthOfTextInput (text) {
+    if (text.length === 0) {
+      throw new Error('There are no characters in the string.')
+    }
+  }
+
+  /**
    * Checks if the original text has been updated. If yes, counts
    * the difference between the length of the original text
    * and the updated text.
@@ -398,7 +386,7 @@ export class TextAnalyzer {
     let shorterText = 'original text'
     let difference = characterDifference
     if (characterDifference < 0) {
-      // Remove the dash at the beginning of the negative number
+      // Removes the dash at the beginning of the negative number
       difference = characterDifference.toString().substring(1)
       longerText = 'original text'
       shorterText = 'updated text'
