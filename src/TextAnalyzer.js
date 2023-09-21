@@ -26,7 +26,14 @@ export class TextAnalyzer {
   #originalText
 
   /**
-   * The original text.
+   * An array of the sentences in the original text.
+   *
+   * @type {string}
+   */
+  #sentences = []
+
+  /**
+   * An array of the trimmed lines from the original text.
    *
    * @type {string[]}
    */
@@ -53,6 +60,8 @@ export class TextAnalyzer {
    */
   constructor (text) {
     this.#checkLengthOfTextInput(text)
+
+    this.#originalText = text
   }
 
   /**
@@ -64,8 +73,6 @@ export class TextAnalyzer {
   #checkLengthOfTextInput (text) {
     if (text.length === 0) {
       throw new Error('There are no characters in the string.')
-    } else {
-      this.#originalText = text
     }
   }
 
@@ -87,7 +94,14 @@ export class TextAnalyzer {
    * @returns {number} - The number of characters in the text.
    */
   countCharacters () {
-    return this.#originalText.length
+    const countableCharacters = []
+    for (const character of this.#originalText) {
+      if (!character.match(/[\n]/)) {
+        countableCharacters.push(character)
+      }
+    }
+
+    return countableCharacters.length
   }
 
   /**
@@ -111,7 +125,7 @@ export class TextAnalyzer {
    *
    * @param {object} characterCountAlphabeticalOrder - An object with the characters in lower case as keys and the number of times they appear as values.
    * @param {Function} countCharactersFrequencyAlphabeticalOrder - A function that counts the number of times all different characters appear in a text.
-   * @returns {object} - An object with the characters in lower case as keys and the number of times they appear as values.
+   * @returns {object} - An object with the characters as keys and the number of times they appear as values.
    */
   #countCharactersFrequencyOccuranceOrder (characterCountAlphabeticalOrder, countCharactersFrequencyAlphabeticalOrder) {
     if (Object.keys(characterCountAlphabeticalOrder).length === 0) {
@@ -332,7 +346,7 @@ export class TextAnalyzer {
     }
     const characterDifference = this.#updatedTextWithReplacedWords.length - this.#originalText.length
     if (characterDifference === 0) {
-      if (this.#isOriginalTextAndUpdatedTextTheSame()) {
+      if (this.#updatedTextWithReplacedWords === this.#originalText) {
         return 'No words have been replaced.'
       }
       return 'The original text and the updated text are the same length.'
@@ -354,12 +368,79 @@ export class TextAnalyzer {
    *
    * @returns {boolean} - True if the original text and the updated text are the same, otherwise false.
    */
-  #isOriginalTextAndUpdatedTextTheSame () {
-    if (this.#updatedTextWithReplacedWords === this.#originalText) {
-      return true
+  // #isOriginalTextAndUpdatedTextTheSame () {
+  //   if (this.#updatedTextWithReplacedWords === this.#originalText) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
+
+  /**
+   * Splits the original text into an array with the different sentences.
+   */
+  #getSentencesFromText () {
+    if (this.countAllWords() > 0) {
+      this.#sentences = this.#originalText.split(/[.!?]+/)
     } else {
-      return false
+      throw new Error('There are no sentences in the string.')
     }
+  }
+
+  /**
+   * Trim sentences from whitespace.
+   */
+  #trimSentences () {
+    this.#sentences = this.#sentences.map(sentence => sentence.trim())
+    for (let i = 0; i < this.#sentences.length; i++) {
+      if (this.#sentences[i] === '') {
+        this.#sentences.splice(i, 1)
+      }
+    }
+  }
+
+  /**
+   * Splits the sentences into separate words and save the forst
+   * words in each sentence in a new array.
+   *
+   * @returns {string[]} - First word of each sentence.
+   */
+  #splitSentencesIntoWordsAndKeepFirstWord () {
+    const firstWords = []
+    for (const sentence of this.#sentences) {
+      const words = sentence.match(/\b[-'.:/a-zA-Z]+\b/gi)
+      firstWords.push(words[0])
+    }
+    return firstWords
+  }
+
+  /**
+   * Gets the first word of each sentence.
+   *
+   * @returns {string[]} - First word of each sentence.
+   */
+  #getFirstWordsFromSentences () {
+    this.#getSentencesFromText()
+    this.#trimSentences()
+    return this.#splitSentencesIntoWordsAndKeepFirstWord()
+  }
+
+  /**
+   * Gets the first word of each sentence sorted in aplhabetical order.
+   *
+   * @returns {string[]} - First word of each sentence in aplhabetical order.
+   */
+  getFirstWordsInAlphabeticalOrder () {
+    return this.#countAndSortInAlphabeticalOrder(this.#getFirstWordsFromSentences())
+  }
+
+  /**
+   * Gets the first word of each sentence sorted in occurance order.
+   *
+   * @returns {string[]} - First word of each sentence in occurance order.
+   */
+  getFirstWordsInOccuranceOrder () {
+    return this.#changeToOccuranceOrder(this.getFirstWordsInAlphabeticalOrder())
   }
 
   /**
@@ -414,42 +495,24 @@ export class TextAnalyzer {
   }
 
   /**
-   * Calls this.#countLinesWithoutJSCommentsOrEmptyLines() and
-   * gets the number of lines that are not perceived as comments
-   * or empty lines.
+   * Counts all the lines in a text, excluding empty lines.
    *
-   * @returns {number} - Number of lines that are not perceived as comments or empty lines.
+   * @returns {number} - The number of lines in a text.
    */
-  getNumberOfLinesWithoutJSCommentsOrEmptyLines () {
-    return this.#countLinesWithoutJSCommentsOrEmptyLines()
-  }
-
-  /**
-   * Iterate through this.#trimmedLines. Returns the number of
-   * lines that aren't empty or that doesn't start with / or *. In
-   * this sense it removes all the lines that is interpreted as comments in JavaScript.
-   *
-   * @returns {number} - Number of lines that are not perceived as comments or empty lines.
-   */
-  #countLinesWithoutJSCommentsOrEmptyLines () {
-    if (this.#trimmedLines.length === 0) {
-      this.#splitTextIntoTrimmedLines()
-    }
-    // const trimmedLines = this.#splitTextIntoTrimmedLines()
-    let linesWithCode = 0
+  countNotEmptyLines () {
+    let count = 0
     for (const line of this.#trimmedLines) {
-      if (line !== '' && !line.startsWith('/') && !line.startsWith('*')) {
-        linesWithCode++
+      if (line !== '') {
+        count++
       }
     }
-    return linesWithCode
+    return count
   }
 }
 
 // Count paragraphs and sentences per paragraph
 // Räkna antal ord och ta fram medelvärde på antal tecken
 // Kapa av texten efter ett visst antal tecken och returnera den nya texten
-// Räkna prcentuellt hur många rader som är kod
 // KOlla vilken början av mening/Stycke som är vanligast
 // Lägg publika metoder överst
 // Behövs mer validering?
