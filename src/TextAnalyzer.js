@@ -97,10 +97,7 @@ export class TextAnalyzer {
     if (this.#sentences.length === 0) {
       this.#getAndTrimSentences()
     }
-    console.log('Number of sentences: ' + this.#sentences.length)
-    // const numberOfSentences = this.#originalText.split(/[.!?]+/).length
-    const numberOfWords = this.countAllWords()
-    return Math.round(numberOfWords / this.#sentences.length)
+    return Math.round(this.countAllWords() / this.#sentences.length)
   }
 
   /**
@@ -159,6 +156,9 @@ export class TextAnalyzer {
    * @returns {number} - The number of lines in a text.
    */
   countNotEmptyLines () {
+    if (this.#trimmedLines.length === 0) {
+      this.#splitTextIntoTrimmedLines()
+    }
     let count = 0
     for (const line of this.#trimmedLines) {
       if (line !== '') {
@@ -239,18 +239,6 @@ export class TextAnalyzer {
   }
 
   /**
-   * Checks if the updated text is longer or shorter than the original text.
-   * If there is a difference, returns a string with information about the difference.
-   * If there is no difference, returns a string with information about that.
-   * If no words have been replaced, returns a string with information about that.
-   *
-   * @returns {string} - A string with information about the difference in length between the original text and the updated text.
-   */
-  getLetterCountDifferenceBetweenOriginalAndUpdatedText () {
-    return this.#checkLetterCountDifference()
-  }
-
-  /**
    * Gets the first word of each sentence sorted in aplhabetical order.
    *
    * @returns {string[]} - First word of each sentence in aplhabetical order.
@@ -266,6 +254,27 @@ export class TextAnalyzer {
    */
   getFirstWordsInOccuranceOrder () {
     return this.#changeToOccuranceOrder(this.getFirstWordsInAlphabeticalOrder())
+  }
+
+  /**
+   * Checks if the updated text is longer or shorter than the original text.
+   * If there is a difference, returns a string with information about the difference.
+   * If there is no difference, returns a string with information about that.
+   * If no words have been replaced, returns a string with information about that.
+   *
+   * @returns {string} - A string with information about the difference in length between the original text and the updated text.
+   */
+  getLetterCountDifferenceBetweenOriginalAndUpdatedText () {
+    return this.#checkLetterCountDifference()
+  }
+
+  /**
+   * Gets the number of lines with JavaScript code.
+   *
+   * @returns {number} - The number of lines with JavaScript code.
+   */
+  getNumberOfNonEmptyLinesWithoutJSComments () {
+    return this.#countNonEmptyLinesWithoutJSComments()
   }
 
   /**
@@ -461,6 +470,25 @@ export class TextAnalyzer {
     const characterCountOccuranceOrder = this.#changeToOccuranceOrder(characterCountAlphabeticalOrder)
 
     return characterCountOccuranceOrder
+  }
+
+  /**
+   * Counts line with JavaScript code. Excludes empty lines and
+   * lines that start with / or *.
+   *
+   * @returns {number} - Number of lines with JavaScript code.
+   */
+  #countNonEmptyLinesWithoutJSComments () {
+    if (this.#trimmedLines.length === 0) {
+      this.#splitTextIntoTrimmedLines()
+    }
+    let count = 0
+    for (const line of this.#trimmedLines) {
+      if (line !== '' && !line.startsWith('/') && !line.startsWith('*')) {
+        count++
+      }
+    }
+    return count
   }
 
   /**
