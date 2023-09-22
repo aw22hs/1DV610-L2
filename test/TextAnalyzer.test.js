@@ -15,7 +15,10 @@ function readFile () {
 }
 
 const text = readFile()
-const textAnalyzer = new TextAnalyzer(text)
+const textAnalyzerLoremIpsum = new TextAnalyzer(text)
+const textAnalyzerDot = new TextAnalyzer('.')
+const textAnalyzerOneWord = new TextAnalyzer('Word.')
+const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
 
 // -------------------------------------------------
 // Create TextAnalyzer instance with empty string
@@ -23,7 +26,6 @@ const textAnalyzer = new TextAnalyzer(text)
 
 describe('instantiating TextAnalyzer', () => {
   test('should throw an error when input is empty', () => {
-    // Use a function to create an instance to ensure that the constructor throws an error
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer('')
     }
@@ -37,18 +39,32 @@ describe('instantiating TextAnalyzer', () => {
 
 describe('average number of sentences per paragraph', () => {
   test('should throw an error when there are no sentences', () => {
-    const textAnalyzer = new TextAnalyzer('.')
-    expect(() => textAnalyzer.averageNumberOfSentencesPerParagraph()).toThrowError('There are no sentences in the string.')
+    expect(() => textAnalyzerDot.averageNumberOfSentencesPerParagraph()).toThrowError('There are no words in the string.')
   })
 
   test('should return 1 when there is one sentence', () => {
-    const textAnalyzer = new TextAnalyzer('This is a sentence.')
-    expect(textAnalyzer.averageNumberOfSentencesPerParagraph()).toBe(1)
+    expect(textAnalyzerOneSentence.averageNumberOfSentencesPerParagraph()).toBe(1)
   })
 
   test('should return 5 when using text from loremIpsum file as input', () => {
-    const text = readFile()
-    const textAnalyzer = new TextAnalyzer(text)
-    expect(textAnalyzer.averageNumberOfSentencesPerParagraph()).toBe(5)
+    expect(textAnalyzerLoremIpsum.averageNumberOfSentencesPerParagraph()).toBe(5)
+  })
+})
+
+// -------------------------------------------------
+// Average number of words per sentence
+// -------------------------------------------------
+
+describe('average number of words per sentence', () => {
+  test('should throw an error when there are no words', () => {
+    expect(() => textAnalyzerDot.averageNumberOfWordsPerSentence()).toThrowError('There are no words in the string.')
+  })
+
+  test('should return 1 when there is one word', () => {
+    expect(textAnalyzerOneWord.averageNumberOfWordsPerSentence()).toBe(1)
+  })
+
+  test('should return 5 when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.averageNumberOfWordsPerSentence()).toBe(9)
   })
 })
