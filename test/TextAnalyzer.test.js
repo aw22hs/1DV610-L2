@@ -38,11 +38,17 @@ describe('instantiating TextAnalyzer', () => {
 describe('average number of sentences per paragraph', () => {
   test('should throw an error when there are no sentences', () => {
     const textAnalyzer = new TextAnalyzer('.')
-    expect(() => textAnalyzer.averageNumberOfWordsPerSentence()).toThrowError('There are no sentences in the string.')
+    expect(() => textAnalyzer.averageNumberOfSentencesPerParagraph()).toThrowError('There are no sentences in the string.')
   })
 
   test('should return 1 when there is one sentence', () => {
     const textAnalyzer = new TextAnalyzer('This is a sentence.')
     expect(textAnalyzer.averageNumberOfSentencesPerParagraph()).toBe(1)
+  })
+
+  test('should return 5 when using text from loremIpsum file as input', () => {
+    const text = readFile()
+    const textAnalyzer = new TextAnalyzer(text)
+    expect(textAnalyzer.averageNumberOfSentencesPerParagraph()).toBe(5)
   })
 })
