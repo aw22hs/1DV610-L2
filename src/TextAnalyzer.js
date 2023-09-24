@@ -307,6 +307,9 @@ export class TextAnalyzer {
    * @throws {Error} - If the word to replace does not match the correct format.
    */
   replaceWordsWithTwoDifferentFormattings (wordToReplace, newWord) {
+    this.#validateWordInput(wordToReplace)
+    this.#validateWordInput(newWord)
+
     // Update formatting of the words to be replaced and the new words to replace with
     const wordToReplaceWithAllLettersLowerCase = wordToReplace.toLowerCase()
     const wordToReplaceWithFirstLetterUpperCase = wordToReplaceWithAllLettersLowerCase.charAt(0).toUpperCase() + wordToReplaceWithAllLettersLowerCase.slice(1)
