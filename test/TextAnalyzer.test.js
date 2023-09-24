@@ -536,3 +536,33 @@ describe('get first words in occurance order', () => {
     expect(() => textAnalyzerNumbers.getFirstWordsInOccuranceOrder()).toThrowError('There are no words in the string.')
   })
 })
+
+// --------------------------------------------------------------
+// Get letter count difference between original and updated text
+// --------------------------------------------------------------
+
+describe('get letter count difference between original and updated text', () => {
+  test('should return the difference between the original and updated text when using text from loremIpsum file as input', () => {
+    textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('at', 'attans')
+    expect(textAnalyzerLoremIpsum.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The updated text is 20 character(s) longer than the original text.')
+  })
+
+  test('should return the difference between the original and updated text when only one character input', () => {
+    textAnalyzerOneSentence.replaceWordsWithExactFormatting('sentence', 'sent')
+    expect(textAnalyzerOneSentence.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The original text is 4 character(s) longer than the updated text.')
+  })
+
+  test('should return the difference between the original and updated text when the input is a blank space', () => {
+    expect(textAnalyzerSeveralSentences.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The original text has not been updated.')
+  })
+
+  test('should throw an error when there are only numbers', () => {
+    textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('attans', 'at')
+    expect(textAnalyzerLoremIpsum.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('No words have been replaced.')
+  })
+
+  test('should throw an error when there are only numbers', () => {
+    textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('est', 'ett')
+    expect(textAnalyzerLoremIpsum.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The original text and the updated text are the same length.')
+  })
+})
