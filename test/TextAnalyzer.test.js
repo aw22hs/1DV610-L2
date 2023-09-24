@@ -165,3 +165,52 @@ describe('count letters frequency alphabetical order', () => {
     expect(() => textAnalyzerDot.countLettersFrequencyAlphabeticalOrder()).toThrowError('There are no letters in the string.')
   })
 })
+
+// -------------------------------------------------
+// Count letters frequency occurance order
+// -------------------------------------------------
+
+describe('count letters frequency occurance order', () => {
+  test('should return letter count in occurance order when there is one word', () => {
+    expect(textAnalyzerOneWord.countLettersFrequencyOccuranceOrder()).toEqual({ w: 1, o: 1, r: 1, d: 1 })
+  })
+
+  test('should return single letter count in lower case when there is one upper case letter', () => {
+    expect(textAnalyzerOneLetter.countLettersFrequencyOccuranceOrder()).toEqual({ a: 1 })
+  })
+
+  test('should return letter count in occurance order when there is input from loremIpsum file', () => {
+    expect(textAnalyzerLoremIpsum.countLettersFrequencyOccuranceOrder()).toEqual({
+      e: 150,
+      i: 128,
+      a: 112,
+      u: 104,
+      t: 94,
+      s: 94,
+      r: 71,
+      m: 67,
+      n: 63,
+      o: 46,
+      l: 40,
+      c: 38,
+      p: 38,
+      d: 36,
+      v: 28,
+      q: 15,
+      b: 12,
+      h: 11,
+      f: 10,
+      g: 6,
+      x: 6,
+      z: 1
+    })
+  })
+
+  test('should throw an error when there are only numbers', () => {
+    expect(() => textAnalyzerNumbers.countLettersFrequencyOccuranceOrder()).toThrowError('There are no letters in the string.')
+  })
+
+  test('should throw an error when there are no alpha-numeric characters', () => {
+    expect(() => textAnalyzerDot.countLettersFrequencyOccuranceOrder()).toThrowError('There are no letters in the string.')
+  })
+})
