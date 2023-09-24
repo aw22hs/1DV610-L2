@@ -456,10 +456,6 @@ describe('get character count', () => {
 // -------------------------------------------------
 
 describe('get first words in alphabetical order', () => {
-  test('should return the first word in alphabetical order', () => {
-    expect(textAnalyzerSeveralSentences.getFirstWordsInAlphabeticalOrder()).toEqual({ This: 3})
-  })
-
   test('should return the first words in alphabetical order when using text from loremIpsum file as input', () => {
     expect(textAnalyzerLoremIpsum.getFirstWordsInAlphabeticalOrder()).toEqual({
       An: 2,
@@ -495,5 +491,48 @@ describe('get first words in alphabetical order', () => {
 
   test('should throw an error when there are only numbers', () => {
     expect(() => textAnalyzerNumbers.getFirstWordsInAlphabeticalOrder()).toThrowError('There are no words in the string.')
+  })
+})
+
+// -------------------------------------------------
+// Get first words in occurance order
+// -------------------------------------------------
+
+describe('get first words in occurance order', () => {
+  test('should return the first words in occurance order when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.getFirstWordsInOccuranceOrder()).toEqual({
+      Eu: 3,
+      An: 2,
+      At: 2,
+      Cu: 2,
+      Est: 1,
+      Eum: 1,
+      Harum: 1,
+      Has: 1,
+      Iisque: 1,
+      Iudico: 1,
+      Lorem: 1,
+      Ne: 1,
+      Quo: 1,
+      Sit: 1,
+      Tale: 1,
+      Ut: 1,
+      Vim: 1,
+      Vitae: 1,
+      Vituperata: 1,
+      Vix: 1
+    })
+  })
+
+  test('should return the first word in occurance order when only one character input', () => {
+    expect(() => textAnalyzerDot.getFirstWordsInOccuranceOrder()).toThrowError('There are no words in the string.')
+  })
+
+  test('should return the first word in occurance order when the input is a blank space', () => {
+    expect(() => textAnalyzerBlankSpace.getFirstWordsInOccuranceOrder()).toThrowError('There are no words in the string.')
+  })
+
+  test('should throw an error when there are only numbers', () => {
+    expect(() => textAnalyzerNumbers.getFirstWordsInOccuranceOrder()).toThrowError('There are no words in the string.')
   })
 })
