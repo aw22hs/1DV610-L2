@@ -18,8 +18,9 @@ function readFile () {
 }
 
 const text = readFile()
-const textAnalyzerLoremIpsum = new TextAnalyzer(text)
+const textAnalyzerBlankSpace = new TextAnalyzer(' ')
 const textAnalyzerDot = new TextAnalyzer('.')
+const textAnalyzerLoremIpsum = new TextAnalyzer(text)
 const textAnalyzerNumbers = new TextAnalyzer('123')
 const textAnalyzerOneLetter = new TextAnalyzer('A')
 const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
@@ -47,8 +48,12 @@ describe('instantiating TextAnalyzer', () => {
 // -------------------------------------------------
 
 describe('average number of sentences per paragraph', () => {
-  test('should throw an error when there are no sentences', () => {
+  test('should throw an error when the input text is a dot', () => {
     expect(() => textAnalyzerDot.averageNumberOfSentencesPerParagraph()).toThrowError('There are no words in the string.')
+  })
+
+  test('should throw an error when the input text is a blank space', () => {
+    expect(() => textAnalyzerBlankSpace.averageNumberOfSentencesPerParagraph()).toThrowError('There are no words in the string.')
   })
 
   test('should return 1 when there is one sentence', () => {
@@ -65,8 +70,12 @@ describe('average number of sentences per paragraph', () => {
 // -------------------------------------------------
 
 describe('average number of words per sentence', () => {
-  test('should throw an error when there are no words', () => {
+  test('should throw an error when the input text is a dot', () => {
     expect(() => textAnalyzerDot.averageNumberOfWordsPerSentence()).toThrowError('There are no words in the string.')
+  })
+
+  test('should throw an error when the input text is a blank space', () => {
+    expect(() => textAnalyzerBlankSpace.averageNumberOfWordsPerSentence()).toThrowError('There are no words in the string.')
   })
 
   test('should return 1 when there is one word', () => {
@@ -95,8 +104,12 @@ describe('count all lines', () => {
     expect(textAnalyzerLoremIpsum.countAllLines()).toBe(9)
   })
 
-  test('should return 1 when only one character input', () => {
+  test('should return 1 when the input text is a dot', () => {
     expect(textAnalyzerDot.countAllLines()).toBe(1)
+  })
+
+  test('should return 1 when the input text is a blank space', () => {
+    expect(textAnalyzerBlankSpace.countAllLines()).toBe(1)
   })
 })
 
@@ -113,8 +126,16 @@ describe('count all words', () => {
     expect(textAnalyzerLoremIpsum.countAllWords()).toBe(224)
   })
 
-  test('should throw an error when there are no words', () => {
+  test('should throw an error when there are not words', () => {
     expect(() => textAnalyzerDot.countAllWords()).toThrowError('There are no words in the string.')
+  })
+
+  test('should throw an error when the input text is a blank space', () => {
+    expect(() => textAnalyzerBlankSpace.countAllWords()).toThrowError('There are no words in the string.')
+  })
+
+  test('should throw an error when the input text contains only numbers', () => {
+    expect(() => textAnalyzerNumbers.countAllWords()).toThrowError('There are no words in the string.')
   })
 })
 
@@ -165,6 +186,10 @@ describe('count letters frequency alphabetical order', () => {
   test('should throw an error when there are no alpha-numeric characters', () => {
     expect(() => textAnalyzerDot.countLettersFrequencyAlphabeticalOrder()).toThrowError('There are no letters in the string.')
   })
+
+  test('should throw an error when the input text is a blank space', () => {
+    expect(() => textAnalyzerBlankSpace.countLettersFrequencyAlphabeticalOrder()).toThrowError('There are no letters in the string.')
+  })
 })
 
 // -------------------------------------------------
@@ -214,6 +239,10 @@ describe('count letters frequency occurance order', () => {
   test('should throw an error when there are no alpha-numeric characters', () => {
     expect(() => textAnalyzerDot.countLettersFrequencyOccuranceOrder()).toThrowError('There are no letters in the string.')
   })
+
+  test('should throw an error when the input text is a blank space', () => {
+    expect(() => textAnalyzerBlankSpace.countLettersFrequencyOccuranceOrder()).toThrowError('There are no letters in the string.')
+  })
 })
 
 // -------------------------------------------------
@@ -236,6 +265,10 @@ describe('count not empty lines', () => {
   test('should return 1 when only one character input', () => {
     expect(textAnalyzerDot.countNotEmptyLines()).toBe(1)
   })
+
+  test('should return 0 when the input text is a blank space', () => {
+    expect(textAnalyzerBlankSpace.countNotEmptyLines()).toBe(0)
+  })
 })
 
 // -------------------------------------------------
@@ -257,6 +290,10 @@ describe('count paragraphs', () => {
 
   test('should return 1 when only one character input', () => {
     expect(textAnalyzerDot.countParagraphs()).toBe(1)
+  })
+
+  test('should return 1 when the input text is a blank space', () => {
+    expect(textAnalyzerBlankSpace.countParagraphs()).toBe(1)
   })
 })
 
@@ -281,8 +318,8 @@ describe('count specific word', () => {
     expect(textAnalyzerDot.countSpecificWord('word')).toBe(0)
   })
 
-  test('should return 0 when word is not found', () => {
-    expect(textAnalyzerNumbers.countSpecificWord('word')).toBe(0)
+  test('should return 0 when the input text is a blank space', () => {
+    expect(textAnalyzerBlankSpace.countSpecificWord('word')).toBe(0)
   })
 })
 
@@ -315,6 +352,10 @@ describe('count words frequency alphabetical order', () => {
   test('should throw an error when there are no alpha-numeric characters', () => {
     expect(() => textAnalyzerDot.countWordsFrequencyAlphabeticalOrder()).toThrowError('There are no words in the string.')
   })
+
+  test('should throw an error when the input text is a blank space', () => {
+    expect(() => textAnalyzerBlankSpace.countWordsFrequencyAlphabeticalOrder()).toThrowError('There are no words in the string.')
+  })
 })
 
 // -------------------------------------------------
@@ -345,5 +386,31 @@ describe('count words frequency occurance order', () => {
 
   test('should throw an error when there are no alpha-numeric characters', () => {
     expect(() => textAnalyzerDot.countWordsFrequencyOccuranceOrder()).toThrowError('There are no words in the string.')
+  })
+
+  test('should throw an error when the input text is a blank space', () => {
+    expect(() => textAnalyzerBlankSpace.countWordsFrequencyOccuranceOrder()).toThrowError('There are no words in the string.')
+  })
+})
+
+// -------------------------------------------------
+// Get character count
+// -------------------------------------------------
+
+describe('get character count', () => {
+  test('should return the number of characters in a text', () => {
+    expect(textAnalyzerSeveralSentences.getCharacterCount()).toBe(70)
+  })
+
+  test('should return the number of characters when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.getCharacterCount()).toBe(1439)
+  })
+
+  test('should return 1 when only one character input', () => {
+    expect(textAnalyzerDot.getCharacterCount()).toBe(1)
+  })
+
+  test('should return 1 when the input is a blank space', () => {
+    expect(textAnalyzerBlankSpace.getCharacterCount()).toBe(1)
   })
 })
