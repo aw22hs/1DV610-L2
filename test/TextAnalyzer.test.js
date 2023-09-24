@@ -284,3 +284,47 @@ describe('count specific word', () => {
     expect(textAnalyzerNumbers.countSpecificWord('word')).toBe(0)
   })
 })
+
+// -------------------------------------------------
+// Count words frequency alphabetical order
+// -------------------------------------------------
+
+describe('count words frequency alphabetical order', () => {
+  test('should return single word count in lower case when there is a word that starts with an upper case letter', () => {
+    expect(textAnalyzerOneWord.countWordsFrequencyAlphabeticalOrder()).toEqual({ word: 1 })
+  })
+
+  test('should return word count in alphabetical order when there is one sentence', () => {
+    expect(textAnalyzerOneSentence.countWordsFrequencyAlphabeticalOrder()).toEqual({ this: 1, is: 1, a: 1, sentence: 1 })
+  })
+
+  test('should throw an error when there are only numbers', () => {
+    expect(() => textAnalyzerNumbers.countWordsFrequencyAlphabeticalOrder()).toThrowError('There are no words in the string.')
+  })
+
+  test('should throw an error when there are no alpha-numeric characters', () => {
+    expect(() => textAnalyzerDot.countWordsFrequencyAlphabeticalOrder()).toThrowError('There are no words in the string.')
+  })
+})
+
+// -------------------------------------------------
+// Count words frequency occurance order
+// -------------------------------------------------
+
+describe('count words frequency occurance order', () => {
+  test('should return single word count in lower case when there is a word that starts with an upper case letter', () => {
+    expect(textAnalyzerOneWord.countWordsFrequencyOccuranceOrder()).toEqual({ word: 1 })
+  })
+
+  test('should return word count in occurance order when there is one sentence', () => {
+    expect(textAnalyzerOneSentence.countWordsFrequencyOccuranceOrder()).toEqual({ this: 1, is: 1, a: 1, sentence: 1 })
+  })
+
+  test('should throw an error when there are only numbers', () => {
+    expect(() => textAnalyzerNumbers.countWordsFrequencyOccuranceOrder()).toThrowError('There are no words in the string.')
+  })
+
+  test('should throw an error when there are no alpha-numeric characters', () => {
+    expect(() => textAnalyzerDot.countWordsFrequencyOccuranceOrder()).toThrowError('There are no words in the string.')
+  })
+})
