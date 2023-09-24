@@ -60,7 +60,7 @@ export class TextAnalyzer {
    * @param {string} text - The text input.
    */
   constructor (text) {
-    this.#checkLengthOfTextInput(text)
+    this.#validateTextInput(text)
 
     this.#originalText = text
   }
@@ -181,31 +181,11 @@ export class TextAnalyzer {
    * @returns {number} - The number of times the word appears in the text.
    */
   countSpecificWord (word) {
-    this.#validateInputWord(word)
-    // TODO: Kolla så att det ord som skickas in inte är en tom sträng eller t ex siffror, null eller undefined
+    this.#validateWordInput(word)
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
 
     // If the word is not found, match() returns null
     return this.#originalText.match(regex) ? this.#originalText.match(regex).length : 0
-  }
-
-  /**
-   * Checks if the submitted word has the right format.
-   * The word can contain letters, numbers, -, ', ., : and /.
-   * The word must contain at least one letter.
-   *
-   * @param {string} word - The word to be checked.
-   * @throws {Error} - If the submitted word does not have the right format.
-   * @returns {boolean} - True if the word has the right format, otherwise false.
-   */
-  #validateInputWord (word) {
-    if (!word) {
-      throw new Error('Invalid input. The submitted word is empty.')
-    }
-    if (!word.match(/\b[a-zA-Z0-9-'./:]*[a-zA-Z][a-zA-Z0-9-'./:]*\b/gi)) {
-      throw new Error('The submitted word does not have the right format.')
-    }
-    return true
   }
 
   /**
@@ -385,18 +365,6 @@ export class TextAnalyzer {
   }
 
   /**
-   * Throws exception if there are no characters in the string input.
-   *
-   * @param {string} text - The text input.
-   * @throws {Error} - If there are no characters in the string.
-   */
-  #checkLengthOfTextInput (text) {
-    if (!text) {
-      throw new Error('Invalid input. There are no characters in the string.')
-    }
-  }
-
-  /**
    * Checks if the original text has been updated. If yes, counts
    * the difference between the length of the original text
    * and the updated text.
@@ -572,5 +540,38 @@ export class TextAnalyzer {
         this.#sentences.splice(i, 1)
       }
     }
+  }
+
+  /**
+   * Throws exception if there are no characters in the string input.
+   *
+   * @param {string} text - The text input.
+   * @throws {Error} - If there are no characters in the string.
+   */
+  #validateTextInput (text) {
+    if (!text) {
+      throw new Error('Invalid input. There are no characters in the string.')
+    }
+  }
+
+  /**
+   * Checks if the submitted word has the right format.
+   * The word can contain letters, numbers, -, ', ., : and /.
+   * The word must contain at least one letter.
+   *
+   * @param {string} word - The word to be checked.
+   * @throws {Error} - If the submitted word does not have the right format.
+   * @returns {boolean} - True if the word has the right format, otherwise false.
+   */
+  #validateWordInput (word) {
+    console.log('hej')
+
+    if (!word) {
+      throw new Error('Invalid input. The submitted word is empty.')
+    }
+    if (!word.match(/\b[a-zA-Z0-9.'/:-]*[a-zA-Z][a-zA-Z0-9.'/:-][^!]*\b/gi)) {
+      throw new Error('The submitted word does not have the right format.')
+    }
+    return true
   }
 }
