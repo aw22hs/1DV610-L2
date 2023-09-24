@@ -258,3 +258,29 @@ describe('count paragraphs', () => {
     expect(textAnalyzerDot.countParagraphs()).toBe(1)
   })
 })
+
+// -------------------------------------------------
+// Count specific word
+// -------------------------------------------------
+
+describe('count specific word', () => {
+  test('should return 1 when there is one word', () => {
+    expect(textAnalyzerOneWord.countSpecificWord('word')).toBe(1)
+  })
+
+  test('should return 4 when using text from loremIpsum file as input and looking for word "cu"', () => {
+    expect(textAnalyzerLoremIpsum.countSpecificWord('cu')).toBe(4)
+  })
+
+  test('should return 0 when word is not found', () => {
+    expect(textAnalyzerLoremIpsum.countSpecificWord('hello')).toBe(0)
+  })
+
+  test('should return 0 when word is not found', () => {
+    expect(textAnalyzerDot.countSpecificWord('word')).toBe(0)
+  })
+
+  test('should return 0 when word is not found', () => {
+    expect(textAnalyzerNumbers.countSpecificWord('word')).toBe(0)
+  })
+})
