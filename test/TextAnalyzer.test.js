@@ -41,6 +41,26 @@ describe('instantiating TextAnalyzer', () => {
     }
     expect(createTextAnalyzerWithEmptyText).toThrowError('There are no characters in the string.')
   })
+
+  test('should throw an error when input is null', () => {
+    /**
+     *
+     */
+    const createTextAnalyzerWithEmptyText = () => {
+      new TextAnalyzer(null)
+    }
+    expect(createTextAnalyzerWithEmptyText).toThrowError('Invalid input. There are no characters in the string.')
+  })
+
+  test('should throw an error when input is undefined', () => {
+    /**
+     *
+     */
+    const createTextAnalyzerWithEmptyText = () => {
+      new TextAnalyzer(undefined)
+    }
+    expect(createTextAnalyzerWithEmptyText).toThrowError('Invalid input. There are no characters in the string.')
+  })
 })
 
 // -------------------------------------------------
@@ -320,6 +340,22 @@ describe('count specific word', () => {
 
   test('should return 0 when the input text is a blank space', () => {
     expect(textAnalyzerBlankSpace.countSpecificWord('word')).toBe(0)
+  })
+
+  test('should throw an error when the word does not contain any letters', () => {
+    expect(() => textAnalyzerLoremIpsum.countSpecificWord('123')).toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when the word contains unallowed characters', () => {
+    expect(() => textAnalyzerLoremIpsum.countSpecificWord('a!c')).toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when the input text is null', () => {
+    expect(() => textAnalyzerLoremIpsum.countSpecificWord(null)).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when the input text is undefined', () => {
+    expect(() => textAnalyzerLoremIpsum.countSpecificWord(undefined)).toThrowError('Invalid input. The submitted word is empty.')
   })
 })
 
