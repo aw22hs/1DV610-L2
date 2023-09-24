@@ -28,7 +28,7 @@ const textAnalyzerLoremIpsum = new TextAnalyzer(textLoremIpsum)
 const textAnalyzerNumbers = new TextAnalyzer('123')
 const textAnalyzerOneLetter = new TextAnalyzer('A')
 const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
-const textAnalyzerSeveralSentences = new TextAnalyzer('This is a sentence. This is yet another sentence. This is a third one.')
+const textAnalyzerSeveralSentences = new TextAnalyzer('This is a sentence. This is yet another sentence. And this is a third one.')
 const textAnalyzerOneWord = new TextAnalyzer('Word.')
 
 // -------------------------------------------------
@@ -375,6 +375,7 @@ describe('count words frequency alphabetical order', () => {
   test('should return word count in alphabetical order when there are several sentences', () => {
     expect(textAnalyzerSeveralSentences.countWordsFrequencyAlphabeticalOrder()).toEqual({
       a: 2,
+      and: 1,
       another: 1,
       is: 3,
       one: 1,
@@ -413,6 +414,7 @@ describe('count words frequency occurance order', () => {
       this: 3,
       a: 2,
       sentence: 2,
+      and: 1,
       another: 1,
       one: 1,
       third: 1,
@@ -439,7 +441,7 @@ describe('count words frequency occurance order', () => {
 
 describe('get character count', () => {
   test('should return the number of characters in a text', () => {
-    expect(textAnalyzerSeveralSentences.getCharacterCount()).toBe(70)
+    expect(textAnalyzerSeveralSentences.getCharacterCount()).toBe(74)
   })
 
   test('should return the number of characters when using text from loremIpsum file as input', () => {
@@ -616,5 +618,105 @@ describe('get sentence count', () => {
 
   test('should throw an error when there are only numbers', () => {
     expect(() => textAnalyzerNumbers.getSentenceCount()).toThrowError('There are no words in the string.')
+  })
+})
+
+// -------------------------------------------------
+// Replace words with exact formatting
+// -------------------------------------------------
+
+describe('replace words with exact formatting', () => {
+  test('should only replace words with exact formatting, case sensitive', () => {
+    expect(textAnalyzerSeveralSentences.replaceWordsWithExactFormatting('This', 'That')).toBe('That is a sentence. That is yet another sentence. And this is a third one.')
+  })
+
+  test('should replace words with exact formatting and not words that partially matches the word', () => {
+    expect(textAnalyzerOneSentence.replaceWordsWithExactFormatting('is', 'was')).toBe('This was a sent.')
+  })
+
+  test('should throw an error when wordToReplace does not contain any characters', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('', 'at')).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord does not contain any characters', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('at', '')).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when wordToReplace contains unallowed characters', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('a!c', 'at')).toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when newWord contains unallowed characters', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('at', 'a!c')).toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when wordToReplace is null', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithExactFormatting(null, 'at')).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord is null', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('at', null)).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when wordToReplace is undefined', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithExactFormatting(undefined, 'at')).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord is undefined', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('at', undefined)).toThrowError('Invalid input. The submitted word is empty.')
+  })
+})
+
+// -------------------------------------------------
+// Replace words with two different formattings
+// -------------------------------------------------
+
+describe('replace words with two different formattings', () => {
+  test('should replace words with two different formattings, case sensitive', () => {
+    expect(textAnalyzerSeveralSentences.replaceWordsWithTwoDifferentFormattings('That', 'This')).toBe('This is a sentence. This is yet another sentence. And this is a third one.')
+  })
+
+  test('should replace words with two different formattings, case sensitive', () => {
+    expect(textAnalyzerSeveralSentences.replaceWordsWithTwoDifferentFormattings('This', 'that')).toBe('That is a sentence. That is yet another sentence. And that is a third one.')
+  })
+
+  test('should replace words with two different formattings and not words that partially matches the word', () => {
+    expect(textAnalyzerOneSentence.replaceWordsWithTwoDifferentFormattings('is', 'was')).toBe('This was a sent.')
+  })
+
+  test('should throw error when trying to replace word with all upper case letters', () => {
+    expect(() => textAnalyzerSeveralSentences.replaceWordsWithTwoDifferentFormattings('THIS', 'that')).toThrowError('The word to replace does not match the correct format. All letters need to be lower case or the first letter needs to be upper case and the rest of the letters need to be lower case.')
+  })
+
+  test('should replace words when newWord is all upper case, but keep formatting from wordToReplace', () => {
+    expect(textAnalyzerOneSentence.replaceWordsWithTwoDifferentFormattings('sent', 'SENTENCE')).toBe('This was a sentence.')
+  })
+
+  test('should throw an error when wordToReplace does not contain any characters', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings('', 'at')).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord does not contain any characters', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings('at', '')).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when wordToReplace contains unallowed characters', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings('a!c', 'at')).toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when newWord contains unallowed characters', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings('at', 'a!c')).toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when wordToReplace is null', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings(null, 'at')).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord is null', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings('at', null)).toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when wordToReplace is undefined', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings(undefined, 'at')).toThrowError('Invalid input. The submitted word is empty.')
   })
 })
