@@ -23,6 +23,7 @@ const textAnalyzerDot = new TextAnalyzer('.')
 const textAnalyzerNumbers = new TextAnalyzer('123')
 const textAnalyzerOneLetter = new TextAnalyzer('A')
 const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
+const textAnalyzerSeveralSentences = new TextAnalyzer('This is a sentence. This is yet another sentence. This is a third one.')
 const textAnalyzerOneWord = new TextAnalyzer('Word.')
 
 // -------------------------------------------------
@@ -294,8 +295,17 @@ describe('count words frequency alphabetical order', () => {
     expect(textAnalyzerOneWord.countWordsFrequencyAlphabeticalOrder()).toEqual({ word: 1 })
   })
 
-  test('should return word count in alphabetical order when there is one sentence', () => {
-    expect(textAnalyzerOneSentence.countWordsFrequencyAlphabeticalOrder()).toEqual({ this: 1, is: 1, a: 1, sentence: 1 })
+  test('should return word count in alphabetical order when there are several sentences', () => {
+    expect(textAnalyzerSeveralSentences.countWordsFrequencyAlphabeticalOrder()).toEqual({
+      a: 2,
+      another: 1,
+      is: 3,
+      one: 1,
+      sentence: 2,
+      third: 1,
+      this: 3,
+      yet: 1
+    })
   })
 
   test('should throw an error when there are only numbers', () => {
@@ -316,8 +326,17 @@ describe('count words frequency occurance order', () => {
     expect(textAnalyzerOneWord.countWordsFrequencyOccuranceOrder()).toEqual({ word: 1 })
   })
 
-  test('should return word count in occurance order when there is one sentence', () => {
-    expect(textAnalyzerOneSentence.countWordsFrequencyOccuranceOrder()).toEqual({ this: 1, is: 1, a: 1, sentence: 1 })
+  test('should return word count in occurance order when there are several sentences', () => {
+    expect(textAnalyzerSeveralSentences.countWordsFrequencyAlphabeticalOrder()).toEqual({
+      is: 3,
+      this: 3,
+      a: 2,
+      sentence: 2,
+      another: 1,
+      one: 1,
+      third: 1,
+      yet: 1
+    })
   })
 
   test('should throw an error when there are only numbers', () => {
