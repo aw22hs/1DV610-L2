@@ -8,19 +8,23 @@
 import { TextAnalyzer } from '../src/TextAnalyzer.js'
 import fs from 'fs'
 
+const filePathLoremIpsum = 'test/loremIpsum.md'
+const filePathExampleCode = 'test/exampleCode.js'
+
 /**
  *
  */
-function readFile () {
-  const filePath = 'test/loremIpsum.test.md'
+function readFile (filePath) {
   const fileContent = fs.readFileSync(filePath, 'utf8')
   return fileContent
 }
 
-const text = readFile()
+const textExampleCode = readFile(filePathExampleCode)
+const textLoremIpsum = readFile(filePathLoremIpsum)
 const textAnalyzerBlankSpace = new TextAnalyzer(' ')
 const textAnalyzerDot = new TextAnalyzer('.')
-const textAnalyzerLoremIpsum = new TextAnalyzer(text)
+const textAnalyzerExampleCode = new TextAnalyzer(textExampleCode)
+const textAnalyzerLoremIpsum = new TextAnalyzer(textLoremIpsum)
 const textAnalyzerNumbers = new TextAnalyzer('123')
 const textAnalyzerOneLetter = new TextAnalyzer('A')
 const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
@@ -564,5 +568,27 @@ describe('get letter count difference between original and updated text', () => 
   test('should throw an error when there are only numbers', () => {
     textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('est', 'ett')
     expect(textAnalyzerLoremIpsum.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The original text and the updated text are the same length.')
+  })
+})
+
+// -------------------------------------------------
+// Get number of non empty lines without JS comments
+// -------------------------------------------------
+
+describe('get number of non empty lines without JS comments', () => {
+  test('should return the number of non empty lines without JS comments when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.getNumberOfNonEmptyLinesWithoutJSComments()).toBe(5)
+  })
+
+  test('should return the number of non empty lines without JS comments when only one character input', () => {
+    expect(textAnalyzerDot.getNumberOfNonEmptyLinesWithoutJSComments()).toBe(1)
+  })
+
+  test('should return the number of non empty lines without JS comments when the input is a blank space', () => {
+    expect(textAnalyzerBlankSpace.getNumberOfNonEmptyLinesWithoutJSComments()).toBe(0)
+  })
+
+  test('should throw an error when there are only numbers', () => {
+    expect(textAnalyzerExampleCode.getNumberOfNonEmptyLinesWithoutJSComments()).toBe(3)
   })
 })
