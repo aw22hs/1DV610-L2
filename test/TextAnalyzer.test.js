@@ -592,3 +592,29 @@ describe('get number of non empty lines without JS comments', () => {
     expect(textAnalyzerExampleCode.getNumberOfNonEmptyLinesWithoutJSComments()).toBe(3)
   })
 })
+
+// -------------------------------------------------
+// Get sentence count
+// -------------------------------------------------
+
+describe('get sentence count', () => {
+  test('should return the number of sentences when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.getSentenceCount()).toBe(25)
+  })
+
+  test('should return the number of sentences when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerOneLetter.getSentenceCount()).toBe(1)
+  })
+
+  test('should return the number of sentences when only one character input', () => {
+    expect(() => textAnalyzerDot.getSentenceCount()).toThrowError('There are no words in the string.')
+  })
+
+  test('should return the number of sentences when the input is a blank space', () => {
+    expect(() => textAnalyzerBlankSpace.getSentenceCount()).toThrowError('There are no words in the string.')
+  })
+
+  test('should throw an error when there are only numbers', () => {
+    expect(() => textAnalyzerNumbers.getSentenceCount()).toThrowError('There are no words in the string.')
+  })
+})
