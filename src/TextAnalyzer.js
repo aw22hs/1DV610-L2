@@ -284,6 +284,9 @@ export class TextAnalyzer {
    * @returns {string} - The new text.
    */
   replaceWordsWithExactFormatting (wordToReplace, newWord) {
+    this.#validateWordInput(wordToReplace)
+    this.#validateWordInput(newWord)
+
     if (this.#updatedTextWithReplacedWords === '') {
       this.#updatedTextWithReplacedWords = this.#originalText
     }
@@ -564,12 +567,10 @@ export class TextAnalyzer {
    * @returns {boolean} - True if the word has the right format, otherwise false.
    */
   #validateWordInput (word) {
-    console.log('hej')
-
     if (!word) {
       throw new Error('Invalid input. The submitted word is empty.')
     }
-    if (!word.match(/\b[a-zA-Z0-9.'/:-]*[a-zA-Z][a-zA-Z0-9.'/:-][^!]*\b/gi)) {
+    if (!word.match(/\b[a-zA-Z0-9.'/:-]*[a-zA-Z][a-zA-Z0-9.'/:-]*[^!]*\b/gi)) {
       throw new Error('The submitted word does not have the right format.')
     }
     return true
