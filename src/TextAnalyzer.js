@@ -6,6 +6,7 @@
  */
 
 // TODO: Lägg till undantagshantering
+// TODO: Hantera null och undefined
 
 /**
  * Represents a card table.
@@ -107,9 +108,13 @@ export class TextAnalyzer {
    */
   countAllWords () {
     // Regex looks for words that contain at least one letter but can also contain the characters -, ', ., : and /
-    const words = this.#originalText.match(/\b[-'.:/a-zA-Z]+\b/gi)
+    const words = this.#originalText.match(/\b[a-zA-Z0-9-'./:]*[a-zA-Z][a-zA-Z0-9-'./:]*\b/gi)
     // If the text only contains non-alphanumeric characters, match() returns null
-    return words ? words.length : 0
+    if (words) {
+      return words.length
+    } else {
+      throw new Error('There are no words in the string.')
+    }
   }
 
   /**
@@ -122,6 +127,9 @@ export class TextAnalyzer {
   countLettersFrequencyAlphabeticalOrder () {
     const textInLowerCase = this.#originalText.toLowerCase()
     const letters = textInLowerCase.match(/[a-z]/gi)
+    if (!letters) {
+      throw new Error('There are no letters in the string.')
+    }
 
     this.#letterCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(letters)
 
@@ -135,7 +143,7 @@ export class TextAnalyzer {
    * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
    */
   countLettersFrequencyOccuranceOrder () {
-    return this.#countCharactersFrequencyOccuranceOrder(this.#letterCountAlphabeticalOrder, this.countLettersFrequencyAlphabeticalOrder)
+    return this.#countCharactersFrequencyOccuranceOrder(this.#letterCountAlphabeticalOrder, this.countLettersFrequencyAlphabeticalOrder())
   }
 
   /**
@@ -173,10 +181,31 @@ export class TextAnalyzer {
    * @returns {number} - The number of times the word appears in the text.
    */
   countSpecificWord (word) {
+    this.#validateInputWord(word)
+    // TODO: Kolla så att det ord som skickas in inte är en tom sträng eller t ex siffror, null eller undefined
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
 
     // If the word is not found, match() returns null
     return this.#originalText.match(regex) ? this.#originalText.match(regex).length : 0
+  }
+
+  /**
+   * Checks if the submitted word has the right format.
+   * The word can contain letters, numbers, -, ', ., : and /.
+   * The word must contain at least one letter.
+   *
+   * @param {string} word - The word to be checked.
+   * @throws {Error} - If the submitted word does not have the right format.
+   * @returns {boolean} - True if the word has the right format, otherwise false.
+   */
+  #validateInputWord (word) {
+    if (!word) {
+      throw new Error('Invalid input. The submitted word is empty.')
+    }
+    if (!word.match(/\b[a-zA-Z0-9-'./:]*[a-zA-Z][a-zA-Z0-9-'./:]*\b/gi)) {
+      throw new Error('The submitted word does not have the right format.')
+    }
+    return true
   }
 
   /**
@@ -187,9 +216,13 @@ export class TextAnalyzer {
    */
   countWordsFrequencyAlphabeticalOrder () {
     // Make the words lower case and then split the text into words based on one or more non-alphanumeric characters
-    const wordsInLowerCase = this.#originalText.toLowerCase().split(/\W+/)
+    const words = this.#originalText.toLowerCase().match(/\b[-'.:/a-z]+\b/gi)
 
-    this.#wordCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(wordsInLowerCase)
+    if (!words) {
+      throw new Error('There are no words in the string.')
+    }
+
+    this.#wordCountAlphabeticalOrder = this.#countAndSortInAlphabeticalOrder(words)
 
     return this.#wordCountAlphabeticalOrder
   }
@@ -202,7 +235,7 @@ export class TextAnalyzer {
    * @returns {object} - An object with the words in lower case as keys and the number of times they appear as values.
    */
   countWordsFrequencyOccuranceOrder () {
-    return this.#countCharactersFrequencyOccuranceOrder(this.#wordCountAlphabeticalOrder, this.countWordsFrequencyAlphabeticalOrder)
+    return this.#countCharactersFrequencyOccuranceOrder(this.#wordCountAlphabeticalOrder, this.countWordsFrequencyAlphabeticalOrder())
   }
 
   /**
@@ -358,8 +391,8 @@ export class TextAnalyzer {
    * @throws {Error} - If there are no characters in the string.
    */
   #checkLengthOfTextInput (text) {
-    if (text.length === 0) {
-      throw new Error('There are no characters in the string.')
+    if (!text) {
+      throw new Error('Invalid input. There are no characters in the string.')
     }
   }
 
@@ -451,7 +484,7 @@ export class TextAnalyzer {
    * @returns {object} - An object with the characters as keys and the number of times they appear as values.
    */
   #countCharactersFrequencyOccuranceOrder (characterCountAlphabeticalOrder, countCharactersFrequencyAlphabeticalOrder) {
-    if (Object.keys(characterCountAlphabeticalOrder).length === 0) {
+    if (!characterCountAlphabeticalOrder) {
       countCharactersFrequencyAlphabeticalOrder()
     }
 
@@ -503,8 +536,6 @@ export class TextAnalyzer {
   #getSentencesFromText () {
     if (this.countAllWords() > 0) {
       this.#sentences = this.#originalText.split(/[.!?]+/)
-    } else {
-      throw new Error('There are no sentences in the string.')
     }
   }
 
