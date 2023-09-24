@@ -90,3 +90,21 @@ describe('count all lines', () => {
     expect(textAnalyzerDot.countAllLines()).toBe(1)
   })
 })
+
+// -------------------------------------------------
+// Count all words
+// -------------------------------------------------
+
+describe('count all words', () => {
+  test('should return 1 when there is one word', () => {
+    expect(textAnalyzerOneWord.countAllWords()).toBe(1)
+  })
+
+  test('should return 224 when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.countAllWords()).toBe(224)
+  })
+
+  test('should throw an error when there are no words', () => {
+    expect(() => textAnalyzerDot.countAllWords()).toThrowError('There are no words in the string.')
+  })
+})
