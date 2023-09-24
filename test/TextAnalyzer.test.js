@@ -236,3 +236,25 @@ describe('count not empty lines', () => {
     expect(textAnalyzerDot.countNotEmptyLines()).toBe(1)
   })
 })
+
+// -------------------------------------------------
+// Count paragraphs
+// -------------------------------------------------
+
+describe('count paragraphs', () => {
+  test('should return 1 when there is one word', () => {
+    expect(textAnalyzerOneWord.countParagraphs()).toBe(1)
+  })
+
+  test('should return 1 when there is one sentence in one paragraph', () => {
+    expect(textAnalyzerOneSentence.countParagraphs()).toBe(1)
+  })
+
+  test('should return 5 when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.countParagraphs()).toBe(5)
+  })
+
+  test('should return 1 when only one character input', () => {
+    expect(textAnalyzerDot.countParagraphs()).toBe(1)
+  })
+})
