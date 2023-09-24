@@ -214,3 +214,25 @@ describe('count letters frequency occurance order', () => {
     expect(() => textAnalyzerDot.countLettersFrequencyOccuranceOrder()).toThrowError('There are no letters in the string.')
   })
 })
+
+// -------------------------------------------------
+// Count not empty lines
+// -------------------------------------------------
+
+describe('count not empty lines', () => {
+  test('should return 1 when there is one word', () => {
+    expect(textAnalyzerOneWord.countNotEmptyLines()).toBe(1)
+  })
+
+  test('should return 1 when there is one sentence on one line', () => {
+    expect(textAnalyzerOneSentence.countNotEmptyLines()).toBe(1)
+  })
+
+  test('should return 5 when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.countNotEmptyLines()).toBe(5)
+  })
+
+  test('should return 1 when only one character input', () => {
+    expect(textAnalyzerDot.countNotEmptyLines()).toBe(1)
+  })
+})
