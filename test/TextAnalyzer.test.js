@@ -68,3 +68,21 @@ describe('average number of words per sentence', () => {
     expect(textAnalyzerLoremIpsum.averageNumberOfWordsPerSentence()).toBe(9)
   })
 })
+
+// -------------------------------------------------
+// Count all lines
+// -------------------------------------------------
+
+describe('count all lines', () => {
+  test('should return 1 when there is one line', () => {
+    expect(textAnalyzerOneWord.countAllLines()).toBe(1)
+  })
+
+  test('should return 1 when there is one sentence', () => {
+    expect(textAnalyzerOneSentence.countAllLines()).toBe(1)
+  })
+
+  test('should return 5 when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.countAllLines()).toBe(9)
+  })
+})
