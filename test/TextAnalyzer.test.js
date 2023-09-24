@@ -74,15 +74,19 @@ describe('average number of words per sentence', () => {
 // -------------------------------------------------
 
 describe('count all lines', () => {
-  test('should return 1 when there is one line', () => {
+  test('should return 1 when there is one word', () => {
     expect(textAnalyzerOneWord.countAllLines()).toBe(1)
   })
 
-  test('should return 1 when there is one sentence', () => {
+  test('should return 1 when there is one sentence on one line', () => {
     expect(textAnalyzerOneSentence.countAllLines()).toBe(1)
   })
 
   test('should return 5 when using text from loremIpsum file as input', () => {
     expect(textAnalyzerLoremIpsum.countAllLines()).toBe(9)
+  })
+
+  test('should return 1 when only one character input', () => {
+    expect(textAnalyzerDot.countAllLines()).toBe(1)
   })
 })
