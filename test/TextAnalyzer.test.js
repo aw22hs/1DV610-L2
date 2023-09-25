@@ -309,7 +309,7 @@ describe('count not empty lines', () => {
 // Count non empty lines without JS comments
 // -------------------------------------------------
 
-describe('get number of non empty lines without JS comments', () => {
+describe('count non empty lines without JS comments', () => {
   test('should return the number of non empty lines without JS comments when using text from loremIpsum file as input', () => {
     expect(textAnalyzerLoremIpsum.countNonEmptyLinesWithoutJSComments()).toBe(5)
   })
@@ -560,26 +560,26 @@ describe('get first words in occurance order', () => {
 describe('get letter count difference between original and updated text', () => {
   const textAnalyzerLoremIpsum = new TextAnalyzer(textLoremIpsum)
   const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
-  test('should return the difference between the original and updated text when using text from loremIpsum file as input', () => {
+  test('should return that the updated text is longer than the original text', () => {
     textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('at', 'attans')
     expect(textAnalyzerLoremIpsum.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The updated text is 20 character(s) longer than the original text.')
   })
 
-  test('should return the difference between the original and updated text when only one character input', () => {
+  test('should return that the original text is longer than the updated text', () => {
     textAnalyzerOneSentence.replaceWordsWithExactFormatting('sentence', 'sent')
     expect(textAnalyzerOneSentence.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The original text is 4 character(s) longer than the updated text.')
   })
 
-  test('should return the difference between the original and updated text when the input is a blank space', () => {
+  test('should return that the text has not been updated if it has not been', () => {
     expect(textAnalyzerSeveralSentences.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The original text has not been updated.')
   })
 
-  test('should throw an error when there are only numbers', () => {
+  test('should return a string that says "No words have been replaced." when changing the words back in the original text string', () => {
     textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('attans', 'at')
     expect(textAnalyzerLoremIpsum.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('No words have been replaced.')
   })
 
-  test('should throw an error when there are only numbers', () => {
+  test('should return a string that says that the original text and the updated text are the same length', () => {
     textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('est', 'ett')
     expect(textAnalyzerLoremIpsum.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The original text and the updated text are the same length.')
   })
@@ -671,10 +671,6 @@ describe('replace words with two different formattings', () => {
   test('should replace words with two different formattings, case sensitive', () => {
     expect(textAnalyzerSeveralSentences.replaceWordsWithTwoDifferentFormattings('This', 'that')).toBe('That is a sentence. That is yet another sentence. And that is a third one.')
   })
-
-  // test('should replace words with two different formattings, case sensitive', () => {
-  //   expect(textAnalyzerSeveralSentences.replaceWordsWithTwoDifferentFormattings('This', 'that')).toBe('That is a sentence. That is yet another sentence. And that is a third one.')
-  // })
 
   test('should replace words with two different formattings and not words that partially matches the word', () => {
     expect(textAnalyzerOneSentence.replaceWordsWithTwoDifferentFormattings('is', 'was')).toBe('This was a sentence.')
