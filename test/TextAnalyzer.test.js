@@ -676,12 +676,12 @@ describe('replace words with two different formattings', () => {
     expect(textAnalyzerOneSentence.replaceWordsWithTwoDifferentFormattings('is', 'was')).toBe('This was a sentence.')
   })
 
-  test('should throw error when trying to replace word with all upper case letters', () => {
-    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings('LOREM', 'Laura')).toThrowError('The word to replace does not match the correct format. All letters need to be lower case or the first letter needs to be upper case and the rest of the letters need to be lower case.')
-  })
-
   test('should replace words when newWord is all upper case, but keep formatting from wordToReplace', () => {
     expect(textAnalyzerTwoSentences.replaceWordsWithTwoDifferentFormattings('this', 'THAT')).toBe('That is a sentence. And that is another sentence.')
+  })
+
+  test('should throw error when trying to replace word with all upper case letters', () => {
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings('LOREM', 'Laura')).toThrowError('The word to replace does not match the correct format. All letters need to be lower case or the first letter needs to be upper case and the rest of the letters need to be lower case.')
   })
 
   test('should throw an error when wordToReplace does not contain any characters', () => {
