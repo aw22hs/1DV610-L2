@@ -8,7 +8,7 @@
     "start": "node src/app.js",
     "lint": "npx eslint ./src || exit 0",
     "lint:fix": "npx eslint ./src --fix || exit 0",
-    "test": "npx --node-options=--experimental-vm-modules jest --setupFiles || exit 0"
+    "test": "npx --node-options=--experimental-vm-modules jest --setupFiles"
   },
   "contributors": [
     "Anja Willsund <aw22hs@student.lnu.se>"
