@@ -118,6 +118,22 @@ export class TextAnalyzer {
   }
 
   /**
+   * Counts the number of characters in a text.
+   *
+   * @returns {number} - The number of characters in the text.
+   */
+  countCharacters () {
+    const countableCharacters = []
+    for (const character of this.#originalText) {
+      if (!character.match(/[\n]/)) {
+        countableCharacters.push(character)
+      }
+    }
+
+    return countableCharacters.length
+  }
+
+  /**
    * Counts the number of times all different letters appear in a text.
    * Only includes lower case letters.
    * If the text is empty, returns an empty object.
@@ -158,6 +174,25 @@ export class TextAnalyzer {
     let count = 0
     for (const line of this.#trimmedLines) {
       if (line !== '') {
+        count++
+      }
+    }
+    return count
+  }
+
+  /**
+   * Counts line with JavaScript code. Excludes empty lines and
+   * lines that start with / or *.
+   *
+   * @returns {number} - Number of lines with JavaScript code.
+   */
+  countNonEmptyLinesWithoutJSComments () {
+    if (this.#trimmedLines.length === 0) {
+      this.#splitTextIntoTrimmedLines()
+    }
+    let count = 0
+    for (const line of this.#trimmedLines) {
+      if (line !== '' && !line.startsWith('/') && !line.startsWith('*')) {
         count++
       }
     }
@@ -219,15 +254,6 @@ export class TextAnalyzer {
   }
 
   /**
-   * Gets the number of characters in the text.
-   *
-   * @returns {number} - The number of characters in the text.
-   */
-  getCharacterCount () {
-    return this.#countCharacters()
-  }
-
-  /**
    * Gets the first word of each sentence sorted in alphabetical order.
    *
    * @returns {string[]} - First word of each sentence in aplhabetical order.
@@ -255,15 +281,6 @@ export class TextAnalyzer {
    */
   getLetterCountDifferenceBetweenOriginalAndUpdatedText () {
     return this.#checkLetterCountDifference()
-  }
-
-  /**
-   * Gets the number of lines with JavaScript code.
-   *
-   * @returns {number} - The number of lines with JavaScript code.
-   */
-  getNumberOfNonEmptyLinesWithoutJSComments () {
-    return this.#countNonEmptyLinesWithoutJSComments()
   }
 
   /**
@@ -433,22 +450,6 @@ export class TextAnalyzer {
   }
 
   /**
-   * Counts the number of characters in a text.
-   *
-   * @returns {number} - The number of characters in the text.
-   */
-  #countCharacters () {
-    const countableCharacters = []
-    for (const character of this.#originalText) {
-      if (!character.match(/[\n]/)) {
-        countableCharacters.push(character)
-      }
-    }
-
-    return countableCharacters.length
-  }
-
-  /**
    * Counts the number of times all different characters appear in a text.
    * The characters are sorted in frequency order.
    * If the text is empty, returns an empty object.
@@ -465,25 +466,6 @@ export class TextAnalyzer {
     const characterCountOccuranceOrder = this.#changeToOccuranceOrder(characterCountAlphabeticalOrder)
 
     return characterCountOccuranceOrder
-  }
-
-  /**
-   * Counts line with JavaScript code. Excludes empty lines and
-   * lines that start with / or *.
-   *
-   * @returns {number} - Number of lines with JavaScript code.
-   */
-  #countNonEmptyLinesWithoutJSComments () {
-    if (this.#trimmedLines.length === 0) {
-      this.#splitTextIntoTrimmedLines()
-    }
-    let count = 0
-    for (const line of this.#trimmedLines) {
-      if (line !== '' && !line.startsWith('/') && !line.startsWith('*')) {
-        count++
-      }
-    }
-    return count
   }
 
   /**
