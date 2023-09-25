@@ -8,12 +8,9 @@
 import { TextAnalyzer } from '../src/TextAnalyzer.js'
 import fs from 'fs'
 
-const filePathLoremIpsum = 'test/loremIpsum.md'
-const filePathExampleCode = 'test/exampleCode.js'
+const filePathLoremIpsum = 'test/testdata/loremIpsum.md'
+const filePathExampleCode = 'test/testdata/exampleCode.js'
 
-/**
- *
- */
 function readFile (filePath) {
   const fileContent = fs.readFileSync(filePath, 'utf8')
   return fileContent
@@ -37,9 +34,6 @@ const textAnalyzerOneWord = new TextAnalyzer('Word.')
 
 describe('instantiating TextAnalyzer', () => {
   test('should throw an error when input is empty', () => {
-    /**
-     *
-     */
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer('')
     }
@@ -47,9 +41,6 @@ describe('instantiating TextAnalyzer', () => {
   })
 
   test('should throw an error when input is null', () => {
-    /**
-     *
-     */
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer(null)
     }
@@ -57,9 +48,6 @@ describe('instantiating TextAnalyzer', () => {
   })
 
   test('should throw an error when input is undefined', () => {
-    /**
-     *
-     */
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer(undefined)
     }
@@ -160,6 +148,28 @@ describe('count all words', () => {
 
   test('should throw an error when the input text contains only numbers', () => {
     expect(() => textAnalyzerNumbers.countAllWords()).toThrowError('There are no words in the string.')
+  })
+})
+
+// -------------------------------------------------
+// Count characters
+// -------------------------------------------------
+
+describe('get character count', () => {
+  test('should return the number of characters in a text', () => {
+    expect(textAnalyzerSeveralSentences.countCharacters()).toBe(74)
+  })
+
+  test('should return the number of characters when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.countCharacters()).toBe(1439)
+  })
+
+  test('should return 1 when only one character input', () => {
+    expect(textAnalyzerDot.countCharacters()).toBe(1)
+  })
+
+  test('should return 1 when the input is a blank space', () => {
+    expect(textAnalyzerBlankSpace.countCharacters()).toBe(1)
   })
 })
 
@@ -292,6 +302,28 @@ describe('count not empty lines', () => {
 
   test('should return 0 when the input text is a blank space', () => {
     expect(textAnalyzerBlankSpace.countNotEmptyLines()).toBe(0)
+  })
+})
+
+// -------------------------------------------------
+// Count non empty lines without JS comments
+// -------------------------------------------------
+
+describe('get number of non empty lines without JS comments', () => {
+  test('should return the number of non empty lines without JS comments when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.countNonEmptyLinesWithoutJSComments()).toBe(5)
+  })
+
+  test('should return the number of non empty lines without JS comments when only one character input', () => {
+    expect(textAnalyzerDot.countNonEmptyLinesWithoutJSComments()).toBe(1)
+  })
+
+  test('should return the number of non empty lines without JS comments when the input is a blank space', () => {
+    expect(textAnalyzerBlankSpace.countNonEmptyLinesWithoutJSComments()).toBe(0)
+  })
+
+  test('should throw an error when there are only numbers', () => {
+    expect(textAnalyzerExampleCode.countNonEmptyLinesWithoutJSComments()).toBe(3)
   })
 })
 
@@ -436,28 +468,6 @@ describe('count words frequency occurance order', () => {
 })
 
 // -------------------------------------------------
-// Get character count
-// -------------------------------------------------
-
-describe('get character count', () => {
-  test('should return the number of characters in a text', () => {
-    expect(textAnalyzerSeveralSentences.getCharacterCount()).toBe(74)
-  })
-
-  test('should return the number of characters when using text from loremIpsum file as input', () => {
-    expect(textAnalyzerLoremIpsum.getCharacterCount()).toBe(1439)
-  })
-
-  test('should return 1 when only one character input', () => {
-    expect(textAnalyzerDot.getCharacterCount()).toBe(1)
-  })
-
-  test('should return 1 when the input is a blank space', () => {
-    expect(textAnalyzerBlankSpace.getCharacterCount()).toBe(1)
-  })
-})
-
-// -------------------------------------------------
 // Get first words in alphabetical order
 // -------------------------------------------------
 
@@ -548,6 +558,8 @@ describe('get first words in occurance order', () => {
 // --------------------------------------------------------------
 
 describe('get letter count difference between original and updated text', () => {
+  const textAnalyzerLoremIpsum = new TextAnalyzer(textLoremIpsum)
+  const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
   test('should return the difference between the original and updated text when using text from loremIpsum file as input', () => {
     textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('at', 'attans')
     expect(textAnalyzerLoremIpsum.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The updated text is 20 character(s) longer than the original text.')
@@ -570,28 +582,6 @@ describe('get letter count difference between original and updated text', () => 
   test('should throw an error when there are only numbers', () => {
     textAnalyzerLoremIpsum.replaceWordsWithExactFormatting('est', 'ett')
     expect(textAnalyzerLoremIpsum.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('The original text and the updated text are the same length.')
-  })
-})
-
-// -------------------------------------------------
-// Get number of non empty lines without JS comments
-// -------------------------------------------------
-
-describe('get number of non empty lines without JS comments', () => {
-  test('should return the number of non empty lines without JS comments when using text from loremIpsum file as input', () => {
-    expect(textAnalyzerLoremIpsum.getNumberOfNonEmptyLinesWithoutJSComments()).toBe(5)
-  })
-
-  test('should return the number of non empty lines without JS comments when only one character input', () => {
-    expect(textAnalyzerDot.getNumberOfNonEmptyLinesWithoutJSComments()).toBe(1)
-  })
-
-  test('should return the number of non empty lines without JS comments when the input is a blank space', () => {
-    expect(textAnalyzerBlankSpace.getNumberOfNonEmptyLinesWithoutJSComments()).toBe(0)
-  })
-
-  test('should throw an error when there are only numbers', () => {
-    expect(textAnalyzerExampleCode.getNumberOfNonEmptyLinesWithoutJSComments()).toBe(3)
   })
 })
 
@@ -626,12 +616,14 @@ describe('get sentence count', () => {
 // -------------------------------------------------
 
 describe('replace words with exact formatting', () => {
+  const textAnalyzerSeveralSentences = new TextAnalyzer('This is a sentence. This is yet another sentence. And this is a third one.')
+  const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
   test('should only replace words with exact formatting, case sensitive', () => {
     expect(textAnalyzerSeveralSentences.replaceWordsWithExactFormatting('This', 'That')).toBe('That is a sentence. That is yet another sentence. And this is a third one.')
   })
 
   test('should replace words with exact formatting and not words that partially matches the word', () => {
-    expect(textAnalyzerOneSentence.replaceWordsWithExactFormatting('is', 'was')).toBe('This was a sent.')
+    expect(textAnalyzerOneSentence.replaceWordsWithExactFormatting('is', 'was')).toBe('This was a sentence.')
   })
 
   test('should throw an error when wordToReplace does not contain any characters', () => {
@@ -672,24 +664,28 @@ describe('replace words with exact formatting', () => {
 // -------------------------------------------------
 
 describe('replace words with two different formattings', () => {
-  test('should replace words with two different formattings, case sensitive', () => {
-    expect(textAnalyzerSeveralSentences.replaceWordsWithTwoDifferentFormattings('That', 'This')).toBe('This is a sentence. This is yet another sentence. And this is a third one.')
-  })
-
+  const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
+  const textAnalyzerTwoSentences = new TextAnalyzer('This is a sentence. And this is another sentence.')
+  const textAnalyzerSeveralSentences = new TextAnalyzer('This is a sentence. This is yet another sentence. And this is a third one.')
+  const textAnalyzerLoremIpsum = new TextAnalyzer(textLoremIpsum)
   test('should replace words with two different formattings, case sensitive', () => {
     expect(textAnalyzerSeveralSentences.replaceWordsWithTwoDifferentFormattings('This', 'that')).toBe('That is a sentence. That is yet another sentence. And that is a third one.')
   })
 
+  // test('should replace words with two different formattings, case sensitive', () => {
+  //   expect(textAnalyzerSeveralSentences.replaceWordsWithTwoDifferentFormattings('This', 'that')).toBe('That is a sentence. That is yet another sentence. And that is a third one.')
+  // })
+
   test('should replace words with two different formattings and not words that partially matches the word', () => {
-    expect(textAnalyzerOneSentence.replaceWordsWithTwoDifferentFormattings('is', 'was')).toBe('This was a sent.')
+    expect(textAnalyzerOneSentence.replaceWordsWithTwoDifferentFormattings('is', 'was')).toBe('This was a sentence.')
   })
 
   test('should throw error when trying to replace word with all upper case letters', () => {
-    expect(() => textAnalyzerSeveralSentences.replaceWordsWithTwoDifferentFormattings('THIS', 'that')).toThrowError('The word to replace does not match the correct format. All letters need to be lower case or the first letter needs to be upper case and the rest of the letters need to be lower case.')
+    expect(() => textAnalyzerLoremIpsum.replaceWordsWithTwoDifferentFormattings('LOREM', 'Laura')).toThrowError('The word to replace does not match the correct format. All letters need to be lower case or the first letter needs to be upper case and the rest of the letters need to be lower case.')
   })
 
   test('should replace words when newWord is all upper case, but keep formatting from wordToReplace', () => {
-    expect(textAnalyzerOneSentence.replaceWordsWithTwoDifferentFormattings('sent', 'SENTENCE')).toBe('This was a sentence.')
+    expect(textAnalyzerTwoSentences.replaceWordsWithTwoDifferentFormattings('this', 'THAT')).toBe('That is a sentence. And that is another sentence.')
   })
 
   test('should throw an error when wordToReplace does not contain any characters', () => {
