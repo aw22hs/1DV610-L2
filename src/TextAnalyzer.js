@@ -294,11 +294,11 @@ export class TextAnalyzer {
 
     // Checks if wordToReplace matches the exact format of any of the words in wordsToReplace
     let wordToReplaceMatchesExactFormat = false
-    wordsToReplace.forEach(word => {
+    for (const word of wordsToReplace) {
       if (word === wordToReplace) {
         wordToReplaceMatchesExactFormat = true
       }
-    })
+    }
 
     if (!wordToReplaceMatchesExactFormat) {
       throw new Error('The word to replace does not match the correct format. All letters need to be lower case or the first letter needs to be upper case and the rest of the letters need to be lower case.')
@@ -324,7 +324,7 @@ export class TextAnalyzer {
   #countAndSortInAlphabeticalOrder (characters) {
     // Characters can be either letters or words
     const characterCount = {}
-    characters.forEach(character => {
+    for (const character of characters) {
       if (character === '') {
         return
       }
@@ -333,7 +333,7 @@ export class TextAnalyzer {
       } else {
         characterCount[character] += 1
       }
-    })
+    }
 
     const sortedCharacterCount = {}
     // Sorts the 'characterCount' object in alphabetical order
