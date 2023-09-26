@@ -5,53 +5,15 @@
  * @version 1.0.0
  */
 
-// TODO: Lägg till undantagshantering
-// TODO: Hantera null och undefined
-
 /**
  * Represents a card table.
  */
 export class TextAnalyzer {
-  /**
-   * The letter count sorted in alphabetical order.
-   *
-   * @type {object}
-   */
   #letterCountAlphabeticalOrder = {}
-
-  /**
-   * The original text.
-   *
-   * @type {string}
-   */
-  #originalText
-
-  /**
-   * An array of the sentences in the original text.
-   *
-   * @type {string}
-   */
+  #originalText = ''
   #sentences = []
-
-  /**
-   * An array of the trimmed lines from the original text.
-   *
-   * @type {string[]}
-   */
   #trimmedLines = []
-
-  /**
-   * The updated text with replaced words.
-   *
-   * @type {string}
-   */
   #updatedTextWithReplacedWords = ''
-
-  /**
-   * The word count sorted in alphabetical order.
-   *
-   * @type {object}
-   */
   #wordCountAlphabeticalOrder = {}
 
   /**
@@ -107,7 +69,7 @@ export class TextAnalyzer {
    * @returns {number} - The number of words in the text.
    */
   countAllWords () {
-    // Regex looks for words that contain at least one letter but can also contain the characters -, ', ., : and /
+    // Regex looks for words that contain at least one letter but can also contain numebrs and the characters -, ', ., : and /
     const words = this.#originalText.match(/\b[a-zA-Z0-9-'./:]*[a-zA-Z][a-zA-Z0-9-'./:]*\b/gi)
     // If the text only contains non-alphanumeric characters, match() returns null
     if (words) {
@@ -135,10 +97,10 @@ export class TextAnalyzer {
 
   /**
    * Counts the number of times all different letters appear in a text.
-   * Only includes lower case letters.
-   * If the text is empty, returns an empty object.
+   * Case insensitive.
    *
    * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
+   * @throws {Error} - If there are no letters in the string.
    */
   countLettersFrequencyAlphabeticalOrder () {
     const textInLowerCase = this.#originalText.toLowerCase()
@@ -153,19 +115,9 @@ export class TextAnalyzer {
   }
 
   /**
-   * Counts the number of times all different letters appear in a text.
-   * The letters are sorted in frequency order.
-   *
-   * @returns {object} - An object with the letters in lower case as keys and the number of times they appear as values.
-   */
-  countLettersFrequencyOccuranceOrder () {
-    return this.#countCharactersFrequencyOccuranceOrder(this.#letterCountAlphabeticalOrder, this.countLettersFrequencyAlphabeticalOrder())
-  }
-
-  /**
    * Counts all the lines in a text, excluding empty lines.
    *
-   * @returns {number} - The number of lines in a text.
+   * @returns {number} - The number of not empty lines in a text.
    */
   countNotEmptyLines () {
     if (this.#trimmedLines.length === 0) {
@@ -181,10 +133,10 @@ export class TextAnalyzer {
   }
 
   /**
-   * Counts line with JavaScript code. Excludes empty lines and
-   * lines that start with / or *.
+   * Counts line that could be interpreted as JavaScript code. 
+   * Excludes empty lines and lines that start with / or *.
    *
-   * @returns {number} - Number of lines with JavaScript code.
+   * @returns {number} - Number of lines that are not empty or that does not start with / or *.
    */
   countNonEmptyLinesWithoutJSComments () {
     if (this.#trimmedLines.length === 0) {
@@ -205,7 +157,13 @@ export class TextAnalyzer {
    * @returns {number} - The number of paragraphs in the text.
    */
   countParagraphs () {
-    return this.#originalText.split(/\n\n/).length
+    const paragraphs = this.#originalText.split(/\n\n/)
+    for (const paragraph of paragraphs) {
+      if (paragraph === '') {
+        paragraphs.splice(paragraphs.indexOf(paragraph), 1)
+      }
+    }
+    return paragraphs.length
   }
 
   /**
@@ -228,9 +186,10 @@ export class TextAnalyzer {
    * If the text is empty, returns an empty object.
    *
    * @returns {object} - An object with the words in lower case as keys and the number of times they appear as values.
+   * @throws {Error} - If there are no words in the string.
    */
   countWordsFrequencyAlphabeticalOrder () {
-    // Make the words lower case and then split the text into words based on one or more non-alphanumeric characters
+    // Make the words lower case and then split the text into words based on one or more non-alphanumeric characters plus the characters -, ', ., : and /
     const words = this.#originalText.toLowerCase().match(/\b[-'.:/a-z]+\b/gi)
 
     if (!words) {
@@ -242,33 +201,14 @@ export class TextAnalyzer {
     return this.#wordCountAlphabeticalOrder
   }
 
-  /**
-   * Counts the number of times all different words appear in a text.
-   * The words are sorted in frequency order.
-   * If the text is empty, returns an empty object.
-   *
-   * @returns {object} - An object with the words in lower case as keys and the number of times they appear as values.
-   */
-  countWordsFrequencyOccuranceOrder () {
-    return this.#countCharactersFrequencyOccuranceOrder(this.#wordCountAlphabeticalOrder, this.countWordsFrequencyAlphabeticalOrder())
-  }
 
   /**
    * Gets the first word of each sentence sorted in alphabetical order.
    *
-   * @returns {string[]} - First word of each sentence in aplhabetical order.
+   * @returns {string[]} - First word of each sentence in alphabetical order.
    */
   getFirstWordsInAlphabeticalOrder () {
     return this.#countAndSortInAlphabeticalOrder(this.#getFirstWordsFromSentences())
-  }
-
-  /**
-   * Gets the first word of each sentence sorted in occurance order.
-   *
-   * @returns {string[]} - First word of each sentence in occurance order.
-   */
-  getFirstWordsInOccuranceOrder () {
-    return this.#changeToOccuranceOrder(this.getFirstWordsInAlphabeticalOrder())
   }
 
   /**
@@ -280,8 +220,27 @@ export class TextAnalyzer {
    * @returns {string} - A string with information about the difference in length between the original text and the updated text.
    */
   getLetterCountDifferenceBetweenOriginalAndUpdatedText () {
-    return this.#checkLetterCountDifference()
-  }
+      if (this.#updatedTextWithReplacedWords === '') {
+        return 'The original text has not been updated.'
+      }
+      const characterDifference = this.#updatedTextWithReplacedWords.length - this.#originalText.length
+      if (characterDifference === 0) {
+        if (this.#updatedTextWithReplacedWords === this.#originalText) {
+          return 'No words have been replaced.'
+        }
+        return 'The original text and the updated text are the same length.'
+      }
+      let longerText = 'updated text'
+      let shorterText = 'original text'
+      let difference = characterDifference
+      if (characterDifference < 0) {
+        // Removes the dash at the beginning of the negative number
+        difference = characterDifference.toString().substring(1)
+        longerText = 'original text'
+        shorterText = 'updated text'
+      }
+      return `The ${longerText} is ${difference} character(s) longer than the ${shorterText}.`
+    }
 
   /**
    * Gets the number of sentences.
@@ -354,79 +313,16 @@ export class TextAnalyzer {
       this.#updatedTextWithReplacedWords = this.#originalText
     }
 
-    // Replace the words in the original text
     for (let i = 0; i < wordsToReplace.length; i++) {
-    // Replace the words with the exact same formatting as one of the words in wordsToReplace
+    // Replace the words in the original text with the exact same formatting as one of the words in wordsToReplace
       this.#updatedTextWithReplacedWords = this.#updatedTextWithReplacedWords.replace(new RegExp('\\b' + wordsToReplace[i] + '\\b', 'g'), newWords[i])
     }
 
     return this.#updatedTextWithReplacedWords
   }
 
-  /**
-   * Changes an object with key-value pairs to an object with key-value pairs sorted in descending order based on the value.
-   *
-   * @param {object} elementsSortedInAlphabeticalOrder - An object with key-value pairs sorted in alphabetical order based on the key.
-   * @returns {object} - An object with key-value pairs sorted in descending order based on the value.
-   */
-  #changeToOccuranceOrder (elementsSortedInAlphabeticalOrder) {
-    // Object.entries() returns an array of a given object's own key/value pairs
-    // map() destructures each key-value pair using [key, value] to extract the key and value.
-    // It then constructs a new object using object literal notation { key, value }.
-    // This creates an object with two properties: key and value, where the values for these
-    // properties are taken from the destructured variables. map() returns an array of these objects.
-    const elementsToBeSortedInOccuranceOrder = Object.entries(elementsSortedInAlphabeticalOrder).map(([key, value]) => ({ key, value }))
-    // Sorts the array in descending order based on the value property
-    elementsToBeSortedInOccuranceOrder.sort((a, b) => b.value - a.value)
-    const elementsInOccuranceOrder = {}
-    // Puts the sorted key-value pairs in the 'letterCountOccuranceOrder' object by using the original key as the key and the original value as the value
-    elementsToBeSortedInOccuranceOrder.forEach(({ key, value }) => {
-      elementsInOccuranceOrder[key] = value
-    })
-
-    return elementsInOccuranceOrder
-  }
-
-  /**
-   * Checks if the original text has been updated. If yes, counts
-   * the difference between the length of the original text
-   * and the updated text.
-   *
-   * @returns {string} - A string that states the letter count
-   * difference between the two strings, if there is a difference.
-   */
-  #checkLetterCountDifference () {
-    if (this.#updatedTextWithReplacedWords === '') {
-      return 'The original text has not been updated.'
-    }
-    const characterDifference = this.#updatedTextWithReplacedWords.length - this.#originalText.length
-    if (characterDifference === 0) {
-      if (this.#updatedTextWithReplacedWords === this.#originalText) {
-        return 'No words have been replaced.'
-      }
-      return 'The original text and the updated text are the same length.'
-    }
-    let longerText = 'updated text'
-    let shorterText = 'original text'
-    let difference = characterDifference
-    if (characterDifference < 0) {
-      // Removes the dash at the beginning of the negative number
-      difference = characterDifference.toString().substring(1)
-      longerText = 'original text'
-      shorterText = 'updated text'
-    }
-    return `The ${longerText} is ${difference} character(s) longer than the ${shorterText}.`
-  }
-
-  /**
-   * Counts the number of times all different characters appear in a text.
-   * If the text is empty, returns an empty object.
-   * The characters are sorted in alphabetical order.
-   *
-   * @param {string} characters - The characters to be counted.
-   * @returns {object} - An object with the characters in lower case as keys and the number of times they appear as values.
-   */
   #countAndSortInAlphabeticalOrder (characters) {
+    // Characters can be either letters or words
     const characterCount = {}
     characters.forEach(character => {
       if (character === '') {
@@ -439,33 +335,13 @@ export class TextAnalyzer {
       }
     })
 
-    // Return the object sorted in alphabetical order
     const sortedCharacterCount = {}
-    // Sorts the 'wordCount' object in alphabetical order and puts the sorted key-value pairs in the 'sortedWordCount' object
+    // Sorts the 'characterCount' object in alphabetical order
     Object.keys(characterCount).sort().forEach(key => {
       sortedCharacterCount[key] = characterCount[key]
     })
 
     return sortedCharacterCount
-  }
-
-  /**
-   * Counts the number of times all different characters appear in a text.
-   * The characters are sorted in frequency order.
-   * If the text is empty, returns an empty object.
-   *
-   * @param {object} characterCountAlphabeticalOrder - An object with the characters in lower case as keys and the number of times they appear as values.
-   * @param {Function} countCharactersFrequencyAlphabeticalOrder - A function that counts the number of times all different characters appear in a text.
-   * @returns {object} - An object with the characters as keys and the number of times they appear as values.
-   */
-  #countCharactersFrequencyOccuranceOrder (characterCountAlphabeticalOrder, countCharactersFrequencyAlphabeticalOrder) {
-    if (!characterCountAlphabeticalOrder) {
-      countCharactersFrequencyAlphabeticalOrder()
-    }
-
-    const characterCountOccuranceOrder = this.#changeToOccuranceOrder(characterCountAlphabeticalOrder)
-
-    return characterCountOccuranceOrder
   }
 
   /**
@@ -476,11 +352,6 @@ export class TextAnalyzer {
     this.#trimSentences()
   }
 
-  /**
-   * Gets the first word of each sentence.
-   *
-   * @returns {string[]} - First word of each sentence.
-   */
   #getFirstWordsFromSentences () {
     this.#getAndTrimSentences()
     return this.#splitSentencesIntoWordsAndKeepFirstWord()
