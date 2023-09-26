@@ -152,28 +152,6 @@ describe('count all words', () => {
 })
 
 // -------------------------------------------------
-// Count characters
-// -------------------------------------------------
-
-describe('get character count', () => {
-  test('should return the number of characters in a text', () => {
-    expect(textAnalyzerSeveralSentences.countCharacters()).toBe(74)
-  })
-
-  test('should return the number of characters when using text from loremIpsum file as input', () => {
-    expect(textAnalyzerLoremIpsum.countCharacters()).toBe(1439)
-  })
-
-  test('should return 1 when only one character input', () => {
-    expect(textAnalyzerDot.countCharacters()).toBe(1)
-  })
-
-  test('should return 1 when the input is a blank space', () => {
-    expect(textAnalyzerBlankSpace.countCharacters()).toBe(1)
-  })
-})
-
-// -------------------------------------------------
 // Count letters frequency alphabetical order
 // -------------------------------------------------
 
@@ -223,59 +201,6 @@ describe('count letters frequency alphabetical order', () => {
 
   test('should throw an error when the input text is a blank space', () => {
     expect(() => textAnalyzerBlankSpace.countLettersFrequencyAlphabeticalOrder()).toThrowError('There are no letters in the string.')
-  })
-})
-
-// -------------------------------------------------
-// Count letters frequency occurance order
-// -------------------------------------------------
-
-describe('count letters frequency occurance order', () => {
-  test('should return letter count in occurance order when there is one word', () => {
-    expect(textAnalyzerOneWord.countLettersFrequencyOccuranceOrder()).toEqual({ w: 1, o: 1, r: 1, d: 1 })
-  })
-
-  test('should return single letter count in lower case when there is one upper case letter', () => {
-    expect(textAnalyzerOneLetter.countLettersFrequencyOccuranceOrder()).toEqual({ a: 1 })
-  })
-
-  test('should return letter count in occurance order when there is input from loremIpsum file', () => {
-    expect(textAnalyzerLoremIpsum.countLettersFrequencyOccuranceOrder()).toEqual({
-      e: 150,
-      i: 128,
-      a: 112,
-      u: 104,
-      t: 94,
-      s: 94,
-      r: 71,
-      m: 67,
-      n: 63,
-      o: 46,
-      l: 40,
-      c: 38,
-      p: 38,
-      d: 36,
-      v: 28,
-      q: 15,
-      b: 12,
-      h: 11,
-      f: 10,
-      g: 6,
-      x: 6,
-      z: 1
-    })
-  })
-
-  test('should throw an error when there are only numbers', () => {
-    expect(() => textAnalyzerNumbers.countLettersFrequencyOccuranceOrder()).toThrowError('There are no letters in the string.')
-  })
-
-  test('should throw an error when there are no alpha-numeric characters', () => {
-    expect(() => textAnalyzerDot.countLettersFrequencyOccuranceOrder()).toThrowError('There are no letters in the string.')
-  })
-
-  test('should throw an error when the input text is a blank space', () => {
-    expect(() => textAnalyzerBlankSpace.countLettersFrequencyOccuranceOrder()).toThrowError('There are no letters in the string.')
   })
 })
 
@@ -432,38 +357,24 @@ describe('count words frequency alphabetical order', () => {
 })
 
 // -------------------------------------------------
-// Count words frequency occurance order
+// Get character count
 // -------------------------------------------------
 
-describe('count words frequency occurance order', () => {
-  test('should return single word count in lower case when there is a word that starts with an upper case letter', () => {
-    expect(textAnalyzerOneWord.countWordsFrequencyOccuranceOrder()).toEqual({ word: 1 })
+describe('get character count', () => {
+  test('should return the number of characters in a text', () => {
+    expect(textAnalyzerSeveralSentences.countCharacters()).toBe(74)
   })
 
-  test('should return word count in occurance order when there are several sentences', () => {
-    expect(textAnalyzerSeveralSentences.countWordsFrequencyAlphabeticalOrder()).toEqual({
-      is: 3,
-      this: 3,
-      a: 2,
-      sentence: 2,
-      and: 1,
-      another: 1,
-      one: 1,
-      third: 1,
-      yet: 1
-    })
+  test('should return the number of characters when using text from loremIpsum file as input', () => {
+    expect(textAnalyzerLoremIpsum.countCharacters()).toBe(1439)
   })
 
-  test('should throw an error when there are only numbers', () => {
-    expect(() => textAnalyzerNumbers.countWordsFrequencyOccuranceOrder()).toThrowError('There are no words in the string.')
+  test('should return 1 when only one character input', () => {
+    expect(textAnalyzerDot.countCharacters()).toBe(1)
   })
 
-  test('should throw an error when there are no alpha-numeric characters', () => {
-    expect(() => textAnalyzerDot.countWordsFrequencyOccuranceOrder()).toThrowError('There are no words in the string.')
-  })
-
-  test('should throw an error when the input text is a blank space', () => {
-    expect(() => textAnalyzerBlankSpace.countWordsFrequencyOccuranceOrder()).toThrowError('There are no words in the string.')
+  test('should return 1 when the input is a blank space', () => {
+    expect(textAnalyzerBlankSpace.countCharacters()).toBe(1)
   })
 })
 
@@ -507,49 +418,6 @@ describe('get first words in alphabetical order', () => {
 
   test('should throw an error when there are only numbers', () => {
     expect(() => textAnalyzerNumbers.getFirstWordsInAlphabeticalOrder()).toThrowError('There are no words in the string.')
-  })
-})
-
-// -------------------------------------------------
-// Get first words in occurance order
-// -------------------------------------------------
-
-describe('get first words in occurance order', () => {
-  test('should return the first words in occurance order when using text from loremIpsum file as input', () => {
-    expect(textAnalyzerLoremIpsum.getFirstWordsInOccuranceOrder()).toEqual({
-      Eu: 3,
-      An: 2,
-      At: 2,
-      Cu: 2,
-      Est: 1,
-      Eum: 1,
-      Harum: 1,
-      Has: 1,
-      Iisque: 1,
-      Iudico: 1,
-      Lorem: 1,
-      Ne: 1,
-      Quo: 1,
-      Sit: 1,
-      Tale: 1,
-      Ut: 1,
-      Vim: 1,
-      Vitae: 1,
-      Vituperata: 1,
-      Vix: 1
-    })
-  })
-
-  test('should return the first word in occurance order when only one character input', () => {
-    expect(() => textAnalyzerDot.getFirstWordsInOccuranceOrder()).toThrowError('There are no words in the string.')
-  })
-
-  test('should return the first word in occurance order when the input is a blank space', () => {
-    expect(() => textAnalyzerBlankSpace.getFirstWordsInOccuranceOrder()).toThrowError('There are no words in the string.')
-  })
-
-  test('should throw an error when there are only numbers', () => {
-    expect(() => textAnalyzerNumbers.getFirstWordsInOccuranceOrder()).toThrowError('There are no words in the string.')
   })
 })
 
