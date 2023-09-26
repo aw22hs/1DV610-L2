@@ -344,12 +344,9 @@ export class TextAnalyzer {
     return sortedCharacterCount
   }
 
-  /**
-   * Call methods to get sentences from text and trim sentences.
-   */
   #getAndTrimSentences () {
     this.#getSentencesFromText()
-    this.#trimSentences()
+    this.#trimSentencesFromWhitespace()
   }
 
   #getFirstWordsFromSentences () {
@@ -357,21 +354,12 @@ export class TextAnalyzer {
     return this.#splitSentencesIntoWordsAndKeepFirstWord()
   }
 
-  /**
-   * Splits the original text into an array with the different sentences.
-   */
   #getSentencesFromText () {
     if (this.countAllWords() > 0) {
       this.#sentences = this.#originalText.split(/[.!?]+/)
     }
   }
 
-  /**
-   * Splits the sentences into separate words and save the forst
-   * words in each sentence in a new array.
-   *
-   * @returns {string[]} - First word of each sentence.
-   */
   #splitSentencesIntoWordsAndKeepFirstWord () {
     const firstWords = []
     for (const sentence of this.#sentences) {
@@ -381,18 +369,12 @@ export class TextAnalyzer {
     return firstWords
   }
 
-  /**
-   * Splits text into lines. Trims the lines.
-   */
   #splitTextIntoTrimmedLines () {
     const lines = this.#originalText.split('\n')
     this.#trimmedLines = lines.map(line => line.trim())
   }
 
-  /**
-   * Trim sentences from whitespace.
-   */
-  #trimSentences () {
+  #trimSentencesFromWhitespace () {
     this.#sentences = this.#sentences.map(sentence => sentence.trim())
     for (let i = 0; i < this.#sentences.length; i++) {
       if (this.#sentences[i] === '') {
@@ -401,31 +383,17 @@ export class TextAnalyzer {
     }
   }
 
-  /**
-   * Throws exception if there are no characters in the string input.
-   *
-   * @param {string} text - The text input.
-   * @throws {Error} - If there are no characters in the string.
-   */
   #validateTextInput (text) {
     if (!text) {
       throw new Error('Invalid input. There are no characters in the string.')
     }
   }
 
-  /**
-   * Checks if the submitted word has the right format.
-   * The word can contain letters, numbers, -, ', ., : and /.
-   * The word must contain at least one letter.
-   *
-   * @param {string} word - The word to be checked.
-   * @throws {Error} - If the submitted word does not have the right format.
-   * @returns {boolean} - True if the word has the right format, otherwise false.
-   */
   #validateWordInput (word) {
     if (!word) {
       throw new Error('Invalid input. The submitted word is empty.')
     }
+    // Regex looks for words that contain at least one letter but can also contain numbers and the characters -, ', ., : and /
     if (!word.match(/\b[a-zA-Z0-9.'/:-]*[a-zA-Z][a-zA-Z0-9.'/:-]\b/gi)) {
       throw new Error('The submitted word does not have the right format.')
     }
