@@ -371,12 +371,15 @@ export class TextAnalyzer {
 
   #splitTextIntoTrimmedLines () {
     const lines = this.#originalText.split('\n')
-    this.#trimmedLines = lines.map(line => line.trim())
+    this.#trimmedLines = [] 
+    for (const line of lines) {
+      this.#trimmedLines.push(line.trim())
+    }
   }
 
   #trimSentencesFromWhitespace () {
-    this.#sentences = this.#sentences.map(sentence => sentence.trim())
     for (let i = 0; i < this.#sentences.length; i++) {
+      this.#sentences[i] = this.#sentences[i].trim()
       if (this.#sentences[i] === '') {
         this.#sentences.splice(i, 1)
       }
