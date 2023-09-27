@@ -1,8 +1,8 @@
-# 1DV610-L2
-The Text Analyzer is a JavaScript class designed to analyze text and provide various text statistics and manipulation functions. It can help you perform a range of tasks, from counting words and characters to analyzing sentence and paragraph structures within the text.
+# TextAnalyzer
+The TextAnalyzer is a JavaScript class designed to analyze text and provide various text statistics and manipulation functions. It can help you perform a range of tasks, from counting words and characters to analyzing sentence and paragraph structures within the text.
 
 ## Installation
-You can use the Text Analyzer class by including it in your JavaScript project. Here's how you can import it:
+You can use the TextAnalyzer class by including it in your JavaScript project. Here's how you can import it:
 ```
 // Replace 'text-analyzer' with the actual path to the file
 import { TextAnalyzer } from 'text-analyzer' 
@@ -12,13 +12,13 @@ const analyzer = new TextAnalyzer('Your text goes here.')
 
 ## Usage
 ### Constructor
-To initialize the Text Analyzer, create an instance of the class by providing the text you want to analyze:
+To initialize the TextAnalyzer, create an instance of the class by providing the text you want to analyze:
 ```
 const analyzer = new TextAnalyzer('This is a sentence, but this is not. THIS IS.')
 ```
 
 ### Methods
-The Text Analyzer provides various methods to analyze and manipulate text. All methods in the module (except for the replace methods) will use the original text as its reference. In other words, even if the text has been updated and words have changed, the counting and analyzing will still refer to the data in the original text.  
+The TextAnalyzer provides various methods to analyze and manipulate text. All methods in the module (except for the replace methods) will use the original text as its reference. In other words, even if the text has been updated and words have changed, the counting and analyzing will still refer to the data in the original text.  
 These are the available methods:
 
 `averageNumberOfSentencesPerParagraph()`  
@@ -120,7 +120,7 @@ console.log(difference) // 'No words have been replaced.'
 ```
 
 `getSentenceCount()`  
-Counts and returns the total number of sentences in the text.
+Counts and returns the total number of sentences in the text.  
 An error will be thrown if there are no words in the text.
 
 ```
