@@ -10,7 +10,7 @@ To start the tests, use the command `npm test`.
 
 The tests consist of a test suite with a total of 94 subtests, divided according to the 16 public methods called by the tests, see below. All tests are approved in v.1.0.0 of the class.
 
-In the folder `testdata`, there are two files; exampleCode.js and loremIpsum.md. The contents of these files are used as arguments when creating two different instances of the class used during testing.
+In the folder `testdata`, there are two files; `exampleCode.js` and `loremIpsum.md`. The contents of these files are used as arguments when creating two different instances of the class used during testing.
 
 Among the subtests that test `getLetterCountDifferenceBetweenOriginalAndUpdatedText()`, the subtest named *'should return the difference between the original and updated text when using text from loremIpsum file as input'* must be run before the subtest named *'should return a string that says "No words have been replaced." when changing the words back to the original text string'*.
 
