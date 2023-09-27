@@ -10,6 +10,9 @@ import { TextAnalyzer } from 'text-analyzer'
 const analyzer = new TextAnalyzer('Your text goes here.')
 ```
 
+## Validation
+The TextAnalyzer class does not validate the text input more than check that the input is not empty. Neither does it escape output. This requires the user of this class to take measures against potential risks.
+
 ## Usage
 ### Constructor
 To initialize the TextAnalyzer, create an instance of the class by providing the text you want to analyze:
