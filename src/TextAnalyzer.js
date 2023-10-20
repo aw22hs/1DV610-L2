@@ -5,6 +5,8 @@
  * @version 1.0.0
  */
 
+// TODO: Ändra ordning på metoderna
+
 /**
  * Represents a card table.
  */
@@ -13,7 +15,7 @@ export class TextAnalyzer {
   #originalText = ''
   #sentences = []
   #trimmedLines = []
-  #updatedTextWithReplacedWords = ''
+  #updatedText = ''
   #wordCountAlphabeticalOrder = {}
 
   /**
@@ -234,14 +236,15 @@ export class TextAnalyzer {
    * @returns {string} - A string with information about the difference in
    * length between the original text and the updated text.
    */
+  // TODO: Gör om denna metod till flera mindre metoder
   getLetterCountDifferenceBetweenOriginalAndUpdatedText () {
-      if (this.#updatedTextWithReplacedWords === '') {
+      if (this.#updatedText === '') {
         return 'The original text has not been updated.'
       }
       const characterDifference = 
-        this.#updatedTextWithReplacedWords.length - this.#originalText.length
+        this.#updatedText.length - this.#originalText.length
       if (characterDifference === 0) {
-        if (this.#updatedTextWithReplacedWords === this.#originalText) {
+        if (this.#updatedText === this.#originalText) {
           return 'No words have been replaced.'
         }
         return 'The original text and the updated text are the same length.'
@@ -281,14 +284,14 @@ export class TextAnalyzer {
     this.#validateWordInput(wordToReplace)
     this.#validateWordInput(newWord)
 
-    if (this.#updatedTextWithReplacedWords === '') {
-      this.#updatedTextWithReplacedWords = this.#originalText
+    if (this.#updatedText === '') {
+      this.#updatedText = this.#originalText
     }
 
-    this.#updatedTextWithReplacedWords = this.#updatedTextWithReplacedWords
+    this.#updatedText = this.#updatedText
       .replace(new RegExp('\\b' + wordToReplace + '\\b', 'g'), newWord)
 
-    return this.#updatedTextWithReplacedWords
+    return this.#updatedText
   }
 
   /**
@@ -301,56 +304,49 @@ export class TextAnalyzer {
    * @returns {string} - The new text.
    * @throws {Error} - If the word to replace does not match the correct format.
    */
-  replaceWordsWithTwoDifferentFormattings (wordToReplace, newWord) {
+  replaceLowerCaseAndCapitalizedWord (wordToReplace, newWord) {
     this.#validateWordInput(wordToReplace)
     this.#validateWordInput(newWord)
 
-    // Update formatting of the words to be replaced and the new words to 
-    // replace with
-    const wordToReplaceWithAllLettersLowerCase = wordToReplace.toLowerCase()
-    const wordToReplaceWithFirstLetterUpperCase = 
-      wordToReplaceWithAllLettersLowerCase.charAt(0).toUpperCase() + 
-      wordToReplaceWithAllLettersLowerCase.slice(1)
+    const wordsToReplace = 
+      this.#getWordInCapitalizedAndLowerCaseFormat(wordToReplace)
 
-    const wordsToReplace = [wordToReplaceWithAllLettersLowerCase,
-      wordToReplaceWithFirstLetterUpperCase]
-
-    // Checks if wordToReplace matches the exact format of any of the words in 
-    // wordsToReplace
-    let wordToReplaceMatchesExactFormat = false
+    let wordToReplaceMatchesCorrectFormat = false
     for (const word of wordsToReplace) {
       if (word === wordToReplace) {
-        wordToReplaceMatchesExactFormat = true
+        wordToReplaceMatchesCorrectFormat = true
       }
     }
 
-    if (!wordToReplaceMatchesExactFormat) {
+    // TODO: Ska denna metod kasta ett fel eller hantera detta på annat sätt?
+    if (!wordToReplaceMatchesCorrectFormat) {
       throw new Error('The word to replace does not match the correct format. '
        + 'All letters need to be lower case or the first letter needs to be '
-       + 'upper case and the rest of the letters need to be lower case.')
+       + 'upper case and the rest of the letters be lower case.')
     }
 
-    const newWordWithAllLettersLowerCase = newWord.toLowerCase()
-    const newWordWithFirstLetterUpperCase = 
-    newWordWithAllLettersLowerCase.charAt(0).toUpperCase() 
-    + newWordWithAllLettersLowerCase.slice(1)
+    const newWords = this.#getWordInCapitalizedAndLowerCaseFormat(newWord)
 
-    const newWords = [newWordWithAllLettersLowerCase,
-      newWordWithFirstLetterUpperCase]
-
-    if (this.#updatedTextWithReplacedWords === '') {
-      this.#updatedTextWithReplacedWords = this.#originalText
+    if (this.#updatedText === '') {
+      this.#updatedText = this.#originalText
     }
 
     for (let i = 0; i < wordsToReplace.length; i++) {
-    // Replace the words in the original text with the exact same formatting as
-    // one of the words in wordsToReplace
-    const pattern = new RegExp('\\b' + wordsToReplace[i] + '\\b', 'g')
-      this.#updatedTextWithReplacedWords =
-      this.#updatedTextWithReplacedWords.replace(pattern, newWords[i])
+      const wordToReplace = new RegExp('\\b' + wordsToReplace[i] + '\\b', 'g')
+      this.#updatedText = this.#updatedText.replace(wordToReplace, newWords[i])
     }
 
-    return this.#updatedTextWithReplacedWords
+    return this.#updatedText
+  }
+
+  #getWordInCapitalizedAndLowerCaseFormat (word) {
+    const wordWithAllLettersLowerCase = word.toLowerCase()
+    const wordWithFirstLetterUpperCase = 
+    wordWithAllLettersLowerCase.charAt(0).toUpperCase() 
+    + wordWithAllLettersLowerCase.slice(1)
+    const words = [wordWithAllLettersLowerCase,
+      wordWithFirstLetterUpperCase]
+    return words
   }
 
   #countAndSortInAlphabeticalOrder (characters) {
