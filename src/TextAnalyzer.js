@@ -23,7 +23,7 @@ export class TextAnalyzer {
    *
    * @param {string} text - The text input.
    */
-  constructor (text) {
+  constructor(text) {
     this.#validateTextInput(text)
 
     this.#originalText = text
@@ -35,7 +35,7 @@ export class TextAnalyzer {
    * @returns {number} - The average number of sentences per paragraph in
    * the text.
    */
-  getAverageNumberOfSentencesPerParagraph () {
+  getAverageNumberOfSentencesPerParagraph() {
     if (this.#sentences.length === 0) {
       this.#getAndTrimSentences()
     }
@@ -47,7 +47,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The average number of words per sentence in the text.
    */
-  getAverageNumberOfWordsPerSentence () {
+  getAverageNumberOfWordsPerSentence() {
     if (this.#sentences.length === 0) {
       this.#getAndTrimSentences()
     }
@@ -59,7 +59,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of lines in a text.
    */
-  getAllLinesCount () {
+  getAllLinesCount() {
     if (this.#trimmedLines.length === 0) {
       this.#splitTextIntoTrimmedLines()
     }
@@ -71,7 +71,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of words in the text.
    */
-  getAllWordsCount () {
+  getAllWordsCount() {
     // Regex looks for words that contain at least one letter but can also
     // contain numebrs and the characters -, ', ., : and /
     const words = this.#originalText
@@ -90,7 +90,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of characters in the text.
    */
-  getCharacterCount () {
+  getCharacterCount() {
     const countableCharacters = []
     for (const character of this.#originalText) {
       if (!character.match(/[\n]/)) {
@@ -109,7 +109,7 @@ export class TextAnalyzer {
    * the number of times they appear as values.
    * @throws {Error} - If there are no letters in the string.
    */
-  getLetterCountInAlphabeticalOrder () {
+  getLetterCountInAlphabeticalOrder() {
     const textInLowerCase = this.#originalText.toLowerCase()
     const letters = textInLowerCase.match(/[a-z]/gi)
     if (!letters) {
@@ -127,7 +127,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of not empty lines in a text.
    */
-  getNonEmptyLinesCount () {
+  getNonEmptyLinesCount() {
     if (this.#trimmedLines.length === 0) {
       this.#splitTextIntoTrimmedLines()
     }
@@ -147,7 +147,7 @@ export class TextAnalyzer {
    * @returns {number} - Number of lines that are not empty or that does not
    * start with / or *.
    */
-  getNonEmptyLinesWithoutJSCommentsCount () {
+  getNonEmptyLinesWithoutJSCommentsCount() {
     if (this.#trimmedLines.length === 0) {
       this.#splitTextIntoTrimmedLines()
     }
@@ -165,7 +165,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of paragraphs in the text.
    */
-  getParagraphsCount () {
+  getParagraphsCount() {
     const paragraphs = this.#originalText.split(/\n\n/)
     for (const paragraph of paragraphs) {
       if (paragraph === '') {
@@ -182,12 +182,12 @@ export class TextAnalyzer {
    * @param {string} word - The word to be counted.
    * @returns {number} - The number of times the word appears in the text.
    */
-  getSpecificWordCount (word) {
+  getSpecificWordCount(word) {
     this.#validateWordInput(word)
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
 
     // If the word is not found, match() returns null
-    return this.#originalText.match(regex) ? 
+    return this.#originalText.match(regex) ?
       this.#originalText.match(regex).length : 0
   }
 
@@ -199,7 +199,7 @@ export class TextAnalyzer {
    * number of times they appear as values.
    * @throws {Error} - If there are no words in the string.
    */
-  getWordCountInAlphabeticalOrder () {
+  getWordCountInAlphabeticalOrder() {
     // Make the words lower case and then split the text into words based on one
     // or more non-alphanumeric characters plus the characters -, ', ., : and /
     const words = this.#originalText.toLowerCase().match(/\b[-'.:/a-z]+\b/gi)
@@ -208,7 +208,7 @@ export class TextAnalyzer {
       throw new Error('There are no words in the string.')
     }
 
-    this.#wordCountAlphabeticalOrder 
+    this.#wordCountAlphabeticalOrder
       = this.#countAndSortInAlphabeticalOrder(words)
 
     return this.#wordCountAlphabeticalOrder
@@ -220,54 +220,59 @@ export class TextAnalyzer {
    *
    * @returns {string[]} - First word of each sentence in alphabetical order.
    */
-  getFirstWordsCountInAlphabeticalOrder () {
+  getFirstWordsCountInAlphabeticalOrder() {
     const firstWords = this.#getFirstWordsFromSentences();
     return this.#countAndSortInAlphabeticalOrder(firstWords)
   }
 
   /**
-   * Checks if the updated text is longer or shorter than the original text.
-   * If there is a difference, returns a string with information about the
-   * difference.
-   * If there is no difference, returns a string with information about that.
-   * If no words have been replaced, returns a string with information about 
-   * that.
+   * Checks letter count difference between the original text and the updated
+   * text.
    *
-   * @returns {string} - A string with information about the difference in
-   * length between the original text and the updated text.
+   * @returns {string} - The character count difference.
    */
-  // TODO: Gör om denna metod till flera mindre metoder
-  getLetterCountDifferenceBetweenOriginalAndUpdatedText () {
-      if (this.#updatedText === '') {
-        return 'The original text has not been updated.'
-      }
-      const characterDifference = 
-        this.#updatedText.length - this.#originalText.length
-      if (characterDifference === 0) {
-        if (this.#updatedText === this.#originalText) {
-          return 'No words have been replaced.'
-        }
-        return 'The original text and the updated text are the same length.'
-      }
-      let longerText = 'updated text'
-      let shorterText = 'original text'
-      let difference = characterDifference
-      if (characterDifference < 0) {
-        // Removes the dash at the beginning of the negative number
-        difference = characterDifference.toString().substring(1)
-        longerText = 'original text'
-        shorterText = 'updated text'
-      }
-      return `The ${longerText} is ${difference} character(s) longer than 
-        the ${shorterText}.`
+  getLetterCountDifferenceBetweenOriginalAndUpdatedText() {
+    let characterDifference =
+      this.#updatedText.length - this.#originalText.length
+
+    let difference = characterDifference.toString()
+    if (characterDifference < 0) {
+      // Removes the dash at the beginning of the negative number
+      difference = difference.substring(1)
     }
+    return difference
+  }
+
+  /**
+   * Checks if the text has been updated.
+   *
+   * @returns {boolean} True if the text has been updated, otherwise false.
+   */
+  textHasBeenUpdated() {
+    if (this.#updatedText === '' || this.#updatedText === this.#originalText) {
+      return false
+    }
+    return true
+  }
+
+  /**
+   * Checks if the original text is longer than the updated text.
+   *
+   * @returns {boolean} True if the original text is longer, otherwise false.
+   */
+  originalTextIsLongerThanUpdatedText() {
+    if (this.#originalText.length > this.#updatedText.length) {
+      return true
+    }
+    return false
+  }
 
   /**
    * Gets the number of sentences.
    *
    * @returns {number} - The number of sentences.
    */
-  getSentenceCount () {
+  getSentenceCount() {
     this.#getAndTrimSentences()
     return this.#sentences.length
   }
@@ -280,7 +285,7 @@ export class TextAnalyzer {
    * @param {string} newWord - The word to replace with.
    * @returns {string} - The new text.
    */
-  replaceWordsWithExactFormatting (wordToReplace, newWord) {
+  replaceWordsWithExactFormatting(wordToReplace, newWord) {
     this.#validateWordInput(wordToReplace)
     this.#validateWordInput(newWord)
 
@@ -295,7 +300,7 @@ export class TextAnalyzer {
   }
 
   /**
-   * Replaces a word with another word in a text and returns the new text.
+   * Replaces a word with a new word and returns the updated text.
    * Replaces all words that has all letters in lower case and all words with
    * the first letter in upper case and the rest of the letters in lower case.
    *
@@ -304,11 +309,11 @@ export class TextAnalyzer {
    * @returns {string} - The new text.
    * @throws {Error} - If the word to replace does not match the correct format.
    */
-  replaceLowerCaseAndCapitalizedWord (wordToReplace, newWord) {
+  replaceLowerCaseAndCapitalizedWord(wordToReplace, newWord) {
     this.#validateWordInput(wordToReplace)
     this.#validateWordInput(newWord)
 
-    const wordsToReplace = 
+    const wordsToReplace =
       this.#getWordInCapitalizedAndLowerCaseFormat(wordToReplace)
 
     let wordToReplaceMatchesCorrectFormat = false
@@ -321,8 +326,8 @@ export class TextAnalyzer {
     // TODO: Ska denna metod kasta ett fel eller hantera detta på annat sätt?
     if (!wordToReplaceMatchesCorrectFormat) {
       throw new Error('The word to replace does not match the correct format. '
-       + 'All letters need to be lower case or the first letter needs to be '
-       + 'upper case and the rest of the letters be lower case.')
+        + 'All letters need to be lower case or the first letter needs to be '
+        + 'upper case and the rest of the letters be lower case.')
     }
 
     const newWords = this.#getWordInCapitalizedAndLowerCaseFormat(newWord)
@@ -339,17 +344,17 @@ export class TextAnalyzer {
     return this.#updatedText
   }
 
-  #getWordInCapitalizedAndLowerCaseFormat (word) {
+  #getWordInCapitalizedAndLowerCaseFormat(word) {
     const wordWithAllLettersLowerCase = word.toLowerCase()
-    const wordWithFirstLetterUpperCase = 
-    wordWithAllLettersLowerCase.charAt(0).toUpperCase() 
-    + wordWithAllLettersLowerCase.slice(1)
+    const wordWithFirstLetterUpperCase =
+      wordWithAllLettersLowerCase.charAt(0).toUpperCase()
+      + wordWithAllLettersLowerCase.slice(1)
     const words = [wordWithAllLettersLowerCase,
       wordWithFirstLetterUpperCase]
     return words
   }
 
-  #countAndSortInAlphabeticalOrder (characters) {
+  #countAndSortInAlphabeticalOrder(characters) {
     // Characters can be either letters or words
     const characterCount = {}
     for (const character of characters) {
@@ -372,23 +377,23 @@ export class TextAnalyzer {
     return sortedCharacterCount
   }
 
-  #getAndTrimSentences () {
+  #getAndTrimSentences() {
     this.#getSentencesFromText()
     this.#trimSentencesFromWhitespace()
   }
 
-  #getFirstWordsFromSentences () {
+  #getFirstWordsFromSentences() {
     this.#getAndTrimSentences()
     return this.#splitSentencesIntoWordsAndKeepFirstWord()
   }
 
-  #getSentencesFromText () {
+  #getSentencesFromText() {
     if (this.getAllWordsCount() > 0) {
       this.#sentences = this.#originalText.split(/[.!?]+/)
     }
   }
 
-  #splitSentencesIntoWordsAndKeepFirstWord () {
+  #splitSentencesIntoWordsAndKeepFirstWord() {
     const firstWords = []
     for (const sentence of this.#sentences) {
       const words = sentence.match(/\b[-'.:/a-zA-Z]+\b/gi)
@@ -397,15 +402,15 @@ export class TextAnalyzer {
     return firstWords
   }
 
-  #splitTextIntoTrimmedLines () {
+  #splitTextIntoTrimmedLines() {
     const lines = this.#originalText.split('\n')
-    this.#trimmedLines = [] 
+    this.#trimmedLines = []
     for (const line of lines) {
       this.#trimmedLines.push(line.trim())
     }
   }
 
-  #trimSentencesFromWhitespace () {
+  #trimSentencesFromWhitespace() {
     for (let i = 0; i < this.#sentences.length; i++) {
       this.#sentences[i] = this.#sentences[i].trim()
       if (this.#sentences[i] === '') {
@@ -414,19 +419,19 @@ export class TextAnalyzer {
     }
   }
 
-  #validateTextInput (text) {
+  #validateTextInput(text) {
     if (!text) {
       throw new Error('Invalid input. There are no characters in the string.')
     }
   }
 
-  #validateWordInput (word) {
+  #validateWordInput(word) {
     if (!word) {
       throw new Error('Invalid input. The submitted word is empty.')
     }
     // Regex looks for words that contain at least one letter but can also 
     // contain numbers and the characters -, ', ., : and /
-    if (!word.match(/\b[a-zA-Z0-9.'/:-]*[a-zA-Z][a-zA-Z0-9.'/:-]\b/gi)) {
+    if (!word.match(/\b[a-zA-Z0-9.'/:-]*[a-zA-Z][a-zA-Z0-9.'/:-]*\b/gi)) {
       throw new Error('The submitted word does not have the right format.')
     }
     return true
