@@ -11,12 +11,10 @@
  * Represents a card table.
  */
 export class TextAnalyzer {
-  #letterCountAlphabeticalOrder = {}
   #originalText = ''
   #sentences = []
   #trimmedLines = []
   #updatedText = ''
-  #wordCountAlphabeticalOrder = {}
 
   /**
    * Initializes a new instance of the TextAnalyzer class.
@@ -116,10 +114,7 @@ export class TextAnalyzer {
       throw new Error('There are no letters in the string.')
     }
 
-    this.#letterCountAlphabeticalOrder =
-      this.#countAndSortInAlphabeticalOrder(letters)
-
-    return this.#letterCountAlphabeticalOrder
+    return this.#countAndSortInAlphabeticalOrder(letters)
   }
 
   /**
@@ -208,10 +203,7 @@ export class TextAnalyzer {
       throw new Error('There are no words in the string.')
     }
 
-    this.#wordCountAlphabeticalOrder
-      = this.#countAndSortInAlphabeticalOrder(words)
-
-    return this.#wordCountAlphabeticalOrder
+    return this.#countAndSortInAlphabeticalOrder(words)
   }
 
 
