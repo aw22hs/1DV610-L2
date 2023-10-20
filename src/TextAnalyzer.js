@@ -33,11 +33,11 @@ export class TextAnalyzer {
    * @returns {number} - The average number of sentences per paragraph in
    * the text.
    */
-  averageNumberOfSentencesPerParagraph () {
+  getAverageNumberOfSentencesPerParagraph () {
     if (this.#sentences.length === 0) {
       this.#getAndTrimSentences()
     }
-    return Math.round(this.#sentences.length / this.countParagraphs())
+    return Math.round(this.#sentences.length / this.getParagraphsCount())
   }
 
   /**
@@ -45,11 +45,11 @@ export class TextAnalyzer {
    *
    * @returns {number} - The average number of words per sentence in the text.
    */
-  averageNumberOfWordsPerSentence () {
+  getAverageNumberOfWordsPerSentence () {
     if (this.#sentences.length === 0) {
       this.#getAndTrimSentences()
     }
-    return Math.round(this.countAllWords() / this.#sentences.length)
+    return Math.round(this.getAllWordsCount() / this.#sentences.length)
   }
 
   /**
@@ -57,7 +57,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of lines in a text.
    */
-  countAllLines () {
+  getAllLinesCount () {
     if (this.#trimmedLines.length === 0) {
       this.#splitTextIntoTrimmedLines()
     }
@@ -69,7 +69,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of words in the text.
    */
-  countAllWords () {
+  getAllWordsCount () {
     // Regex looks for words that contain at least one letter but can also
     // contain numebrs and the characters -, ', ., : and /
     const words = this.#originalText
@@ -88,7 +88,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of characters in the text.
    */
-  countCharacters () {
+  getCharacterCount () {
     const countableCharacters = []
     for (const character of this.#originalText) {
       if (!character.match(/[\n]/)) {
@@ -107,7 +107,7 @@ export class TextAnalyzer {
    * the number of times they appear as values.
    * @throws {Error} - If there are no letters in the string.
    */
-  countLettersFrequencyAlphabeticalOrder () {
+  getLetterCountInAlphabeticalOrder () {
     const textInLowerCase = this.#originalText.toLowerCase()
     const letters = textInLowerCase.match(/[a-z]/gi)
     if (!letters) {
@@ -125,7 +125,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of not empty lines in a text.
    */
-  countNotEmptyLines () {
+  getNonEmptyLinesCount () {
     if (this.#trimmedLines.length === 0) {
       this.#splitTextIntoTrimmedLines()
     }
@@ -145,7 +145,7 @@ export class TextAnalyzer {
    * @returns {number} - Number of lines that are not empty or that does not
    * start with / or *.
    */
-  countNonEmptyLinesWithoutJSComments () {
+  getNonEmptyLinesWithoutJSCommentsCount () {
     if (this.#trimmedLines.length === 0) {
       this.#splitTextIntoTrimmedLines()
     }
@@ -163,7 +163,7 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of paragraphs in the text.
    */
-  countParagraphs () {
+  getParagraphsCount () {
     const paragraphs = this.#originalText.split(/\n\n/)
     for (const paragraph of paragraphs) {
       if (paragraph === '') {
@@ -180,7 +180,7 @@ export class TextAnalyzer {
    * @param {string} word - The word to be counted.
    * @returns {number} - The number of times the word appears in the text.
    */
-  countSpecificWord (word) {
+  getSpecificWordCount (word) {
     this.#validateWordInput(word)
     const regex = new RegExp('\\b' + word + '\\b', 'gi')
 
@@ -197,7 +197,7 @@ export class TextAnalyzer {
    * number of times they appear as values.
    * @throws {Error} - If there are no words in the string.
    */
-  countWordsFrequencyAlphabeticalOrder () {
+  getWordCountInAlphabeticalOrder () {
     // Make the words lower case and then split the text into words based on one
     // or more non-alphanumeric characters plus the characters -, ', ., : and /
     const words = this.#originalText.toLowerCase().match(/\b[-'.:/a-z]+\b/gi)
@@ -218,7 +218,7 @@ export class TextAnalyzer {
    *
    * @returns {string[]} - First word of each sentence in alphabetical order.
    */
-  getFirstWordsInAlphabeticalOrder () {
+  getFirstWordsCountInAlphabeticalOrder () {
     const firstWords = this.#getFirstWordsFromSentences();
     return this.#countAndSortInAlphabeticalOrder(firstWords)
   }
@@ -387,7 +387,7 @@ export class TextAnalyzer {
   }
 
   #getSentencesFromText () {
-    if (this.countAllWords() > 0) {
+    if (this.getAllWordsCount() > 0) {
       this.#sentences = this.#originalText.split(/[.!?]+/)
     }
   }
