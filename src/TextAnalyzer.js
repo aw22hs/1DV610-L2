@@ -5,14 +5,17 @@
  * @version 1.0.0
  */
 
+import { SentenceAnalyzer } from './SentenceAnalyzer.js'
+import { UpdatedTextAnalyzer } from './UpdatedTextAnalyzer.js'
+
 // TODO: Ändra ordning på metoderna
+// TODO: Dela upp i fler klasser, SentenceAnalyzer, UpdatedTextAnalyzer, LineAnalyzer?
 
 /**
  * Represents a card table.
  */
 export class TextAnalyzer {
   #originalText = ''
-  #sentences = []
   #trimmedLines = []
   #updatedText = ''
 
@@ -34,10 +37,9 @@ export class TextAnalyzer {
    * the text.
    */
   getAverageNumberOfSentencesPerParagraph() {
-    if (this.#sentences.length === 0) {
-      this.#getAndTrimSentences()
-    }
-    return Math.round(this.#sentences.length / this.getParagraphsCount())
+    const sentenceAnalyzer = new SentenceAnalyzer(this.#originalText)
+    return Math.round(sentenceAnalyzer.getSentenceCount() /
+      this.getParagraphsCount())
   }
 
   /**
@@ -46,10 +48,9 @@ export class TextAnalyzer {
    * @returns {number} - The average number of words per sentence in the text.
    */
   getAverageNumberOfWordsPerSentence() {
-    if (this.#sentences.length === 0) {
-      this.#getAndTrimSentences()
-    }
-    return Math.round(this.getAllWordsCount() / this.#sentences.length)
+    const sentenceAnalyzer = new SentenceAnalyzer(this.#originalText)
+    return Math.round(this.getAllWordsCount() /
+      sentenceAnalyzer.getSentenceCount())
   }
 
   /**
@@ -210,11 +211,14 @@ export class TextAnalyzer {
   /**
    * Gets the first word of each sentence sorted in alphabetical order.
    *
-   * @returns {string[]} - First word of each sentence in alphabetical order.
+   * @returns {object} - First word of each sentence in alphabetical order.
    */
   getFirstWordsCountInAlphabeticalOrder() {
-    const firstWords = this.#getFirstWordsFromSentences();
+    if (this.getAllWordsCount() > 0) {
+    const sentenceAnalyzer = new SentenceAnalyzer(this.#originalText)
+    const firstWords = sentenceAnalyzer.getFirstWordsFromSentences();
     return this.#countAndSortInAlphabeticalOrder(firstWords)
+    }
   }
 
   /**
@@ -264,9 +268,10 @@ export class TextAnalyzer {
    *
    * @returns {number} - The number of sentences.
    */
+  // TODO: Ska denna metod finnas här eller endast i SentenceAnalyzer?
   getSentenceCount() {
-    this.#getAndTrimSentences()
-    return this.#sentences.length
+    const sentenceAnalyzer = new SentenceAnalyzer(this.#originalText)
+    return sentenceAnalyzer.getSentenceCount()
   }
 
   /**
@@ -281,14 +286,17 @@ export class TextAnalyzer {
     this.#validateWordInput(wordToReplace)
     this.#validateWordInput(newWord)
 
-    if (this.#updatedText === '') {
-      this.#updatedText = this.#originalText
-    }
+    const updatedTextAnalyzer = new UpdatedTextAnalyzer(this.#originalText)
+    const updatedText = updatedTextAnalyzer.replaceWords(wordToReplace, newWord)
 
-    this.#updatedText = this.#updatedText
-      .replace(new RegExp('\\b' + wordToReplace + '\\b', 'g'), newWord)
+    // if (this.#updatedText === '') {
+    //   this.#updatedText = this.#originalText
+    // }
+    
+    // this.#updatedText = this.#updatedText
+    //   .replace(new RegExp('\\b' + wordToReplace + '\\b', 'g'), newWord)
 
-    return this.#updatedText
+    return updatedText
   }
 
   /**
@@ -324,16 +332,14 @@ export class TextAnalyzer {
 
     const newWords = this.#getWordInCapitalizedAndLowerCaseFormat(newWord)
 
-    if (this.#updatedText === '') {
-      this.#updatedText = this.#originalText
-    }
+    const updatedTextAnalyzer = new UpdatedTextAnalyzer(this.#originalText)
 
+    let updatedText
     for (let i = 0; i < wordsToReplace.length; i++) {
-      const wordToReplace = new RegExp('\\b' + wordsToReplace[i] + '\\b', 'g')
-      this.#updatedText = this.#updatedText.replace(wordToReplace, newWords[i])
+      updatedText = updatedTextAnalyzer.replaceWords(wordsToReplace[i], newWords[i])
     }
 
-    return this.#updatedText
+    return updatedText
   }
 
   #getWordInCapitalizedAndLowerCaseFormat(word) {
@@ -369,30 +375,30 @@ export class TextAnalyzer {
     return sortedCharacterCount
   }
 
-  #getAndTrimSentences() {
-    this.#getSentencesFromText()
-    this.#trimSentencesFromWhitespace()
-  }
+  // #getAndTrimSentences() {
+  //   this.#getSentencesFromText()
+  //   this.#trimSentencesFromWhitespace()
+  // }
 
-  #getFirstWordsFromSentences() {
-    this.#getAndTrimSentences()
-    return this.#splitSentencesIntoWordsAndKeepFirstWord()
-  }
+  // #getFirstWordsFromSentences() {
+  //   this.#getAndTrimSentences()
+  //   return this.#splitSentencesIntoWordsAndKeepFirstWord()
+  // }
 
-  #getSentencesFromText() {
-    if (this.getAllWordsCount() > 0) {
-      this.#sentences = this.#originalText.split(/[.!?]+/)
-    }
-  }
+  // #getSentencesFromText() {
+  //   if (this.getAllWordsCount() > 0) {
+  //     this.#sentences = this.#originalText.split(/[.!?]+/)
+  //   }
+  // }
 
-  #splitSentencesIntoWordsAndKeepFirstWord() {
-    const firstWords = []
-    for (const sentence of this.#sentences) {
-      const words = sentence.match(/\b[-'.:/a-zA-Z]+\b/gi)
-      firstWords.push(words[0])
-    }
-    return firstWords
-  }
+  // #splitSentencesIntoWordsAndKeepFirstWord() {
+  //   const firstWords = []
+  //   for (const sentence of this.#sentences) {
+  //     const words = sentence.match(/\b[-'.:/a-zA-Z]+\b/gi)
+  //     firstWords.push(words[0])
+  //   }
+  //   return firstWords
+  // }
 
   #splitTextIntoTrimmedLines() {
     const lines = this.#originalText.split('\n')
@@ -402,14 +408,14 @@ export class TextAnalyzer {
     }
   }
 
-  #trimSentencesFromWhitespace() {
-    for (let i = 0; i < this.#sentences.length; i++) {
-      this.#sentences[i] = this.#sentences[i].trim()
-      if (this.#sentences[i] === '') {
-        this.#sentences.splice(i, 1)
-      }
-    }
-  }
+  // #trimSentencesFromWhitespace() {
+  //   for (let i = 0; i < this.#sentences.length; i++) {
+  //     this.#sentences[i] = this.#sentences[i].trim()
+  //     if (this.#sentences[i] === '') {
+  //       this.#sentences.splice(i, 1)
+  //     }
+  //   }
+  // }
 
   #validateTextInput(text) {
     if (!text) {
