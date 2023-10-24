@@ -6,7 +6,6 @@
  */
 
 export class SentenceAnalyzer {
-  #originalText = ''
   #sentences = []
 
   /**
@@ -15,17 +14,12 @@ export class SentenceAnalyzer {
    * @param {string} text - The text input.
    */
   constructor(text) {
-    this.#originalText = text
-    this.#getAndTrimSentences()
-  }
-
-  #getAndTrimSentences() {
-    this.#getSentencesFromText()
+    this.#getSentencesFromText(text)
     this.#trimSentencesFromWhitespace()
   }
 
-  #getSentencesFromText() {
-    this.#sentences = this.#originalText.split(/[.!?]+/)
+  #getSentencesFromText(text) {
+    this.#sentences = text.split(/[.!?]\s+/)
   }
 
   #trimSentencesFromWhitespace() {
