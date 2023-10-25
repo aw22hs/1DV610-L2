@@ -21,7 +21,13 @@ export class SentenceCounter {
   }
 
   #getSentencesFromText(text) {
-    this.#sentences = text.split(/[.!?]\s+/)
+    const words = text.toLowerCase()
+      .match(/\b[a-z0-9-'./:]*[a-z][a-z0-9-'./:]*\b/gi)
+    if (words) {
+      this.#sentences = text.split(/[.!?]+\s|$/g)
+    } else {
+      this.#sentences = []
+    }
   }
 
   #trimSentencesFromWhitespace() {
@@ -39,7 +45,7 @@ export class SentenceCounter {
    * @returns {number} - The number of sentences.
    */
   getSentenceCount() {
-    return this.#sentences.length
+    return this.#sentences ? this.#sentences.length : 0
   }
 
   /**
@@ -57,7 +63,7 @@ export class SentenceCounter {
     for (const sentence of this.#sentences) {
       const words = sentence.match(/\b[a-zA-Z0-9-'./:]*[a-zA-Z][a-zA-Z0-9-'./:]*\b/gi)
       if (words) {
-      firstWords.push(words[0])
+        firstWords.push(words[0])
       }
     }
 
