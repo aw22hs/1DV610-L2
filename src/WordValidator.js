@@ -22,7 +22,7 @@ export class WordValidator {
     }
     // Regex looks for words that contain at least one letter but can also 
     // contain numbers and the characters -, ', ., : and /
-    if (!word.match(/\b[a-zA-Z0-9.'/:-]*[a-zA-Z][a-zA-Z0-9.'/:-]*\b/gi)) {
+    if (!word.match(/^[a-zA-Z0-9.'/:-]*[a-zA-Z][a-zA-Z0-9.'/:-]*$/gi)) {
       throw new Error('The submitted word does not have the right format.')
     }
   }
