@@ -36,9 +36,10 @@ export class TextAnalyzer {
    */
   getAverageNumberOfSentencesPerParagraph() {
     const sentenceCounter = new SentenceCounter(this.#originalText)
+    
+    const average = Math.round(sentenceCounter.getSentenceCount() / this.getParagraphsCount())
 
-    return Math.round(sentenceCounter.getSentenceCount() /
-      this.getParagraphsCount())
+    return average ? average : 0
   }
 
   /**
@@ -48,66 +49,67 @@ export class TextAnalyzer {
    */
   getAverageNumberOfWordsPerSentence() {
     const sentenceCounter = new SentenceCounter(this.#originalText)
-    const wordCounter =  new WordCounter(this.#originalText)
+    const wordCounter = new WordCounter(this.#originalText)
 
-    return Math.round(wordCounter.getAllWordsCount() /
-      sentenceCounter.getSentenceCount())
+    const average = Math.round(wordCounter.getAllWordsCount() / sentenceCounter.getSentenceCount())
+
+    return average ? average : 0
   }
 
-  /**
-   * Counts the number of characters in a text.
-   *
-   * @returns {number} - The number of characters in the text.
-   */
-  getCharacterCount() {
-    const countableCharacters = []
-    for (const character of this.#originalText) {
-      if (!character.match(/[\n]/)) {
-        countableCharacters.push(character)
+    /**
+     * Counts the number of characters in a text.
+     *
+     * @returns {number} - The number of characters in the text.
+     */
+    getCharacterCount() {
+      const countableCharacters = []
+      for (const character of this.#originalText) {
+        if (!character.match(/[\n]/)) {
+          countableCharacters.push(character)
+        }
+      }
+
+      return countableCharacters.length
+    }
+
+    /**
+     * Counts the number of times all different letters appear in a text.
+     * Case insensitive.
+     *
+     * @returns {object} - An object with the letters in lower case as keys and
+     * the number of times they appear as values.
+     * @throws {Error} - If there are no letters in the string.
+     */
+    getLetterCountInAlphabeticalOrder() {
+      const textInLowerCase = this.#originalText.toLowerCase()
+      const letters = textInLowerCase.match(/[a-z]/gi)
+      if (!letters) {
+        throw new Error('There are no letters in the string.')
+      }
+
+      const letterCounterAndSorter = new CharacterCounterAndSorter(letters)
+      return letterCounterAndSorter.getSortedCharacters()
+    }
+
+    /**
+     * Counts the paragraphs in a text.
+     *
+     * @returns {number} - The number of paragraphs in the text.
+     */
+    getParagraphsCount() {
+      const paragraphs = this.#originalText.split(/\n\n/)
+      for (const paragraph of paragraphs) {
+        if (paragraph === '') {
+          paragraphs.splice(paragraphs.indexOf(paragraph), 1)
+        }
+      }
+
+      return paragraphs.length
+    }
+
+    #validateTextInput(text) {
+      if (!text) {
+        throw new Error('Invalid input. There are no characters in the string.')
       }
     }
-
-    return countableCharacters.length
   }
-
-  /**
-   * Counts the number of times all different letters appear in a text.
-   * Case insensitive.
-   *
-   * @returns {object} - An object with the letters in lower case as keys and
-   * the number of times they appear as values.
-   * @throws {Error} - If there are no letters in the string.
-   */
-  getLetterCountInAlphabeticalOrder() {
-    const textInLowerCase = this.#originalText.toLowerCase()
-    const letters = textInLowerCase.match(/[a-z]/gi)
-    if (!letters) {
-      throw new Error('There are no letters in the string.')
-    }
-
-    const letterCounterAndSorter = new CharacterCounterAndSorter(letters)
-    return letterCounterAndSorter.getSortedCharacters()
-  }
-
-  /**
-   * Counts the paragraphs in a text.
-   *
-   * @returns {number} - The number of paragraphs in the text.
-   */
-  getParagraphsCount() {
-    const paragraphs = this.#originalText.split(/\n\n/)
-    for (const paragraph of paragraphs) {
-      if (paragraph === '') {
-        paragraphs.splice(paragraphs.indexOf(paragraph), 1)
-      }
-    }
-  
-    return paragraphs.length
-  }
-
-  #validateTextInput(text) {
-    if (!text) {
-      throw new Error('Invalid input. There are no characters in the string.')
-    }
-  }
-}
