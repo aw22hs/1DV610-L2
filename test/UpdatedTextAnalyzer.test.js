@@ -19,7 +19,8 @@ describe('get letter count difference between original and updated text',
       new UpdatedTextAnalyzer('This is a sentence.')
     updatedTextAnalyzerOneSentence
       .replaceLowerCaseAndCapitalizedWord('is', 'was')
-    expect(updatedTextAnalyzerOneSentence.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('1')
+    expect(updatedTextAnalyzerOneSentence
+      .getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('1')
   })
 
   test('should return the difference in letter count between the original and' +
@@ -28,7 +29,8 @@ describe('get letter count difference between original and updated text',
       new UpdatedTextAnalyzer('This is a sentence.')
     updatedTextAnalyzerOneSentence
       .replaceLowerCaseAndCapitalizedWord('this', 'that')
-    expect(updatedTextAnalyzerOneSentence.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('0')
+    expect(updatedTextAnalyzerOneSentence
+      .getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('0')
   })
 
   test('should return the difference in letter count between the original and' +
@@ -37,7 +39,8 @@ describe('get letter count difference between original and updated text',
       new UpdatedTextAnalyzer('This is a sentence.')
     updatedTextAnalyzerOneSentence
       .replaceLowerCaseAndCapitalizedWord('sentence', 'word')
-    expect(updatedTextAnalyzerOneSentence.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('4')
+    expect(updatedTextAnalyzerOneSentence
+      .getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('4')
   })
 })
 
@@ -92,11 +95,13 @@ describe('original text is longer than updated text', () => {
 // -------------------------------------------------
 
 describe('replace words with exact formatting', () => {
+  const updatedTextAnalyzerOneSentence =
+  new UpdatedTextAnalyzer('This is a sentence.')
+  const updatedTextAnalyzerTwoSentences =
+  new UpdatedTextAnalyzer('This is a sentence. This is yet another sentence.')
   const updatedTextAnalyzerSeveralSentences = 
     new UpdatedTextAnalyzer('This is a sentence. This is yet another sentence. '
       + 'And this is a third one.')
-  const updatedTextAnalyzerOneSentence =
-    new UpdatedTextAnalyzer('This is a sentence.')
   test('should only replace words with exact formatting, case sensitive',
     () => {
     expect(updatedTextAnalyzerSeveralSentences
@@ -111,6 +116,67 @@ describe('replace words with exact formatting', () => {
       .replaceWordsWithExactFormatting('is', 'was'))
       .toBe('This was a sentence.')
   })
+
+  test('should throw an error when the word contains unallowed characters',
+    () => {
+    const updatedTextAnalyzerOneSentence =
+    new UpdatedTextAnalyzer('This is a sentence.')
+    expect(() => updatedTextAnalyzerOneSentence
+      .replaceWordsWithExactFormatting('is', '!s'))
+      .toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when wordToReplace does not contain any ' +
+    'characters', () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceWordsWithExactFormatting('', 'at'))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord does not contain any characters',
+    () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceWordsWithExactFormatting('at', ''))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when wordToReplace contains unallowed characters',
+    () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceWordsWithExactFormatting('a!c', 'at'))
+      .toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when newWord contains unallowed characters',
+    () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceWordsWithExactFormatting('at', 'a!c'))
+      .toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when wordToReplace is null', () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceWordsWithExactFormatting(null, 'at'))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord is null', () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceWordsWithExactFormatting('at', null))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when wordToReplace is undefined', () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceWordsWithExactFormatting(undefined, 'at'))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord is undefined', () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceWordsWithExactFormatting('at', undefined))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
 })
 
 // -------------------------------------------------
@@ -118,6 +184,8 @@ describe('replace words with exact formatting', () => {
 // -------------------------------------------------
 
 describe('replace lower case and capitalized word', () => {
+  const updatedTextAnalyzerTwoSentences =
+    new UpdatedTextAnalyzer('This is a sentence. And this is another sentence.')
   test('should replace words with two different formattings, case sensitive',
     () => {
     const updatedTextAnalyzerSeveralSentences =
@@ -140,8 +208,6 @@ describe('replace lower case and capitalized word', () => {
 
   test('should replace words when newWord is all upper case, but keep ' + 
     'formatting from wordToReplace', () => {
-    const updatedTextAnalyzerTwoSentences =
-    new UpdatedTextAnalyzer('This is a sentence. And this is another sentence.')
     expect(updatedTextAnalyzerTwoSentences
       .replaceLowerCaseAndCapitalizedWord('this', 'THAT'))
       .toBe('That is a sentence. And that is another sentence.')
@@ -158,14 +224,49 @@ describe('replace lower case and capitalized word', () => {
       + 'upper case and the rest of the letters be lower case.')
   })
 
-  test('should throw error when trying to replace word with all upper case' +
-    'letters', () => {
-      const updatedTextAnalyzerOneSentence =
-      new UpdatedTextAnalyzer('This is a sentence.')
-    expect(() => updatedTextAnalyzerOneSentence
-    .replaceLowerCaseAndCapitalizedWord('ThiS', 'That'))
-    .toThrowError('The word to replace does not match the correct format. '
-      + 'All letters need to be lower case or the first letter needs to be '
-      + 'upper case and the rest of the letters be lower case.')
+  test('should throw an error when wordToReplace does not contain any ' +
+    'characters', () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceLowerCaseAndCapitalizedWord('', 'at'))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord does not contain any characters',
+    () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceLowerCaseAndCapitalizedWord('at', ''))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when wordToReplace contains unallowed characters',
+    () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceLowerCaseAndCapitalizedWord('a!c', 'at'))
+      .toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when newWord contains unallowed characters',
+    () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceLowerCaseAndCapitalizedWord('at', 'a!c'))
+      .toThrowError('The submitted word does not have the right format.')
+  })
+
+  test('should throw an error when wordToReplace is null', () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceLowerCaseAndCapitalizedWord(null, 'at'))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when newWord is null', () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceLowerCaseAndCapitalizedWord('at', null))
+      .toThrowError('Invalid input. The submitted word is empty.')
+  })
+
+  test('should throw an error when wordToReplace is undefined', () => {
+    expect(() => updatedTextAnalyzerTwoSentences
+      .replaceLowerCaseAndCapitalizedWord(undefined, 'at'))
+      .toThrowError('Invalid input. The submitted word is empty.')
   })
 })
