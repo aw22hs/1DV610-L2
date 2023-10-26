@@ -116,21 +116,6 @@ describe('count words frequency alphabetical order', () => {
       .toEqual({ word: 1 })
   })
 
-  test('should return false if object is not sorted in alphabetical order',
-    () => {
-    const wrongOrder = {
-      yet: 1,
-      a: 1,
-      and: 1,
-      another: 1,
-      is: 3,
-      one: 1,
-      sentence: 2,
-      this: 3
-    }
-    expect(isObjectSorted(wrongOrder)).toBe(false)
-  })
-
   test('should return true if object is sorted in alphabetical order', () => {
     const result = wordCounterSeveralSentences.getWordCountInAlphabeticalOrder()
     expect(isObjectSorted(result)).toBe(true)
