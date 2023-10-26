@@ -20,7 +20,7 @@ export class WordCounter {
     // Regex looks for words that contain at least one letter but can also
     // contain numbers and the characters -, ', ., : and /
     this.#words = text.toLowerCase()
-      .match(/\b[a-z0-9-'./:]*[a-z][a-z0-9-'./:]*\b/gi)
+      .match(/\b[a-z0-9.'/:-]*[a-z][a-z0-9.'/:-]*\b/gi)
   }
 
   /**
