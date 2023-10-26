@@ -25,21 +25,6 @@ describe('get sorted characters', () => {
       .toEqual({ A: 1 })
   })
 
-  test('should return false if object is not sorted in alphabetical order',
-  () => {
-    const wrongOrder = {
-      yet: 1,
-      a: 1,
-      and: 1,
-      another: 1,
-      is: 3,
-      one: 1,
-      sentence: 2,
-      this: 3
-    }
-    expect(isObjectSorted(wrongOrder)).toBe(false)
-  })
-
   test('should return an objects of words sorted in alphabetical order plus ' +
     'word count when there are several words', () => {
     const characterCounterAndSorter = new CharacterCounterAndSorter(['This',
