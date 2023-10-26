@@ -61,7 +61,8 @@ export class SentenceCounter {
 
     const firstWords = []
     for (const sentence of this.#sentences) {
-      const words = sentence.match(/\b[a-zA-Z0-9-'./:]*[a-zA-Z][a-zA-Z0-9-'./:]*\b/gi)
+      const words =
+        sentence.match(/\b[a-zA-Z0-9-'./:]*[a-zA-Z][a-zA-Z0-9-'./:]*\b/gi)
       if (words) {
         firstWords.push(words[0])
       }
