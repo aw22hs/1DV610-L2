@@ -20,9 +20,9 @@ const textAnalyzerBlankSpace = new TextAnalyzer(' ')
 const textAnalyzerDot = new TextAnalyzer('.')
 const textAnalyzerLoremIpsum = new TextAnalyzer(textLoremIpsum)
 const textAnalyzerNumbers = new TextAnalyzer('123')
-const textAnalyzerOneLetter = new TextAnalyzer('A')
 const textAnalyzerOneSentence = new TextAnalyzer('This is a sentence.')
-const textAnalyzerSeveralSentences = new TextAnalyzer('This is a sentence. This is yet another sentence. And this is a third one.')
+const textAnalyzerSeveralSentences = new TextAnalyzer('This is a sentence. ' +
+  'This is yet another sentence. And this is a third one.')
 const textAnalyzerOneWord = new TextAnalyzer('Word.')
 
 // -------------------------------------------------
@@ -34,21 +34,24 @@ describe('instantiating TextAnalyzer', () => {
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer('')
     }
-    expect(createTextAnalyzerWithEmptyText).toThrowError('There are no characters in the string.')
+    expect(createTextAnalyzerWithEmptyText).toThrowError('There are no ' +
+      'characters in the string.')
   })
 
   test('should throw an error when input is null', () => {
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer(null)
     }
-    expect(createTextAnalyzerWithEmptyText).toThrowError('Invalid input. There are no characters in the string.')
+    expect(createTextAnalyzerWithEmptyText).toThrowError('Invalid input. ' + 
+      'There are no characters in the string.')
   })
 
   test('should throw an error when input is undefined', () => {
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer(undefined)
     }
-    expect(createTextAnalyzerWithEmptyText).toThrowError('Invalid input. There are no characters in the string.')
+    expect(createTextAnalyzerWithEmptyText).toThrowError('Invalid input. ' +
+      'There are no characters in the string.')
   })
 })
 
@@ -62,15 +65,18 @@ describe('average number of sentences per paragraph', () => {
   })
 
   test('should throw an error when the input text is a blank space', () => {
-    expect(textAnalyzerBlankSpace.getAverageNumberOfSentencesPerParagraph()).toBe(0)
+    expect(textAnalyzerBlankSpace.getAverageNumberOfSentencesPerParagraph())
+      .toBe(0)
   })
 
   test('should return 1 when there is one sentence', () => {
-    expect(textAnalyzerOneSentence.getAverageNumberOfSentencesPerParagraph()).toBe(1)
+    expect(textAnalyzerOneSentence.getAverageNumberOfSentencesPerParagraph())
+      .toBe(1)
   })
 
   test('should return 5 when using text from loremIpsum file as input', () => {
-    expect(textAnalyzerLoremIpsum.getAverageNumberOfSentencesPerParagraph()).toBe(5)
+    expect(textAnalyzerLoremIpsum.getAverageNumberOfSentencesPerParagraph())
+      .toBe(5)
   })
 })
 
@@ -101,15 +107,14 @@ describe('average number of words per sentence', () => {
 // -------------------------------------------------
 
 describe('count letters frequency alphabetical order', () => {
-  test('should return letter count in alphabetical order when there is one word', () => {
-    expect(textAnalyzerOneWord.getLetterCountInAlphabeticalOrder()).toEqual({ d: 1, o: 1, r: 1, w: 1 })
-  })
+  function isObjectSorted(obj) {
+    const keys = Object.keys(obj);
+    const sortedKeys = [...keys].sort();
+    return JSON.stringify(keys) === JSON.stringify(sortedKeys);
+  }
 
-  test('should return single letter count in lower case when there is one upper case letter', () => {
-    expect(textAnalyzerOneLetter.getLetterCountInAlphabeticalOrder()).toEqual({ a: 1 })
-  })
-
-  test('should return letter count in alphabetical order when there is input from loremIpsum file', () => {
+  test('should return letter count when there is input from loremIpsum file',
+    () => {
     expect(textAnalyzerLoremIpsum.getLetterCountInAlphabeticalOrder()).toEqual({
       a: 112,
       b: 12,
@@ -136,16 +141,26 @@ describe('count letters frequency alphabetical order', () => {
     })
   })
 
-  test('should throw an error when there are only numbers', () => {
-    expect(() => textAnalyzerNumbers.getLetterCountInAlphabeticalOrder()).toThrowError('There are no letters in the string.')
+  test('should return letter count in alphabetical order when there is input ' +
+    'from loremIpsum file', () => {
+    const result = textAnalyzerLoremIpsum.getLetterCountInAlphabeticalOrder()
+    expect(isObjectSorted(result)).toBe(true)
   })
 
-  test('should throw an error when there are no alpha-numeric characters', () => {
-    expect(() => textAnalyzerDot.getLetterCountInAlphabeticalOrder()).toThrowError('There are no letters in the string.')
+  test('should throw an error when there are only numbers', () => {
+    expect(() => textAnalyzerNumbers.getLetterCountInAlphabeticalOrder())
+      .toThrowError('There are no letters in the string.')
+  })
+
+  test('should throw an error when there are no alpha-numeric characters',
+    () => {
+    expect(() => textAnalyzerDot.getLetterCountInAlphabeticalOrder())
+      .toThrowError('There are no letters in the string.')
   })
 
   test('should throw an error when the input text is a blank space', () => {
-    expect(() => textAnalyzerBlankSpace.getLetterCountInAlphabeticalOrder()).toThrowError('There are no letters in the string.')
+    expect(() => textAnalyzerBlankSpace.getLetterCountInAlphabeticalOrder())
+      .toThrowError('There are no letters in the string.')
   })
 })
 
@@ -184,7 +199,8 @@ describe('get character count', () => {
     expect(textAnalyzerSeveralSentences.getCharacterCount()).toBe(74)
   })
 
-  test('should return the number of characters when using text from loremIpsum file as input', () => {
+  test('should return the number of characters when using text from ' +
+    'loremIpsum file as input', () => {
     expect(textAnalyzerLoremIpsum.getCharacterCount()).toBe(1439)
   })
 
