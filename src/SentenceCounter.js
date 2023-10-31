@@ -24,10 +24,14 @@ export class SentenceCounter {
     const words = text.toLowerCase()
       .match(/\b[a-z0-9-'./:]*[a-z][a-z0-9-'./:]*\b/gi)
     if (words) {
-      this.#sentences = text.split(/[.!?]+\s|$/g)
+      // Regex looks for sentences that end with ., ! or ? and are followed by a blank space or is
+      // the end of the string. It also looks for sentences that end with a new line that might be
+      // followed by a blank space or is the end of the string.
+      this.#sentences = text.split(/(?:[.!?]+\s+|\n\s*|$)/g)
     } else {
       this.#sentences = []
     }
+    console.log(this.#sentences)
   }
 
   #trimSentencesFromWhitespace() {
