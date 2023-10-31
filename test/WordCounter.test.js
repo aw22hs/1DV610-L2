@@ -89,12 +89,12 @@ describe('count specific word', () => {
 
   test('should throw an error when the input text is null', () => {
     expect(() => wordCounterLoremIpsum.getSpecificWordCount(null))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when the input text is undefined', () => {
     expect(() => wordCounterLoremIpsum.getSpecificWordCount(undefined))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 })
 

@@ -130,14 +130,14 @@ describe('replace words with exact formatting', () => {
     'characters', () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceWordsWithExactFormatting('', 'at'))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when newWord does not contain any characters',
     () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceWordsWithExactFormatting('at', ''))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when wordToReplace contains unallowed characters',
@@ -157,25 +157,25 @@ describe('replace words with exact formatting', () => {
   test('should throw an error when wordToReplace is null', () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceWordsWithExactFormatting(null, 'at'))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when newWord is null', () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceWordsWithExactFormatting('at', null))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when wordToReplace is undefined', () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceWordsWithExactFormatting(undefined, 'at'))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when newWord is undefined', () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceWordsWithExactFormatting('at', undefined))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 })
 
@@ -228,14 +228,14 @@ describe('replace lower case and capitalized word', () => {
     'characters', () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceLowerCaseAndCapitalizedWord('', 'at'))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when newWord does not contain any characters',
     () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceLowerCaseAndCapitalizedWord('at', ''))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when wordToReplace contains unallowed characters',
@@ -255,18 +255,18 @@ describe('replace lower case and capitalized word', () => {
   test('should throw an error when wordToReplace is null', () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceLowerCaseAndCapitalizedWord(null, 'at'))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when newWord is null', () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceLowerCaseAndCapitalizedWord('at', null))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when wordToReplace is undefined', () => {
     expect(() => updatedTextAnalyzerTwoSentences
       .replaceLowerCaseAndCapitalizedWord(undefined, 'at'))
-      .toThrowError('Invalid input. The submitted word is empty.')
+      .toThrowError('The submitted word is empty.')
   })
 })

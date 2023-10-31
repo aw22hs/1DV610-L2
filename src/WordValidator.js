@@ -18,7 +18,7 @@ export class WordValidator {
 
   #validateWord(word) {
     if (!word) {
-      throw new Error('Invalid input. The submitted word is empty.')
+      throw new Error('The submitted word is empty.')
     }
     // Regex looks for words that contain at least one letter but can also 
     // contain numbers and the characters -, ', ., : and /

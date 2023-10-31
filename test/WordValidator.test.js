@@ -15,13 +15,11 @@ describe('WordValidator', () => {
   describe('constructor', () => {
 
     test('should throw an error for empty input', () => {
-      expect(() => new WordValidator()).toThrowError('Invalid input. The ' +
-        'submitted word is empty.')
+      expect(() => new WordValidator()).toThrowError('The submitted word is empty.')
     })
 
     test('should throw an error for null input', () => {
-      expect(() => new WordValidator(null)).toThrowError('Invalid input. The ' +
-        'submitted word is empty.')
+      expect(() => new WordValidator(null)).toThrowError('The submitted word is empty.')
     })
 
     test('should throw an error for a word without any letters', () => {
