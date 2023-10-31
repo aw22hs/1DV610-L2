@@ -31,7 +31,6 @@ export class SentenceCounter {
     } else {
       this.#sentences = []
     }
-    console.log(this.#sentences)
   }
 
   #trimSentencesFromWhitespace() {
