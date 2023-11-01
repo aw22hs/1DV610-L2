@@ -42,16 +42,14 @@ describe('instantiating TextAnalyzer', () => {
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer(null)
     }
-    expect(createTextAnalyzerWithEmptyText).toThrowError('Invalid input. ' + 
-      'There are no characters in the string.')
+    expect(createTextAnalyzerWithEmptyText).toThrowError('There are no characters in the string.')
   })
 
   test('should throw an error when input is undefined', () => {
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer(undefined)
     }
-    expect(createTextAnalyzerWithEmptyText).toThrowError('Invalid input. ' +
-      'There are no characters in the string.')
+    expect(createTextAnalyzerWithEmptyText).toThrowError('There are no characters in the string.')
   })
 })
 
