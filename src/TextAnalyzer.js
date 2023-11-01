@@ -84,7 +84,7 @@ export class TextAnalyzer {
      */
     getLetterCountInAlphabeticalOrder() {
       const textInLowerCase = this.#originalText.toLowerCase()
-      const letters = textInLowerCase.match(/[a-z]/gi)
+      const letters = textInLowerCase.match(/\p{L}/gu)
       if (!letters) {
         throw new Error('There are no letters in the string.')
       }
@@ -111,7 +111,7 @@ export class TextAnalyzer {
 
     #validateTextInput(text) {
       if (!text) {
-        throw new Error('Invalid input. There are no characters in the string.')
+        throw new Error('There are no characters in the string.')
       }
     }
   }
