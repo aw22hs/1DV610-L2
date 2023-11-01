@@ -22,7 +22,7 @@ export class SentenceCounter {
 
   #getSentencesFromText(text) {
     const words = text.toLowerCase()
-      .match(/\b[a-z0-9-'./:]*[a-z][a-z0-9-'./:]*\b/gi)
+      .match(/\b[\p{L}0-9-'./:]*[\p{L}][\p{L}0-9-'./:]*\b/gu)
     if (words) {
       // Regex looks for sentences that end with ., ! or ? and are followed by a blank space or is
       // the end of the string. It also looks for sentences that end with a new line that might be
@@ -65,7 +65,7 @@ export class SentenceCounter {
     const firstWords = []
     for (const sentence of this.#sentences) {
       const words =
-        sentence.match(/\b[a-zA-Z0-9-'./:]*[a-zA-Z][a-zA-Z0-9-'./:]*\b/gi)
+        sentence.match(/\b[\p{L}0-9-'./:]*[\p{L}][\p{L}0-9-'./:]*\b/gu)
       if (words) {
         firstWords.push(words[0])
       }
