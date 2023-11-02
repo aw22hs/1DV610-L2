@@ -25,5 +25,8 @@ export class WordValidator {
     if (!word.match(/^[\p{L}0-9.'/:-]*[\p{L}][\p{L}0-9.'/:-]*$/gu)) {
       throw new Error('The submitted word does not have the right format.')
     }
+    if (word.length > 50) {
+      throw new Error('The submitted word is too long.')
+    }
   }
 }
