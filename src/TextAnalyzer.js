@@ -23,9 +23,9 @@ export class TextAnalyzer {
    * @param {string} text - The text input.
    */
   constructor(text) {
-    this.#validateTextInput(text)
-
     this.#originalText = text
+
+    this.#validateTextInput(text)
   }
 
   /**
@@ -112,6 +112,8 @@ export class TextAnalyzer {
     #validateTextInput(text) {
       if (!text) {
         throw new Error('There are no characters in the string.')
+      } else if (this.getCharacterCount() > 10000) {
+        throw new Error('There are more than 10 000 characters in the string.')
       }
     }
   }
