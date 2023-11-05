@@ -12,19 +12,19 @@ import { UpdatedTextAnalyzer } from '../src/UpdatedTextAnalyzer.js'
 // ------------------------------------------------------------------
 
 describe('get letter count difference between original and updated text', () => {
-  test('should return the difference in letter count between the original and updated text', () => {
+  test('should return 1 when the word "is" is replaced with "was"', () => {
     const updatedTextAnalyzerOneSentence = new UpdatedTextAnalyzer('This is a sentence.')
     updatedTextAnalyzerOneSentence.replaceLowerCaseAndCapitalizedWord('is', 'was')
     expect(updatedTextAnalyzerOneSentence.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('1')
   })
 
-  test('should return the difference in letter count between the original and updated text', () => {
+  test('should return 0 when the word "this" is replaced with "that"', () => {
     const updatedTextAnalyzerOneSentence = new UpdatedTextAnalyzer('This is a sentence.')
     updatedTextAnalyzerOneSentence.replaceLowerCaseAndCapitalizedWord('this', 'that')
     expect(updatedTextAnalyzerOneSentence.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('0')
   })
 
-  test('should return the difference in letter count between the original and updated text', () => {
+  test('should return 4 when the word "sentence" is replaced with "word"', () => {
     const updatedTextAnalyzerOneSentence = new UpdatedTextAnalyzer('This is a sentence.')
     updatedTextAnalyzerOneSentence.replaceLowerCaseAndCapitalizedWord('sentence', 'word')
     expect(updatedTextAnalyzerOneSentence.getLetterCountDifferenceBetweenOriginalAndUpdatedText()).toBe('4')
@@ -36,13 +36,13 @@ describe('get letter count difference between original and updated text', () => 
 //---------------------------------------
 
 describe('text has been updated', () => {
-  test('should return true when the text has been updated', () => {
+  test('should return true after replacing "is" with "was"', () => {
     const updatedTextAnalyzerOneSentence = new UpdatedTextAnalyzer('This is a sentence.')
     updatedTextAnalyzerOneSentence.replaceLowerCaseAndCapitalizedWord('is', 'was')
     expect(updatedTextAnalyzerOneSentence.textHasBeenUpdated()).toBe(true)
   })
 
-  test('should return true when the text has been updated', () => {
+  test('should return false when no replacements have been made', () => {
     const updatedTextAnalyzerOneSentence = new UpdatedTextAnalyzer('This is a sentence.')
     expect(updatedTextAnalyzerOneSentence.textHasBeenUpdated()).toBe(false)
   })
@@ -53,13 +53,13 @@ describe('text has been updated', () => {
 // -------------------------------------------------
 
 describe('original text is longer than updated text', () => {
-  test('should return true when the original text is longer than the updated text', () => {
+  test('should return false when "is" is replaced with "was"', () => {
     const updatedTextAnalyzerOneSentence = new UpdatedTextAnalyzer('This is a sentence.')
     updatedTextAnalyzerOneSentence.replaceLowerCaseAndCapitalizedWord('is', 'was')
     expect(updatedTextAnalyzerOneSentence.originalTextIsLongerThanUpdatedText()).toBe(false)
   })
 
-  test('should return true when the original text is longer than the updated text', () => {
+  test('should return true when "sentence" is replaced with "word"', () => {
     const updatedTextAnalyzerOneSentence = new UpdatedTextAnalyzer('This is a sentence.')
     updatedTextAnalyzerOneSentence.replaceLowerCaseAndCapitalizedWord('sentence', 'word')
     expect(updatedTextAnalyzerOneSentence.originalTextIsLongerThanUpdatedText()).toBe(true)
