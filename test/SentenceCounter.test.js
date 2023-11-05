@@ -27,23 +27,19 @@ const sentenceCounterOneLetter = new SentenceCounter('A')
 // -------------------------------------------------
 
 describe('get sentence count', () => {
-  test('should return the number of sentences when using text from ' +
-    'loremIpsum file as input', () => {
+  test('should return the number of sentences when using text from loremIpsum file as input', () => {
     expect(sentenceCounterLoremIpsum.getSentenceCount()).toBe(25)
   })
 
-  test('should return the number of sentences when using text from '
-   + 'loremIpsum file as input', () => {
+  test('should return the number of sentences when using text from loremIpsum file as input', () => {
     expect(sentenceCounterOneLetter.getSentenceCount()).toBe(1)
   })
 
-  test('should return the number of sentences when only one character input',
-    () => {
+  test('should return the number of sentences when only one character input', () => {
     expect(sentenceCounterDot.getSentenceCount()).toBe(0)
   })
 
-  test('should return the number of sentences when the input is a blank space', 
-    () => {
+  test('should return the number of sentences when the input is a blank space', () => {
     expect(sentenceCounterBlankSpace.getSentenceCount()).toBe(0)
   })
 
@@ -57,10 +53,8 @@ describe('get sentence count', () => {
 // --------------------------------------------------------------
 
 describe('get first words in alphabetical order', () => {
-  test('should return the first words in alphabetical order when using text ' +
-    'from loremIpsum file as input', () => {
-    expect(sentenceCounterLoremIpsum
-      .getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({
+  test('should return the first words in alphabetical order when using text from loremIpsum file as input', () => {
+    expect(sentenceCounterLoremIpsum.getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({
       An: 2,
       At: 2,
       Cu: 2,
@@ -84,20 +78,15 @@ describe('get first words in alphabetical order', () => {
     })
   })
 
-  test('should return the first word in alphabetical order when only one ' +
-    'character input', () => {
-    expect(sentenceCounterDot.getFirstWordOfSentencesCountInAlphabeticalOrder())
-      .toEqual({})
+  test('should return the first word in alphabetical order when only one character input', () => {
+    expect(sentenceCounterDot.getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({})
   })
 
-  test('should return the first word in alphabetical order when the input is ' +
-    'a blank space', () => {
-    expect(sentenceCounterBlankSpace
-      .getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({})
+  test('should return the first word in alphabetical order when the input is a blank space', () => {
+    expect(sentenceCounterBlankSpace.getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({})
   })
 
   test('should throw an error when there are only numbers', () => {
-    expect(sentenceCounterNumbers
-      .getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({})
+    expect(sentenceCounterNumbers.getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({})
   })
 })
