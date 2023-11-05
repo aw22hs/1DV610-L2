@@ -28,10 +28,9 @@ export class UpdatedTextAnalyzer {
    * @returns {string} - The character count difference.
    */
   getLetterCountDifferenceBetweenOriginalAndUpdatedText() {
-    let characterDifference =
-      this.#updatedText.length - this.#originalText.length
-
+    let characterDifference = this.#updatedText.length - this.#originalText.length
     let difference = characterDifference.toString()
+  
     if (characterDifference < 0) {
       // Removes the dash at the beginning of the negative number
       difference = difference.substring(1)
@@ -93,8 +92,7 @@ export class UpdatedTextAnalyzer {
     new WordValidator(wordToReplace)
     new WordValidator(newWord)
 
-    const wordsToReplace =
-      this.#getWordInCapitalizedAndLowerCaseFormat(wordToReplace)
+    const wordsToReplace = this.#getWordInCapitalizedAndLowerCaseFormat(wordToReplace)
 
     let wordToReplaceMatchesCorrectFormat = false
     for (const word of wordsToReplace) {
@@ -105,9 +103,8 @@ export class UpdatedTextAnalyzer {
 
     // TODO: Ska denna metod kasta ett fel eller hantera detta på annat sätt?
     if (!wordToReplaceMatchesCorrectFormat) {
-      throw new Error('The word to replace does not match the correct format. '
-        + 'All letters need to be lower case or the first letter needs to be '
-        + 'upper case and the rest of the letters be lower case.')
+      throw new Error('The word to replace does not match the correct format. All letters need to be lower ' +
+        'case or the first letter needs to be upper case and the rest of the letters be lower case.')
     }
 
     const newWords = this.#getWordInCapitalizedAndLowerCaseFormat(newWord)
@@ -122,18 +119,15 @@ export class UpdatedTextAnalyzer {
 
   #getWordInCapitalizedAndLowerCaseFormat(word) {
     const wordWithAllLettersLowerCase = word.toLowerCase()
-    const wordWithFirstLetterUpperCase =
-      wordWithAllLettersLowerCase.charAt(0).toUpperCase()
-      + wordWithAllLettersLowerCase.slice(1)
-    const words = [wordWithAllLettersLowerCase,
-      wordWithFirstLetterUpperCase]
+    const wordWithFirstLetterUpperCase = wordWithAllLettersLowerCase.charAt(0).toUpperCase() +
+      wordWithAllLettersLowerCase.slice(1)
+    const words = [wordWithAllLettersLowerCase, wordWithFirstLetterUpperCase]
 
     return words
   }
 
   #replaceWords(wordToReplace, newWord) {
-    this.#updatedText = this.#updatedText
-      .replace(new RegExp('\\b' + wordToReplace + '\\b', 'g'), newWord)
+    this.#updatedText = this.#updatedText.replace(new RegExp('\\b' + wordToReplace + '\\b', 'g'), newWord)
 
     return this.#updatedText
   }
