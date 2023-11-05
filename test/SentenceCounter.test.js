@@ -31,7 +31,7 @@ describe('get sentence count', () => {
     expect(sentenceCounterLoremIpsum.getSentenceCount()).toBe(25)
   })
 
-  test('should return the number of sentences when using text from loremIpsum file as input', () => {
+  test('should return the number of sentences when using one letter as input', () => {
     expect(sentenceCounterOneLetter.getSentenceCount()).toBe(1)
   })
 
