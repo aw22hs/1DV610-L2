@@ -9,7 +9,7 @@ import { TextAnalyzer } from '../src/TextAnalyzer.js'
 import fs from 'fs'
 
 const filePathLoremIpsum = 'test/testdata/loremIpsum.md'
-const filePathTenThousandLetters = 'test/testdata/tenThousandLetters.md'
+const filePathTenThousandOneLetters = 'test/testdata/tenThousandOneLetters.md'
 
 function readFile (filePath) {
   const fileContent = fs.readFileSync(filePath, 'utf8')
@@ -17,7 +17,7 @@ function readFile (filePath) {
 }
 
 const textLoremIpsum = readFile(filePathLoremIpsum)
-const textTenThousandLetters = readFile(filePathTenThousandLetters)
+const textTenThousandOneLetters = readFile(filePathTenThousandOneLetters)
 const textAnalyzerBlankSpace = new TextAnalyzer(' ')
 const textAnalyzerDot = new TextAnalyzer('.')
 const textAnalyzerLoremIpsum = new TextAnalyzer(textLoremIpsum)
@@ -49,7 +49,7 @@ describe('instantiating TextAnalyzer', () => {
 
   test('should throw an error when input is longer than 10 000 characters', () => {
     const createTextAnalyzerWithEmptyText = () => {
-      new TextAnalyzer(textTenThousandLetters)
+      new TextAnalyzer(textTenThousandOneLetters)
     }
     expect(createTextAnalyzerWithEmptyText).toThrowError('There are more than 10 000 characters in the string.')
   })
