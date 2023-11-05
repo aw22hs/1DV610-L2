@@ -36,8 +36,7 @@ describe('instantiating TextAnalyzer', () => {
     const createTextAnalyzerWithEmptyText = () => {
       new TextAnalyzer('')
     }
-    expect(createTextAnalyzerWithEmptyText).toThrowError('There are no ' +
-      'characters in the string.')
+    expect(createTextAnalyzerWithEmptyText).toThrowError('There are no characters in the string.')
   })
 
   test('should throw an error when input is null', () => {
@@ -63,7 +62,7 @@ describe('instantiating TextAnalyzer', () => {
 })
 
 // -------------------------------------------------
-// Average number of sentences per paragraph
+// Get average number of sentences per paragraph
 // -------------------------------------------------
 
 describe('average number of sentences per paragraph', () => {
@@ -72,23 +71,20 @@ describe('average number of sentences per paragraph', () => {
   })
 
   test('should throw an error when the input text is a blank space', () => {
-    expect(textAnalyzerBlankSpace.getAverageNumberOfSentencesPerParagraph())
-      .toBe(0)
+    expect(textAnalyzerBlankSpace.getAverageNumberOfSentencesPerParagraph()).toBe(0)
   })
 
   test('should return 1 when there is one sentence', () => {
-    expect(textAnalyzerOneSentence.getAverageNumberOfSentencesPerParagraph())
-      .toBe(1)
+    expect(textAnalyzerOneSentence.getAverageNumberOfSentencesPerParagraph()).toBe(1)
   })
 
   test('should return 5 when using text from loremIpsum file as input', () => {
-    expect(textAnalyzerLoremIpsum.getAverageNumberOfSentencesPerParagraph())
-      .toBe(5)
+    expect(textAnalyzerLoremIpsum.getAverageNumberOfSentencesPerParagraph()).toBe(5)
   })
 })
 
 // -------------------------------------------------
-// Average number of words per sentence
+// Get average number of words per sentence
 // -------------------------------------------------
 
 describe('average number of words per sentence', () => {
@@ -110,7 +106,7 @@ describe('average number of words per sentence', () => {
 })
 
 // -------------------------------------------------
-// Count letters frequency alphabetical order
+// Get letter count in alphabetical order
 // -------------------------------------------------
 
 describe('count letters frequency alphabetical order', () => {
@@ -148,8 +144,7 @@ describe('count letters frequency alphabetical order', () => {
     })
   })
 
-  test('should return letter count in alphabetical order when there is input ' +
-    'from loremIpsum file', () => {
+  test('should return letter count in alphabetical order when there is input from loremIpsum file', () => {
     const result = textAnalyzerLoremIpsum.getLetterCountInAlphabeticalOrder()
     expect(isObjectSorted(result)).toBe(true)
   })
@@ -159,8 +154,7 @@ describe('count letters frequency alphabetical order', () => {
       .toThrowError('There are no letters in the string.')
   })
 
-  test('should throw an error when there are no alpha-numeric characters',
-    () => {
+  test('should throw an error when there are no alpha-numeric characters', () => {
     expect(() => textAnalyzerDot.getLetterCountInAlphabeticalOrder())
       .toThrowError('There are no letters in the string.')
   })
@@ -172,7 +166,7 @@ describe('count letters frequency alphabetical order', () => {
 })
 
 // -------------------------------------------------
-// Count paragraphs
+// Get paragraphs count
 // -------------------------------------------------
 
 describe('count paragraphs', () => {
@@ -206,8 +200,7 @@ describe('get character count', () => {
     expect(textAnalyzerSeveralSentences.getCharacterCount()).toBe(74)
   })
 
-  test('should return the number of characters when using text from ' +
-    'loremIpsum file as input', () => {
+  test('should return the number of characters when using text from loremIpsum file as input', () => {
     expect(textAnalyzerLoremIpsum.getCharacterCount()).toBe(1439)
   })
 
