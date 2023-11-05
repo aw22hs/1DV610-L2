@@ -101,7 +101,6 @@ export class UpdatedTextAnalyzer {
       }
     }
 
-    // TODO: Ska denna metod kasta ett fel eller hantera detta på annat sätt?
     if (!wordToReplaceMatchesCorrectFormat) {
       throw new Error('The word to replace does not match the correct format. All letters need to be lower ' +
         'case or the first letter needs to be upper case and the rest of the letters be lower case.')
