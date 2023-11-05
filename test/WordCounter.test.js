@@ -34,8 +34,7 @@ describe('count all words', () => {
     expect(wordCounterOneWord.getAllWordsCount()).toBe(1)
   })
 
-  test('should return 224 when using text from loremIpsum file as input',
-    () => {
+  test('should return 224 when using text from loremIpsum file as input', () => {
     expect(wordCounterLoremIpsum.getAllWordsCount()).toBe(224)
   })
 
@@ -43,8 +42,7 @@ describe('count all words', () => {
     expect(wordCounterDot.getAllWordsCount()).toBe(0)
   })
 
-  test('should throw an error when the input text contains only numbers',
-    () => {
+  test('should throw an error when the input text contains only numbers', () => {
     expect(wordCounterNumbers.getAllWordsCount()).toBe(0)
   })
 })
@@ -58,8 +56,7 @@ describe('count specific word', () => {
     expect(wordCounterOneWord.getSpecificWordCount('word')).toBe(1)
   })
 
-  test('should return 4 when using text from loremIpsum file as input and ' +
-    'looking for word "cu"', () => {
+  test('should return 4 when using text from loremIpsum file as input and looking for word "cu"', () => {
     expect(wordCounterLoremIpsum.getSpecificWordCount('cu')).toBe(4)
   })
 
@@ -75,26 +72,22 @@ describe('count specific word', () => {
     expect(wordCounterBlankSpace.getSpecificWordCount('word')).toBe(0)
   })
 
-  test('should throw an error when the word does not contain any letters',
-    () => {
+  test('should throw an error when the word does not contain any letters', () => {
     expect(() => wordCounterLoremIpsum.getSpecificWordCount('123'))
       .toThrowError('The submitted word does not have the right format.')
   })
 
-  test('should throw an error when the word contains unallowed characters',
-    () => {
+  test('should throw an error when the word contains unallowed characters', () => {
     expect(() => wordCounterLoremIpsum.getSpecificWordCount('a!c'))
       .toThrowError('The submitted word does not have the right format.')
   })
 
   test('should throw an error when the input text is null', () => {
-    expect(() => wordCounterLoremIpsum.getSpecificWordCount(null))
-      .toThrowError('The submitted word is empty.')
+    expect(() => wordCounterLoremIpsum.getSpecificWordCount(null)) .toThrowError('The submitted word is empty.')
   })
 
   test('should throw an error when the input text is undefined', () => {
-    expect(() => wordCounterLoremIpsum.getSpecificWordCount(undefined))
-      .toThrowError('The submitted word is empty.')
+    expect(() => wordCounterLoremIpsum.getSpecificWordCount(undefined)) .toThrowError('The submitted word is empty.')
   })
 })
 
@@ -110,10 +103,9 @@ describe('count words frequency alphabetical order', () => {
     return JSON.stringify(keys) === JSON.stringify(sortedKeys);
   }
 
-  test('should return single word count in lower case when there is a word ' +
-    'that starts with an upper case letter', () => {
-    expect(wordCounterOneWord.getWordCountInAlphabeticalOrder())
-      .toEqual({ word: 1 })
+  test('should return single word count in lower case when there is a word that starts with an upper case letter',
+    () => {
+    expect(wordCounterOneWord.getWordCountInAlphabeticalOrder()).toEqual({ word: 1 })
   })
 
   test('should return true if object is sorted in alphabetical order', () => {
@@ -125,8 +117,7 @@ describe('count words frequency alphabetical order', () => {
     expect(wordCounterNumbers.getWordCountInAlphabeticalOrder()).toEqual({})
   })
 
-  test('should return an empty object when there are no alpha-numeric ' +
-    'characters', () => {
+  test('should return an empty object when there are no alpha-numeric characters', () => {
     expect(wordCounterDot.getWordCountInAlphabeticalOrder()).toEqual({})
   })
 })
