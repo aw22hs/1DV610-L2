@@ -2,7 +2,7 @@
  * Module for analyzing text.
  *
  * @author Anja Willsund <aw22hs@student.lnu.se>
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 import { CharacterCounterAndSorter } from './CharacterCounterAndSorter.js'
