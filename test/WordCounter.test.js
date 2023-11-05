@@ -38,11 +38,11 @@ describe('count all words', () => {
     expect(wordCounterLoremIpsum.getAllWordsCount()).toBe(224)
   })
 
-  test('should throw an error when there are not words', () => {
+  test('should return 0 when there are not words', () => {
     expect(wordCounterDot.getAllWordsCount()).toBe(0)
   })
 
-  test('should throw an error when the input text contains only numbers', () => {
+  test('should return 0 when the input text contains only numbers', () => {
     expect(wordCounterNumbers.getAllWordsCount()).toBe(0)
   })
 })
