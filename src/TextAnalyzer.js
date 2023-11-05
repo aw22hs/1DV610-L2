@@ -36,9 +36,7 @@ export class TextAnalyzer {
    */
   getAverageNumberOfSentencesPerParagraph() {
     const sentenceCounter = new SentenceCounter(this.#originalText)
-    
-    const average = Math.round(sentenceCounter.getSentenceCount() / 
-      this.getParagraphsCount())
+    const average = Math.round(sentenceCounter.getSentenceCount() / this.getParagraphsCount())
 
     return average ? average : 0
   }
@@ -51,9 +49,7 @@ export class TextAnalyzer {
   getAverageNumberOfWordsPerSentence() {
     const sentenceCounter = new SentenceCounter(this.#originalText)
     const wordCounter = new WordCounter(this.#originalText)
-
-    const average = Math.round(wordCounter.getAllWordsCount() / 
-      sentenceCounter.getSentenceCount())
+    const average = Math.round(wordCounter.getAllWordsCount() / sentenceCounter.getSentenceCount())
 
     return average ? average : 0
   }
