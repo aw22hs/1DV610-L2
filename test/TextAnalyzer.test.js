@@ -2,7 +2,7 @@
  * Tests for TextAnalyzer.
  *
  * @author Anja Willsund <aw22hs@lnu.student.se>
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 import { TextAnalyzer } from '../src/TextAnalyzer.js'
