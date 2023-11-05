@@ -38,7 +38,7 @@ describe('count all lines', () => {
     expect(lineCounterOneSentence.getAllLinesCount()).toBe(1)
   })
 
-  test('should return 5 when using text from loremIpsum file as input', () => {
+  test('should return 9 when using text from loremIpsum file as input', () => {
     expect(lineCounterLoremIpsum.getAllLinesCount()).toBe(9)
   })
 
