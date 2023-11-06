@@ -38,25 +38,25 @@ In the folder `testdata`, there are three files; `exampleCode.js`, `loremIpsum.m
 ✓ should return 0 when the input text is a blank space  
 
 **getNonEmptyLinesWithoutJSCommentsCount()**  
-✓ should return the number of non empty lines without JS comments when using text from loremIpsum file as input  
-✓ should return the number of non empty lines without JS comments when only one character input  
-✓ should return the number of non empty lines without JS comments when the input is a blank space  
-✓ should throw an error when there are only numbers  
+✓ should return 5 as the number of non empty lines without JS comments when using text from loremIpsum file as input  
+✓ should return 1 as the number of non empty lines without JS comments when only one character input  
+✓ should return 0 as the number of non empty lines without JS comments when the input is a blank space  
+✓ should return 3 as the number of non empty lines without JS comments when using text from exampleCode file as input  
 
 ### SentenceCounter
 
 **getSentenceCount()**  
-✓ should return the number of sentences when using text from loremIpsum file as input  
-✓ should return the number of sentences when using one letter as input  
-✓ should return the number of sentences when only one character input  
-✓ should return the number of sentences when the input is a blank space  
-✓ should throw an error when there are only numbers
+✓ should return 25 when using text from loremIpsum file as input  
+✓ should return 1 when using one letter as input  
+✓ should return 0 when only one dot input  
+✓ should return 0 when the input is a blank space  
+✓ should return 0 when there are only numbers
 
 **getFirstWordOfSentencesCountInAlphabeticalOrder()**  
 ✓ should return the first words in alphabetical order when using text from loremIpsum file as input  
-✓ should return the first word in alphabetical order when only one character input  
-✓ should return the first word in alphabetical order when the input is a blank space  
-✓ should throw an error when there are only numbers
+✓ should return an empty object when only one dot input  
+✓ should return an empty object when the input is a blank space  
+✓ should return an empty object when there are only numbers
 
 ### TextAnalyzer
 
