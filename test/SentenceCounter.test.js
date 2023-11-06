@@ -27,23 +27,23 @@ const sentenceCounterOneLetter = new SentenceCounter('A')
 // -------------------------------------------------
 
 describe('get sentence count', () => {
-  test('should return the number of sentences when using text from loremIpsum file as input', () => {
+  test('should return 25 when using text from loremIpsum file as input', () => {
     expect(sentenceCounterLoremIpsum.getSentenceCount()).toBe(25)
   })
 
-  test('should return the number of sentences when using one letter as input', () => {
+  test('should return 1 when using one letter as input', () => {
     expect(sentenceCounterOneLetter.getSentenceCount()).toBe(1)
   })
 
-  test('should return the number of sentences when only one character input', () => {
+  test('should return 0 when only one dot input', () => {
     expect(sentenceCounterDot.getSentenceCount()).toBe(0)
   })
 
-  test('should return the number of sentences when the input is a blank space', () => {
+  test('should return 0 when the input is a blank space', () => {
     expect(sentenceCounterBlankSpace.getSentenceCount()).toBe(0)
   })
 
-  test('should throw an error when there are only numbers', () => {
+  test('should return 0 when there are only numbers', () => {
     expect(sentenceCounterNumbers.getSentenceCount()).toBe(0)
   })
 })
@@ -78,15 +78,15 @@ describe('get first words in alphabetical order', () => {
     })
   })
 
-  test('should return the first word in alphabetical order when only one character input', () => {
+  test('should return an empty object when only one dot input', () => {
     expect(sentenceCounterDot.getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({})
   })
 
-  test('should return the first word in alphabetical order when the input is a blank space', () => {
+  test('should return an empty object when the input is a blank space', () => {
     expect(sentenceCounterBlankSpace.getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({})
   })
 
-  test('should throw an error when there are only numbers', () => {
+  test('should return an empty object when there are only numbers', () => {
     expect(sentenceCounterNumbers.getFirstWordOfSentencesCountInAlphabeticalOrder()).toEqual({})
   })
 })
