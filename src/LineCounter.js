@@ -8,11 +8,6 @@
 export class LineCounter {
   #trimmedLines = []
 
-  /**
-   * Initializes a new instance of the LineCounter class.
-   *
-   * @param {string} text - The text input.
-   */
   constructor(text) {
     this.#splitTextIntoTrimmedLines(text)
   }
@@ -25,20 +20,10 @@ export class LineCounter {
     }
   }
 
-  /**
-   * Counts all the lines in a text, including empty lines.
-   *
-   * @returns {number} - The number of lines in a text.
-   */
   getAllLinesCount() {
     return this.#trimmedLines.length
   }
 
-  /**
-   * Counts all the lines in a text, excluding empty lines.
-   *
-   * @returns {number} - The number of not empty lines in a text.
-   */
   getNonEmptyLinesCount() {
     let count = 0
     for (const line of this.#trimmedLines) {
@@ -49,13 +34,6 @@ export class LineCounter {
     return count
   }
 
-  /**
-   * Counts line that could be interpreted as JavaScript code. 
-   * Excludes empty lines and lines that start with / or *.
-   *
-   * @returns {number} - Number of lines that are not empty or that does not
-   * start with / or *.
-   */
   getNonEmptyLinesWithoutJSCommentsCount() {
     let count = 0
     for (const line of this.#trimmedLines) {

@@ -10,11 +10,6 @@ import { CharacterCounterAndSorter } from "./CharacterCounterAndSorter.js"
 export class SentenceCounter {
   #sentences = []
 
-  /**
-   * Initializes a new instance of the SentenceAnalyzer class.
-   *
-   * @param {string} text - The text input.
-   */
   constructor(text) {
     this.#getSentencesFromText(text)
     this.#trimSentencesFromWhitespace()
@@ -41,21 +36,10 @@ export class SentenceCounter {
     }
   }
 
-  /**
-   * Gets the number of sentences.
-   *
-   * @returns {number} - The number of sentences.
-   */
   getSentenceCount() {
     return this.#sentences ? this.#sentences.length : 0
   }
 
-  /**
-   * Gets the first word of each sentence and returns them in alphabetical
-   * order.
-   * 
-   * @returns {string[]} - The first word of each sentence in an array.
-   */
   getFirstWordOfSentencesCountInAlphabeticalOrder() {
     if (!this.#sentences) {
       return {}

@@ -7,11 +7,6 @@
 
 export class WordValidator {
 
-  /**
-   * Initializes a new instance of the WordValidator class.
-   *
-   * @param {string} text - The text input.
-   */
   constructor(word) {
     this.#validateWord(word)
   }

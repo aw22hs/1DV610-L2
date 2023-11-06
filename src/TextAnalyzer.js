@@ -44,14 +44,6 @@ export class TextAnalyzer {
     return countableCharacters.length
   }
 
-  /**
-   * Counts the number of times all different letters appear in a text.
-   * Case insensitive.
-   *
-   * @returns {object} - An object with the letters in lower case as keys and
-   * the number of times they appear as values sorted in alphabetical order.
-   * @throws {Error} - If there are no letters in the string.
-   */
   getLetterCountInAlphabeticalOrder() {
     const textInLowerCase = this.#originalText.toLowerCase()
     const letters = textInLowerCase.match(/\p{L}/gu)

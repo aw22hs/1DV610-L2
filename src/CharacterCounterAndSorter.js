@@ -8,11 +8,6 @@
 export class CharacterCounterAndSorter {
   #sortedCharacters
 
-  /**
-   * Initializes a new instance of the CharacterCounterAndSorter class.
-   *
-   * @param {string[]} characters - The text input.
-   */
   constructor(characters) {
     this.#countAndSortInAlphabeticalOrder(characters)
   }

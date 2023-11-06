@@ -11,22 +11,11 @@ export class UpdatedTextAnalyzer {
   #originalText = ''
   #updatedText = ''
 
-  /**
-   * Initializes a new instance of the SentenceAnalyzer class.
-   *
-   * @param {string} text - The text input.
-   */
   constructor(text) {
     this.#originalText = text
     this.#updatedText = text
   }
 
-  /**
-   * Checks letter count difference between the original text and the updated
-   * text.
-   *
-   * @returns {string} - The character count difference.
-   */
   getLetterCountDifferenceBetweenOriginalAndUpdatedText() {
     let characterDifference = this.#updatedText.length - this.#originalText.length
     let difference = characterDifference.toString()
@@ -38,11 +27,6 @@ export class UpdatedTextAnalyzer {
     return difference
   }
 
-  /**
-   * Checks if the text has been updated.
-   *
-   * @returns {boolean} True if the text has been updated, otherwise false.
-   */
   textHasBeenUpdated() {
     if (this.#updatedText === '' || this.#updatedText === this.#originalText) {
       return false
@@ -50,11 +34,6 @@ export class UpdatedTextAnalyzer {
     return true
   }
 
-  /**
-   * Checks if the original text is longer than the updated text.
-   *
-   * @returns {boolean} True if the original text is longer, otherwise false.
-   */
   originalTextIsLongerThanUpdatedText() {
     if (this.#originalText.length > this.#updatedText.length) {
       return true
@@ -62,13 +41,6 @@ export class UpdatedTextAnalyzer {
     return false
   }
 
-  /**
-   * Replaces words with exact format matching in the updated text.
-   *
-   * @param {string} wordToReplace - The word to be replaced.
-   * @param {string} newWord - The new word.
-   * @returns The updated text with words replaced.
-   */
   replaceWordsWithExactFormatting(wordToReplace, newWord) {
     new WordValidator(wordToReplace)
     new WordValidator(newWord)
@@ -85,8 +57,8 @@ export class UpdatedTextAnalyzer {
    *
    * @param {string} wordToReplace - The word to be replaced.
    * @param {string} newWord - The word to replace with.
-   * @returns {string} - The new text.
-   * @throws {Error} - If the word to replace does not match the correct format.
+   * @returns {string} - The updated text.
+   * @throws {Error} - If the submitted word to replace does not match the correct format.
    */
   replaceLowerCaseAndCapitalizedWord(wordToReplace, newWord) {
     new WordValidator(wordToReplace)
