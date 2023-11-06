@@ -82,20 +82,20 @@ describe('count not empty lines', () => {
 // -------------------------------------------------
 
 describe('count non empty lines without JS comments', () => {
-  test('should return the number of non empty lines without JS comments when using text from loremIpsum file as input',
+  test('should return 5 as the number of non empty lines without JS comments when using text from loremIpsum file as input',
     () => {
     expect(lineCounterLoremIpsum.getNonEmptyLinesWithoutJSCommentsCount()).toBe(5)
   })
 
-  test('should return the number of non empty lines without JS comments when only one character input', () => {
+  test('should return 1 as the number of non empty lines without JS comments when only one character input', () => {
     expect(lineCounterDot.getNonEmptyLinesWithoutJSCommentsCount()).toBe(1)
   })
 
-  test('should return the number of non empty lines without JS comments when the input is a blank space', () => {
+  test('should return 0 as the number of non empty lines without JS comments when the input is a blank space', () => {
     expect(lineCounterBlankSpace.getNonEmptyLinesWithoutJSCommentsCount()).toBe(0)
   })
 
-  test('should throw an error when there are only numbers', () => {
+  test('should return 3 as the number of non empty lines without JS comments when using text from exampleCode file as input', () => {
     expect(lineCounterExampleCode.getNonEmptyLinesWithoutJSCommentsCount()).toBe(3)
   })
 })
