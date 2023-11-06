@@ -65,7 +65,6 @@ export class UpdatedTextAnalyzer {
     new WordValidator(newWord)
 
     const wordsToReplace = this.#getWordInCapitalizedAndLowerCaseFormat(wordToReplace)
-
     let wordToReplaceMatchesCorrectFormat = false
     for (const word of wordsToReplace) {
       if (word === wordToReplace) {
@@ -79,7 +78,6 @@ export class UpdatedTextAnalyzer {
     }
 
     const newWords = this.#getWordInCapitalizedAndLowerCaseFormat(newWord)
-
     let updatedText
     for (let i = 0; i < wordsToReplace.length; i++) {
       updatedText = this.#replaceWords(wordsToReplace[i], newWords[i])
