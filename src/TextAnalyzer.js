@@ -9,29 +9,15 @@ import { CharacterCounterAndSorter } from './CharacterCounterAndSorter.js'
 import { SentenceCounter } from './SentenceCounter.js'
 import { WordCounter } from './WordCounter.js'
 
-/**
- * Represents a card table.
- */
 export class TextAnalyzer {
   #originalText = ''
 
-  /**
-   * Initializes a new instance of the TextAnalyzer class.
-   *
-   * @param {string} text - The text input.
-   */
   constructor(text) {
     this.#originalText = text
 
     this.#validateTextInput(text)
   }
 
-  /**
-   * Counts the average number of sentences per paragraph in a text.
-   *
-   * @returns {number} - The average number of sentences per paragraph in
-   * the text.
-   */
   getAverageNumberOfSentencesPerParagraph() {
     const sentenceCounter = new SentenceCounter(this.#originalText)
     const average = Math.round(sentenceCounter.getSentenceCount() / this.getParagraphsCount())
@@ -39,11 +25,6 @@ export class TextAnalyzer {
     return average ? average : 0
   }
 
-  /**
-   * Counts the average number of words per sentence in a text.
-   *
-   * @returns {number} - The average number of words per sentence in the text.
-   */
   getAverageNumberOfWordsPerSentence() {
     const sentenceCounter = new SentenceCounter(this.#originalText)
     const wordCounter = new WordCounter(this.#originalText)
@@ -52,11 +33,6 @@ export class TextAnalyzer {
     return average ? average : 0
   }
 
-  /**
-   * Counts the number of characters in a text.
-   *
-   * @returns {number} - The number of characters in the text.
-   */
   getCharacterCount() {
     const countableCharacters = []
     for (const character of this.#originalText) {
@@ -73,7 +49,7 @@ export class TextAnalyzer {
    * Case insensitive.
    *
    * @returns {object} - An object with the letters in lower case as keys and
-   * the number of times they appear as values.
+   * the number of times they appear as values sorted in alphabetical order.
    * @throws {Error} - If there are no letters in the string.
    */
   getLetterCountInAlphabeticalOrder() {
@@ -87,11 +63,6 @@ export class TextAnalyzer {
     return letterCounterAndSorter.getSortedCharacters()
   }
 
-  /**
-   * Counts the paragraphs in a text.
-   *
-   * @returns {number} - The number of paragraphs in the text.
-   */
   getParagraphsCount() {
     const paragraphs = this.#originalText.split(/\n\n/)
     for (const paragraph of paragraphs) {
