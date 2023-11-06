@@ -2,7 +2,7 @@
 The TextAnalyzer is a JavaScript module designed to analyze text and provide various text statistics and manipulation functions. It can help you perform a range of tasks, from counting words and characters to analyzing sentence and paragraph structures within the text.
 
 ## Example
-To use the module, call on the method `createAnalyzer()` and provide the text you want to analyze. The text used in this example will be reused when showing the different methods.
+To use the module, call on the method `createAnalyzer()` and provide the text you want to analyze. The text used in this example will be reused when displaying examples of the different methods further down in this document.
 ```javascript
 import { createAnalyzers } from 'text-analyzer'
 
