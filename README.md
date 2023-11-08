@@ -24,7 +24,11 @@ You can use the module by including it in your JavaScript project.
     "text-analyzer": "aw22hs/1DV610-L2#main"
   }
 ```
-2. Run ```npm install```.
+2. In the terminal, run:
+```bash 
+npm install
+```
+
 3. Import the method that creates the different analyzers.
 ```javascript
 import { createAnalyzers } from 'text-analyzer' 

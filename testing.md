@@ -6,7 +6,10 @@ All the classes have been tested with automated tests. Testing has been performe
 "test": "npx --node-options=--experimental-vm-modules jest --setupFiles"
 ```
 
-To start the tests, use the command `npm test`.
+To start the tests, use the command:
+```bash
+npm run test
+```
 
 The tests consist of seven test suites with a total of 105 subtests, divided according to the 19 public methods and 2 constructors called by the tests, see below. All tests are approved in v.1.0.0 of the classes (v.2.0.0 of class TextAnalyzer).
 
