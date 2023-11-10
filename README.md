@@ -13,6 +13,9 @@ const sentenceCounter = analyzers.sentenceCounter
 const updatedTextAnalyzer = analyzers.updatedTextAnalyzer
 const lineCounter = analyzers.lineCounter
 const wordCounter = analyzers.wordCounter
+
+const wordCount = wordCounter.getAllWordsCount()
+console.log(`Number of words in the text: ${wordCount}`) // 'Number of words in the text: 10'
 ```
 
 ## Installation
