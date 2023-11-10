@@ -2,7 +2,7 @@
 
 All the classes have been tested with automated tests. Testing has been performed using Jest v29.7.0. To run the tests, the following script has been specified inside the `scripts` section of `package.json`:
 
-```
+```json
 "test": "npx --node-options=--experimental-vm-modules jest --setupFiles"
 ```
 
